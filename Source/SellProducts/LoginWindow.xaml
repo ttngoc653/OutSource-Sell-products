@@ -1,0 +1,31 @@
+﻿<Window x:Class="SellProducts.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SellProducts"
+        mc:Ignorable="d"
+        Title="Đăng nhập" Height="175" Width="400" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label Content="Tên đăng nhập:" Grid.Row="0" Grid.Column="0" Margin="5 5 5 5" />
+        <Label Content="Mật khẩu:" Grid.Row="1" Grid.Column="0" Margin="5 5 5 5" />
+        <TextBox Name="TextBoxUserName" Text="{Binding UserName}" Grid.Row="0" Grid.Column="1" Margin="5 5 5 5" />
+        <TextBox Name="TextBoxPassword" Text="{Binding Password}" Grid.Row="1" Grid.Column="1" Margin="5 5 5 5" />
+        <CheckBox Name="CheckBoxRemember" IsChecked="{Binding Remember}" Content="Ghi nhớ (Lưu)" Grid.Row="2" Grid.Column="1" Margin="5 5 5 5">
+            <CheckBox.ToolTip>
+                <ToolTip Content="Lưu tên tài khoản và mật khẩu để không cần đăng nhập lại.\nChức năng này có thể hủy bỏ lưu ở phần cấu hình." />
+            </CheckBox.ToolTip>
+        </CheckBox>
+        <Button Content="Đăng nhập" Click="Button_Click" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Width="100" HorizontalAlignment="Center" Padding="5 5 5 5" Margin="5 5 5 5" />
+    </Grid>
+</Window>
