@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace SellProducts.Model.Demo
     {
         public PRODUCT()
         {
-            this.CARTS = new HashSet<CART>();
-            this.CATEGORIES = new HashSet<CATEGORy>();
+            this.CARTS = new List<CART>();
+            this.CATEGORIES = new List<CATEGORY>();
         }
     
         public int id { get; set; }
@@ -33,9 +33,9 @@ namespace SellProducts.Model.Demo
         public Nullable<int> manufacturer { get; set; }
         public bool is_hide { get; set; }
     
-        public virtual ICollection<CART> CARTS { get; set; }
+        public virtual IList<CART> CARTS { get; set; }
         public virtual MADEIN MADEIN1 { get; set; }
         public virtual MANUFACTURER MANUFACTURERE { get; set; }
-        public virtual ICollection<CATEGORy> CATEGORIES { get; set; }
+        public virtual IList<CATEGORY> CATEGORIES { get; set; }
     }
 }

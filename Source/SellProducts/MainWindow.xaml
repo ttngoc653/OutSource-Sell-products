@@ -12,14 +12,29 @@
         </Grid.RowDefinitions>
         <Ribbon IsMinimized="True" SelectedIndex="0" ShowQuickAccessToolBarOnTop="True" Grid.Row="0">
             <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu >
-                    <RibbonApplicationMenuItem Name="MenuGoHome" Header="Vể trang chủ" />
-                    <RibbonApplicationMenuItem Name="MenuBackuUpDatabase" Header="Backup database" />
-                    <RibbonApplicationMenuItem Name="MenuRestoreDatabase" Header="Restore database" />
+                <RibbonApplicationMenu>
+                    <RibbonApplicationMenuItem Name="MenuGoHome" Header="Vể trang chủ" Click="MenuGoHome_Click" />
+                    <RibbonApplicationMenuItem Name="MenuBackuUpDatabase" Header="Backup database" Click="MenuBackuUpDatabase_Click" />
+                    <RibbonApplicationMenuItem Name="MenuRestoreDatabase" Header="Restore database" Click="MenuRestoreDatabase_Click" />
                     <RibbonApplicationMenuItem Name="MenuExit" Header="Thoát" Click="MenuExit_Click" />
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Quản lý hàng hóa" KeyTip="P">
+                <RibbonGroup Header="Import">
+                    <RibbonButton Label="Import loại sản phẩm">
+                        <RibbonButton.ToolTip>
+                            <ToolTip Content="Thêm danh sách loại sản phẩm từ file excel" />
+                        </RibbonButton.ToolTip>
+                    </RibbonButton>
+                    <RibbonButton Label="Import danh sách sản phẩm">
+                        <RibbonButton.ToolTip>
+                            <ToolTip Content="Thêm danh sách sản phẩm từ file excel" />
+                        </RibbonButton.ToolTip>
+                    </RibbonButton>
+                </RibbonGroup>
+                <RibbonGroup Header="Xem danh sách sản phẩm">
+                    <RibbonComboBox Label="Theo loại:" DisplayMemberPath="Name" />
+                </RibbonGroup>
                 <RibbonGroup Header="Danh mục (Loại)">
                     <RibbonButton Label="Xem">
                         <RibbonButton.ToolTip>
@@ -37,10 +52,24 @@
                         </RibbonButton.ToolTip>
                     </RibbonButton>
                 </RibbonGroup>
-                <RibbonGroup Header="Sản phẩm"></RibbonGroup>
-                <RibbonGroup Header="Ẩn"></RibbonGroup>
+                <RibbonGroup Header="Sản phẩm">
+                    <RibbonButton Label="Thêm">
+                        <RibbonButton.ToolTip>
+                            <ToolTip Content="Thêm sản phẩm" />
+                        </RibbonButton.ToolTip>
+                    </RibbonButton>
+                    <RibbonButton Label="Xóa">
+                        <RibbonButton.ToolTip>
+                            <ToolTip Content="Xóa sản phẩm" />
+                        </RibbonButton.ToolTip>
+                    </RibbonButton>
+                    <RibbonButton Label="Sửa">
+                        <RibbonButton.ToolTip>
+                            <ToolTip Content="Thay đổi thông tin sản phẩm" />
+                        </RibbonButton.ToolTip>
+                    </RibbonButton>
+                </RibbonGroup>
                 <RibbonGroup>
-
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Quản lý đơn hàng" KeyTip="H">

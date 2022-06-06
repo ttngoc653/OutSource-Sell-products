@@ -43,9 +43,14 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Category.cs" />
     <Compile Include="ViewModel\Login.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SellProducts.Common\SellProducts.Common.csproj">
+      <Project>{92e366d5-43e8-4293-abf1-d0b691accf9f}</Project>
+      <Name>SellProducts.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SellProducts.Model\SellProducts.Model.csproj">
       <Project>{91c9712d-9be4-4cff-aa7c-6416f0d1ebe0}</Project>
       <Name>SellProducts.Model</Name>

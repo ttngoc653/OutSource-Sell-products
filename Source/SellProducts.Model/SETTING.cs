@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -18,6 +18,6 @@ namespace SellProducts.Model.Demo
         public string value { get; set; }
         public string account { get; set; }
     
-        public virtual MANAGER MANAGER { get; set; }
+        public virtual MANAGER MANAGER1 { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace SellProducts.Common.ConnectDB.General
     public class ConnectDB
     {
         private static string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\SellProduct_DB.mdf;Integrated Security=True;Connect Timeout=30";
+        private static SqlConnection connection = null;
 
         public static void SetConnectString(string value)
         {
@@ -24,15 +25,22 @@ namespace SellProducts.Common.ConnectDB.General
         {
             try
             {
-                SqlConnection connection = new SqlConnection(connectionString);
+                connection = new SqlConnection(connectionString);
                 connection.Open();
                 bool connected = connection.State != System.Data.ConnectionState.Closed;
                 connection.Close();
                 return connected;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
+            }
+            finally
+            {
+                if (connection.State!= System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
             }
         }
 
@@ -40,54 +48,95 @@ namespace SellProducts.Common.ConnectDB.General
         {
             int result = -1;
 
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            sqlCommand.Connection = connection;
-            result = sqlCommand.ExecuteNonQuery();
-            connection.Close();
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+                sqlCommand.Connection = connection;
+                result = sqlCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
 
             return result;
         }
 
-        internal static List<Dictionary<String,String>> SelectRecords(SqlCommand sqlCommand)
+        internal static List<Dictionary<String, String>> SelectRecords(SqlCommand sqlCommand)
         {
             List<Dictionary<String, String>> listRecord = new List<Dictionary<String, String>>();
 
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            sqlCommand.Connection = connection;
-
-            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-
-            while (sqlDataReader.Read())
+            try
             {
-                Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+                sqlCommand.Connection = connection;
 
-                for (int i = 0; i < sqlDataReader.FieldCount; i++)
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+                while (sqlDataReader.Read())
                 {
-                    string key = sqlDataReader.GetName(i);
-                    string value = sqlDataReader.GetValue(i).ToString();
+                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
 
-                    keyValues.Add(key, value);
+                    for (int i = 0; i < sqlDataReader.FieldCount; i++)
+                    {
+                        string key = sqlDataReader.GetName(i);
+                        string value = sqlDataReader.GetValue(i).ToString();
+
+                        keyValues.Add(key, value);
+                    }
+
+                    listRecord.Add(keyValues);
                 }
 
-                listRecord.Add(keyValues);
+                connection.Close();
             }
-
-            connection.Close();
-
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
+         
             return listRecord;
         }
-
         internal static int UpdateRecord(SqlCommand sqlCommand)
         {
             int result = -1;
+            try
+            {
+                SqlConnection connection = new SqlConnection(connectionString);
+                connection.Open();
+                sqlCommand.Connection = connection;
+                result = sqlCommand.ExecuteNonQuery();
+                connection.Close();
 
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            sqlCommand.Connection = connection;
-            result = sqlCommand.ExecuteNonQuery();
-            connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
 
             return result;
         }

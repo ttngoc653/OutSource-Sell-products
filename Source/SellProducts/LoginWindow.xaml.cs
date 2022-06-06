@@ -19,30 +19,76 @@ namespace SellProducts
     /// </summary>
     public partial class LoginWindow : Window
     {
-        public Impl.ViewModel.Login login { get; }
+        private Impl.ViewModel.Login login1;
+
+        public Impl.ViewModel.Login Getlogin()
+        {
+            return login1;
+        }
 
         public LoginWindow()
         {
             InitializeComponent();
 
-            login = new Impl.ViewModel.Login();
-            this.DataContext = login;
+            this.Loaded += LoginWindow_Loaded;
+        }
+
+        private void LoginWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (new Common.ConnectDB.Manager().ChangePassword("admin", "admin", Common.Utils.CriptoUtil.CreateMD5("admin"))==1)
+                {
+                    MessageBox.Show("Changed password admin.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            if (Properties.Settings.Default.remember == false)
+                this.login1 = new Impl.ViewModel.Login();
+            else
+            {
+                this.login1 = new Impl.ViewModel.Login()
+                {
+                    UserName = Properties.Settings.Default.user,
+                    Password = Properties.Settings.Default.pass,
+                    Remember = Properties.Settings.Default.remember
+                };
+                TextBoxPassword.Password = Getlogin().Password;
+
+                CheckAccount();
+            }
+            this.DataContext = Getlogin();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (new Common.ConnectDB.Manager().Get(login.UserName,login.Password)!=null)
+            Getlogin().Password = Common.Utils.CriptoUtil.CreateMD5(TextBoxPassword.Password);
+
+            CheckAccount();
+        }
+
+        private void CheckAccount()
+        {
+            if (new Common.ConnectDB.Manager().Get(Getlogin().UserName, Getlogin().Password) != null)
             {
+                if (Getlogin().Remember)
+                {
+                    Properties.Settings.Default.user = Getlogin().UserName;
+                    Properties.Settings.Default.pass = Getlogin().Password;
+                    Properties.Settings.Default.remember = Getlogin().Remember;
+
+                    Properties.Settings.Default.Save();
+                }
                 DialogResult = true;
             }
             else
             {
-                MessageBox.Show("Sai tài khoản.");
+                MessageBox.Show("Sai tài khoản. Vui lòng thử lại.");
             }
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
         }
     }
 }

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace SellProducts.Model.Demo
     {
         public ORDER()
         {
-            this.CARTS = new HashSet<CART>();
-            this.HISTORIES = new HashSet<HISTORy>();
+            this.CARTS = new List<CART>();
+            this.HISTORIES = new List<HISTORY>();
         }
     
         public int id { get; set; }
@@ -27,9 +27,9 @@ namespace SellProducts.Model.Demo
         public Nullable<int> total { get; set; }
         public string comment { get; set; }
     
-        public virtual ICollection<CART> CARTS { get; set; }
+        public virtual IList<CART> CARTS { get; set; }
         public virtual CUSTOMER CUSTOMER1 { get; set; }
-        public virtual ICollection<HISTORy> HISTORIES { get; set; }
+        public virtual IList<HISTORY> HISTORIES { get; set; }
         public virtual PROMOTION PROMOTION1 { get; set; }
     }
 }

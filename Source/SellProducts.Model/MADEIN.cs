@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,13 +16,13 @@ namespace SellProducts.Model.Demo
     {
         public MADEIN()
         {
-            this.PRODUCTS = new HashSet<PRODUCT>();
+            this.PRODUCTS = new List<PRODUCT>();
         }
     
         public int id { get; set; }
         public string location { get; set; }
         public string detail { get; set; }
     
-        public virtual ICollection<PRODUCT> PRODUCTS { get; set; }
+        public virtual IList<PRODUCT> PRODUCTS { get; set; }
     }
 }

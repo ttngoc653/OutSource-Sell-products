@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace SellProducts.Model.Demo
     {
         public PROMOTION()
         {
-            this.ORDERS = new HashSet<ORDER>();
+            this.ORDERS = new List<ORDER>();
         }
     
         public int id { get; set; }
@@ -32,6 +32,6 @@ namespace SellProducts.Model.Demo
         public bool is_hide { get; set; }
         public Nullable<int> amount { get; set; }
     
-        public virtual ICollection<ORDER> ORDERS { get; set; }
+        public virtual IList<ORDER> ORDERS { get; set; }
     }
 }

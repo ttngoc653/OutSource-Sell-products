@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace SellProducts.Model.Demo
         public int amount { get; set; }
         public int price { get; set; }
     
-        public virtual ORDER ORDER { get; set; }
-        public virtual PRODUCT PRODUCT { get; set; }
+        public virtual ORDER ORDER1 { get; set; }
+        public virtual PRODUCT PRODUCT1 { get; set; }
     }
 }

@@ -7,17 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CATEGORy
+    public partial class CATEGORY
     {
-        public CATEGORy()
+        public CATEGORY()
         {
-            this.CATEGORIES1 = new HashSet<CATEGORy>();
-            this.PRODUCTS = new HashSet<PRODUCT>();
+            this.CATEGORIES1 = new List<CATEGORY>();
+            this.PRODUCTS = new List<PRODUCT>();
         }
     
         public int id { get; set; }
@@ -25,8 +25,8 @@ namespace SellProducts.Model.Demo
         public Nullable<int> cat_parent { get; set; }
         public string detail { get; set; }
     
-        public virtual ICollection<CATEGORy> CATEGORIES1 { get; set; }
-        public virtual CATEGORy CATEGORy1 { get; set; }
-        public virtual ICollection<PRODUCT> PRODUCTS { get; set; }
+        public virtual IList<CATEGORY> CATEGORIES1 { get; set; }
+        public virtual CATEGORY CATEGORY1 { get; set; }
+        public virtual IList<PRODUCT> PRODUCTS { get; set; }
     }
 }

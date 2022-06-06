@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,13 +16,13 @@ namespace SellProducts.Model.Demo
     {
         public CUSTOMER()
         {
-            this.ORDERS = new HashSet<ORDER>();
+            this.ORDERS = new List<ORDER>();
         }
     
         public string phone { get; set; }
         public string name { get; set; }
         public string address { get; set; }
     
-        public virtual ICollection<ORDER> ORDERS { get; set; }
+        public virtual IList<ORDER> ORDERS { get; set; }
     }
 }

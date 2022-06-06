@@ -61,16 +61,21 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="ConnectDB\General\ConnectDB.cs" />
-    <Compile Include="ConnectDB\Manager.cs" />
+    <Compile Include="ConnectDB\Get.cs" />
+    <Compile Include="ConnectDB\Insert.cs" />
+    <Compile Include="ConnectDB\Modify.cs" />
+    <Compile Include="Imports\Excel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ConverterUtil.cs" />
+    <Compile Include="Utils\CriptoUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SellProduct_DB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SellProduct_DB_log.ldf">
       <DependentUpon>SellProduct_DB.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

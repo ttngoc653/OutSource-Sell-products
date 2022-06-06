@@ -26,39 +26,70 @@ namespace SellProducts
 
         public MainWindow()
         {
-            InitializeComponent();
+            try
+            {
+
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            bool result = false;
-            while (true)
+            try
             {
-                result = SellProducts.Common.ConnectDB.General.ConnectDB.CheckConnect();
 
-                if (result)
+                bool result = false;
+                while (true)
                 {
-                    break;
+                    result = SellProducts.Common.ConnectDB.General.ConnectDB.CheckConnect();
+
+                    if (result)
+                    {
+                        break;
+                    }
+
+                    string connectionStrNew = Interaction.InputBox(Properties.Resources.ChangeConnectionStringDialog, Properties.Resources.QuestionDialog);
                 }
 
-                string connectionStrNew = Interaction.InputBox(Properties.Resources.ChangeConnectionStringDialog, Properties.Resources.QuestionDialog);
+                LoginWindow window = new LoginWindow();
+                bool? resultLogin = window.ShowDialog();
+                if (resultLogin == true)
+                {
+                    username = window.Getlogin().UserName;
+                }
+                else
+                {
+                    Application.Current.Shutdown();
+                }
             }
-
-            LoginWindow window = new LoginWindow();
-            bool? resultLogin= window.ShowDialog();
-            if (resultLogin== true)
+            catch (Exception ex)
             {
-                username = window.login.UserName;
-            }
-            else 
-            {
-                this.Close();
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void MenuGoHome_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuBackuUpDatabase_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuRestoreDatabase_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

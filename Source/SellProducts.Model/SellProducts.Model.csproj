@@ -61,6 +61,7 @@
     <Compile Include="ACTION.cs" />
     <Compile Include="CART.cs" />
     <Compile Include="CATEGORY.cs" />
+    <Compile Include="CLASSIFY.cs" />
     <Compile Include="CUSTOMER.cs" />
     <Compile Include="HISTORY.cs" />
     <Compile Include="MADEIN.cs" />

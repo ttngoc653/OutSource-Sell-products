@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class HISTORy
+    public partial class HISTORY
     {
         public int idorder { get; set; }
         public System.DateTime datetime { get; set; }
         public string detail { get; set; }
         public string act { get; set; }
     
-        public virtual ORDER ORDER { get; set; }
+        public virtual ORDER ORDER1 { get; set; }
     }
 }

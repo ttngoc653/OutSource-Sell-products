@@ -1,10 +1,5 @@
-﻿using SellProducts.Model.Demo;
-using System;
-using System.Collections.Generic;
+﻿using SellProducts.Model;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SellProducts.Impl.ViewModel
 {

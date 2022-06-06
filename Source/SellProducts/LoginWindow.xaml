@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SellProducts"
         mc:Ignorable="d"
-        Title="Đăng nhập" Height="175" Width="400" Closing="Window_Closing">
+        Title="Đăng nhập" Height="175" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
@@ -20,7 +20,7 @@
         <Label Content="Tên đăng nhập:" Grid.Row="0" Grid.Column="0" Margin="5 5 5 5" />
         <Label Content="Mật khẩu:" Grid.Row="1" Grid.Column="0" Margin="5 5 5 5" />
         <TextBox Name="TextBoxUserName" Text="{Binding UserName}" Grid.Row="0" Grid.Column="1" Margin="5 5 5 5" />
-        <TextBox Name="TextBoxPassword" Text="{Binding Password}" Grid.Row="1" Grid.Column="1" Margin="5 5 5 5" />
+        <PasswordBox Name="TextBoxPassword" Grid.Row="1" Grid.Column="1" Margin="5 5 5 5" />
         <CheckBox Name="CheckBoxRemember" IsChecked="{Binding Remember}" Content="Ghi nhớ (Lưu)" Grid.Row="2" Grid.Column="1" Margin="5 5 5 5">
             <CheckBox.ToolTip>
                 <ToolTip Content="Lưu tên tài khoản và mật khẩu để không cần đăng nhập lại.\nChức năng này có thể hủy bỏ lưu ở phần cấu hình." />

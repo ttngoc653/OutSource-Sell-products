@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SellProducts.Model.Demo
+namespace SellProducts.Model
 {
     using System;
     using System.Collections.Generic;
@@ -16,8 +16,8 @@ namespace SellProducts.Model.Demo
     {
         public MANAGER()
         {
-            this.ACTIONS = new HashSet<ACTION>();
-            this.SETTINGS = new HashSet<SETTING>();
+            this.ACTIONS = new List<ACTION>();
+            this.SETTINGS = new List<SETTING>();
         }
     
         public string account { get; set; }
@@ -30,7 +30,7 @@ namespace SellProducts.Model.Demo
         public Nullable<bool> is_disable { get; set; }
         public string comment { get; set; }
     
-        public virtual ICollection<ACTION> ACTIONS { get; set; }
-        public virtual ICollection<SETTING> SETTINGS { get; set; }
+        public virtual IList<ACTION> ACTIONS { get; set; }
+        public virtual IList<SETTING> SETTINGS { get; set; }
     }
 }
