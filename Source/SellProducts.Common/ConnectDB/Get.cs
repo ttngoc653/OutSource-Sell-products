@@ -57,6 +57,66 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
+        public IList<CLASSIFY> Classifies()
+        {
+            List<CLASSIFY> result = new List<CLASSIFY>();
+
+            SqlCommand command = new SqlCommand("select * from CLASSIFIES");
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var i in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Classify(i));
+            }
+
+            return result;
+        }
+
+        public IList<CUSTOMER> Customers()
+        {
+            List<CUSTOMER> result = new List<CUSTOMER>();
+
+            SqlCommand command = new SqlCommand("select * from CUSTOMERS");
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var i in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Customer(i));
+            }
+
+            return result;
+        }
+
+        public IList<HISTORY> Histories()
+        {
+            List<HISTORY> result = new List<HISTORY>();
+
+            SqlCommand command = new SqlCommand("select * from HISTORIES");
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var i in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2History(i));
+            }
+
+            return result;
+        }
+
+        public IList<MADEIN> Madeins()
+        {
+            List<MADEIN> result = new List<MADEIN>();
+
+            SqlCommand command = new SqlCommand("select * from MADEINS");
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var i in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2MadeIn(i));
+            }
+
+            return result;
+        }
+
         public IList<MANAGER> Managers()
         {
             IList<MANAGER> result = new List<MANAGER>();
@@ -68,6 +128,86 @@ namespace SellProducts.Common.ConnectDB
             foreach (var iM in list)
             {
                 result.Add(Utils.ConverterUtil.Dictionary2Manager(iM));
+            }
+
+            return result;
+        }
+
+        public IList<MANUFACTURER> Manufactureres()
+        {
+            IList<MANUFACTURER> result = new List<MANUFACTURER>();
+
+            SqlCommand command = new SqlCommand("select * from MANUFACTURERES");
+
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var iM in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Manufacturer(iM));
+            }
+
+            return result;
+        }
+
+        public IList<ORDER> Orders()
+        {
+            IList<ORDER> result = new List<ORDER>();
+
+            SqlCommand command = new SqlCommand("select * from ORDERS");
+
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var iM in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Order(iM));
+            }
+
+            return result;
+        }
+
+        public IList<PRODUCT> Products()
+        {
+            IList<PRODUCT> result = new List<PRODUCT>();
+
+            SqlCommand command = new SqlCommand("select * from PRODUCTS");
+
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var iM in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Product(iM));
+            }
+
+            return result;
+        }
+
+        public IList<PROMOTION> Promotions()
+        {
+            IList<PROMOTION> result = new List<PROMOTION>();
+
+            SqlCommand command = new SqlCommand("select * from PROMOTIONS");
+
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var i in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Promotion(i));
+            }
+
+            return result;
+        }
+
+        public IList<SETTING> Settings()
+        {
+            IList<SETTING> result = new List<SETTING>();
+
+            SqlCommand command = new SqlCommand("select * from SETTINGS");
+
+            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+
+            foreach (var i in list)
+            {
+                result.Add(Utils.ConverterUtil.Dictionary2Setting(i));
             }
 
             return result;
