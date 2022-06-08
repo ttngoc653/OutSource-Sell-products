@@ -14,6 +14,11 @@ namespace SellProducts.Model
     
     public partial class ACTION
     {
+        public ACTION()
+        {
+            MANAGER1 = null;
+        }
+
         public int id { get; set; }
         public string idref { get; set; }
         public Nullable<System.DateTime> time { get; set; }
@@ -21,5 +26,28 @@ namespace SellProducts.Model
         public string manager { get; set; }
     
         public virtual MANAGER MANAGER1 { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ACTION a &&
+                   id == a.id &&
+                   idref == a.idref &&
+                   time == a.time &&
+                   detail == a.detail &&
+                   manager == a.manager &&
+                   EqualityComparer<MANAGER>.Default.Equals(MANAGER1, a.MANAGER1);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1509898008;
+            hashCode = hashCode * -1521134295 + id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(idref);
+            hashCode = hashCode * -1521134295 + time.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(detail);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(manager);
+            hashCode = hashCode * -1521134295 + EqualityComparer<MANAGER>.Default.GetHashCode(MANAGER1);
+            return hashCode;
+        }
     }
 }

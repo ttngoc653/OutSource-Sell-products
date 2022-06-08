@@ -16,7 +16,7 @@ namespace SellProducts.Model
     {
         public CUSTOMER()
         {
-            this.ORDERS = new List<ORDER>();
+            this.ORDERS = null;
         }
     
         public string phone { get; set; }
@@ -24,5 +24,24 @@ namespace SellProducts.Model
         public string address { get; set; }
     
         public virtual IList<ORDER> ORDERS { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CUSTOMER c &&
+                   phone == c.phone &&
+                   name == c.name &&
+                   address == c.address &&
+                   EqualityComparer<IList<ORDER>>.Default.Equals(ORDERS, c.ORDERS);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 878048308;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(phone);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(address);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<ORDER>>.Default.GetHashCode(ORDERS);
+            return hashCode;
+        }
     }
 }

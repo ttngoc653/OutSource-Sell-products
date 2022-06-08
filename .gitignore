@@ -5,3 +5,6 @@
 *bin*
 *obj*
 /Source/packages
+/Source/.vs/HCMUS.LTUDQL2/v16
+/.vs/OutSource-Sell-products/v16
+/.vs/VSWorkspaceState.json

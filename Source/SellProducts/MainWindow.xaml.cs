@@ -91,5 +91,140 @@ namespace SellProducts
         {
 
         }
+
+        private void txtCustomerFind_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void btnProductImportCategory_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnProductImportProducts_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbbProductCategoryName_DropDownClosed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbbProductCategoryPage_DropDownClosed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnProductCategoryAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnProductCategorySee_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnProductCategoryDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnProductProductAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnProductProductUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void txtProductFindName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void rsProductFindLimitPrice_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+        private void btnOrderActAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnOrderActDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnOrderActUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnOrderSee_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void dpOrderFindStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void dpOrderFindEnd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void btnOrderFind_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbbCustomerPage_DropDownClosed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCustomerSeeList_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCustomerAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCustomerUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnReportSale_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnReportProducts_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void cbSettingSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void tbSettingItemPerPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace SellProducts.Model
     {
         public MADEIN()
         {
-            this.PRODUCTS = new List<PRODUCT>();
+            this.PRODUCTS = null;
         }
     
         public int id { get; set; }
@@ -24,5 +24,24 @@ namespace SellProducts.Model
         public string detail { get; set; }
     
         public virtual IList<PRODUCT> PRODUCTS { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MADEIN m &&
+                   id == m.id &&
+                   location == m.location &&
+                   detail == m.detail &&
+                   EqualityComparer<IList<PRODUCT>>.Default.Equals(PRODUCTS, m.PRODUCTS);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 5459751;
+            hashCode = hashCode * -1521134295 + id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(location);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(detail);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<PRODUCT>>.Default.GetHashCode(PRODUCTS);
+            return hashCode;
+        }
     }
 }

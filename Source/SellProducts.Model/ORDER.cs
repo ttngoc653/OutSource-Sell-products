@@ -16,8 +16,10 @@ namespace SellProducts.Model
     {
         public ORDER()
         {
-            this.CARTS = new List<CART>();
-            this.HISTORIES = new List<HISTORY>();
+            this.CARTS = null;
+            this.HISTORIES = null;
+            this.CUSTOMER1 = null;
+            this.PROMOTION1 = null;
         }
     
         public int id { get; set; }
@@ -31,5 +33,36 @@ namespace SellProducts.Model
         public virtual CUSTOMER CUSTOMER1 { get; set; }
         public virtual IList<HISTORY> HISTORIES { get; set; }
         public virtual PROMOTION PROMOTION1 { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ORDER o &&
+                   id == o.id &&
+                   time == o.time &&
+                   customer == o.customer &&
+                   promotion == o.promotion &&
+                   total == o.total &&
+                   comment == o.comment &&
+                   EqualityComparer<IList<CART>>.Default.Equals(CARTS, o.CARTS) &&
+                   EqualityComparer<CUSTOMER>.Default.Equals(CUSTOMER1, o.CUSTOMER1) &&
+                   EqualityComparer<IList<HISTORY>>.Default.Equals(HISTORIES, o.HISTORIES) &&
+                   EqualityComparer<PROMOTION>.Default.Equals(PROMOTION1, o.PROMOTION1);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 97684958;
+            hashCode = hashCode * -1521134295 + id.GetHashCode();
+            hashCode = hashCode * -1521134295 + time.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(customer);
+            hashCode = hashCode * -1521134295 + promotion.GetHashCode();
+            hashCode = hashCode * -1521134295 + total.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(comment);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<CART>>.Default.GetHashCode(CARTS);
+            hashCode = hashCode * -1521134295 + EqualityComparer<CUSTOMER>.Default.GetHashCode(CUSTOMER1);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<HISTORY>>.Default.GetHashCode(HISTORIES);
+            hashCode = hashCode * -1521134295 + EqualityComparer<PROMOTION>.Default.GetHashCode(PROMOTION1);
+            return hashCode;
+        }
     }
 }

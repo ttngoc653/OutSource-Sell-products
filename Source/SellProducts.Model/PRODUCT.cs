@@ -16,8 +16,10 @@ namespace SellProducts.Model
     {
         public PRODUCT()
         {
-            this.CARTS = new List<CART>();
-            this.CATEGORIES = new List<CATEGORY>();
+            this.CARTS = null;
+            this.CATEGORIES = null;
+            this.MADEIN1 = null;
+            this.MANUFACTURERE = null;
         }
     
         public int id { get; set; }

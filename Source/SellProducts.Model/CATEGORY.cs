@@ -16,8 +16,9 @@ namespace SellProducts.Model
     {
         public CATEGORY()
         {
-            this.CATEGORIES1 = new List<CATEGORY>();
-            this.PRODUCTS = new List<PRODUCT>();
+            this.CATEGORIES1 = null;
+            this.PRODUCTS = null;
+            this.CATEGORY1 = null;
         }
     
         public int id { get; set; }
@@ -28,5 +29,30 @@ namespace SellProducts.Model
         public virtual IList<CATEGORY> CATEGORIES1 { get; set; }
         public virtual CATEGORY CATEGORY1 { get; set; }
         public virtual IList<PRODUCT> PRODUCTS { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CATEGORY c &&
+                   id == c.id &&
+                   name == c.name &&
+                   cat_parent == c.cat_parent &&
+                   detail == c.detail &&
+                   EqualityComparer<IList<CATEGORY>>.Default.Equals(CATEGORIES1, c.CATEGORIES1) &&
+                   EqualityComparer<CATEGORY>.Default.Equals(CATEGORY1, c.CATEGORY1) &&
+                   EqualityComparer<IList<PRODUCT>>.Default.Equals(PRODUCTS, c.PRODUCTS);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -755235709;
+            hashCode = hashCode * -1521134295 + id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = hashCode * -1521134295 + cat_parent.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(detail);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<CATEGORY>>.Default.GetHashCode(CATEGORIES1);
+            hashCode = hashCode * -1521134295 + EqualityComparer<CATEGORY>.Default.GetHashCode(CATEGORY1);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<PRODUCT>>.Default.GetHashCode(PRODUCTS);
+            return hashCode;
+        }
     }
 }

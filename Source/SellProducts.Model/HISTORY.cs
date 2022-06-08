@@ -14,11 +14,37 @@ namespace SellProducts.Model
     
     public partial class HISTORY
     {
+        public HISTORY()
+        {
+            this.ORDER1 = null;
+        }
+
         public int idorder { get; set; }
         public System.DateTime datetime { get; set; }
         public string detail { get; set; }
         public string act { get; set; }
     
         public virtual ORDER ORDER1 { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is HISTORY h &&
+                   idorder == h.idorder &&
+                   datetime == h.datetime &&
+                   detail == h.detail &&
+                   act == h.act &&
+                   EqualityComparer<ORDER>.Default.Equals(ORDER1, h.ORDER1);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1845714641;
+            hashCode = hashCode * -1521134295 + idorder.GetHashCode();
+            hashCode = hashCode * -1521134295 + datetime.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(detail);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(act);
+            hashCode = hashCode * -1521134295 + EqualityComparer<ORDER>.Default.GetHashCode(ORDER1);
+            return hashCode;
+        }
     }
 }

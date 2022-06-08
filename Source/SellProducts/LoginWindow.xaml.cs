@@ -37,7 +37,7 @@ namespace SellProducts
         {
             try
             {
-                if (new Common.ConnectDB.Manager().ChangePassword("admin", "admin", Common.Utils.CriptoUtil.CreateMD5("admin"))==1)
+                if (new Common.ConnectDB.Modify().ChangePassword("admin", "admin", Common.Utils.CriptoUtil.CreateMD5("admin"))==1)
                 {
                     MessageBox.Show("Changed password admin.");
                 }
@@ -73,7 +73,7 @@ namespace SellProducts
 
         private void CheckAccount()
         {
-            if (new Common.ConnectDB.Manager().Get(Getlogin().UserName, Getlogin().Password) != null)
+            if (new Common.ConnectDB.Get().Login(Getlogin().UserName, Getlogin().Password) != null)
             {
                 if (Getlogin().Remember)
                 {

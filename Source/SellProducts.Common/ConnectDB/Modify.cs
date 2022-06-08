@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SellProducts.Common.ConnectDB
 {
-    class Modify
+    public class Modify
     {
         public int ChangePassword(string username, string oldPassword, string newPassword)
         {

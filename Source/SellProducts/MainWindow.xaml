@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:myCustom="clr-namespace:DesignInControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800" Loaded="Window_Loaded" Name="MainForm">
     <Grid>
@@ -10,9 +11,27 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon IsMinimized="True" SelectedIndex="0" ShowQuickAccessToolBarOnTop="True" Grid.Row="0">
+        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="5">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
+                    <RibbonApplicationMenu.SmallImageSource>
+                        <DrawingImage>
+                            <DrawingImage.Drawing>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0,0,20,20"></RectangleGeometry>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Brush>
+                                        <VisualBrush Stretch="Uniform">
+                                            <VisualBrush.Visual>
+                                                <TextBlock Text="File" FontSize="16" Foreground="White" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                            </DrawingImage.Drawing>
+                        </DrawingImage>
+                    </RibbonApplicationMenu.SmallImageSource>
                     <RibbonApplicationMenuItem Name="MenuGoHome" Header="Vể trang chủ" Click="MenuGoHome_Click" />
                     <RibbonApplicationMenuItem Name="MenuBackuUpDatabase" Header="Backup database" Click="MenuBackuUpDatabase_Click" />
                     <RibbonApplicationMenuItem Name="MenuRestoreDatabase" Header="Restore database" Click="MenuRestoreDatabase_Click" />
@@ -21,71 +40,138 @@
             </Ribbon.ApplicationMenu>
             <RibbonTab Header="Quản lý hàng hóa" KeyTip="P">
                 <RibbonGroup Header="Import">
-                    <RibbonButton Label="Import loại sản phẩm">
-                        <RibbonButton.ToolTip>
+                    <Button Name="btnProductImportCategores" Width="80" Click="btnProductImportCategory_Click" Height="50" Margin="5">
+                        <Button.ToolTip>
                             <ToolTip Content="Thêm danh sách loại sản phẩm từ file excel" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
-                    <RibbonButton Label="Import danh sách sản phẩm">
-                        <RibbonButton.ToolTip>
+                        </Button.ToolTip>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center">Import loại sản phẩm</TextBlock>
+                    </Button>
+                    <Button Name="btnProductImportProducts" Width="100" Click="btnProductImportProducts_Click" Height="50" Margin="5">
+                        <Button.ToolTip>
                             <ToolTip Content="Thêm danh sách sản phẩm từ file excel" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
+                        </Button.ToolTip>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center">Import danh sách sản phẩm</TextBlock>
+                    </Button>
                 </RibbonGroup>
                 <RibbonGroup Header="Xem danh sách sản phẩm">
-                    <RibbonComboBox Label="Theo loại:" DisplayMemberPath="Name" />
+                    <RibbonComboBox Label="Theo loại:" DisplayMemberPath="Name" Name="cbbProductCategoryName" DropDownClosed="cbbProductCategoryName_DropDownClosed" />
+                    <RibbonComboBox Label="Theo trang:" DisplayMemberPath="Name" Name="cbbProductCategoryPage" DropDownClosed="cbbProductCategoryPage_DropDownClosed" />
                 </RibbonGroup>
                 <RibbonGroup Header="Danh mục (Loại)">
-                    <RibbonButton Label="Xem">
-                        <RibbonButton.ToolTip>
+                    <Button Content="Xem" Name="btnProductCategorySee" Click="btnProductCategorySee_Click" Width="75" Margin="4 0">
+                        <Button.ToolTip>
                             <ToolTip Content="Xem cây danh mục danh sách danh mục hiện có" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
-                    <RibbonButton Label="Thêm">
-                        <RibbonButton.ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Thêm" Name="btnProductCategoryAdd" Click="btnProductCategoryAdd_Click" Width="75" Margin="4 0">
+                        <Button.ToolTip>
                             <ToolTip Content="Thêm danh mục" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
-                    <RibbonButton Label="Xóa">
-                        <RibbonButton.ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Xóa" Name="btnProductCategoryDelete" Click="btnProductCategoryDelete_Click" Width="75" Margin="4 0" IsEnabled="False">
+                        <Button.ToolTip>
                             <ToolTip Content="Xóa danh mục" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
+                        </Button.ToolTip>
+                    </Button>
                 </RibbonGroup>
                 <RibbonGroup Header="Sản phẩm">
-                    <RibbonButton Label="Thêm">
-                        <RibbonButton.ToolTip>
+                    <Button Content="Thêm" Name="btnProductProductAdd" Click="btnProductProductAdd_Click" Width="75" Margin="4 5">
+                        <Button.ToolTip>
                             <ToolTip Content="Thêm sản phẩm" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
-                    <RibbonButton Label="Xóa">
-                        <RibbonButton.ToolTip>
-                            <ToolTip Content="Xóa sản phẩm" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
-                    <RibbonButton Label="Sửa">
-                        <RibbonButton.ToolTip>
-                            <ToolTip Content="Thay đổi thông tin sản phẩm" />
-                        </RibbonButton.ToolTip>
-                    </RibbonButton>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Cập nhật" Name="btnProductProductUpdate" Click="btnProductProductUpdate_Click" Width="75" Margin="4 5">
+                        <Button.ToolTip>
+                            <ToolTip Content="Thay đổi thông tin các sản phẩm" />
+                        </Button.ToolTip>
+                    </Button>
                 </RibbonGroup>
-                <RibbonGroup>
+                <RibbonGroup Header="Tìm kiếm" Width="{Binding ElementName=tab, Path=ActualWidth}">
+                    <Label Content="Theo tên:" Width="50" />
+                    <Label Content="Theo giá:" Width="50" />
+                    <TextBox Width="110" Name="txtProductFindName" TextChanged="txtProductFindName_TextChanged" />
+                    <myCustom:RangeSlider Width="110" Margin="0 7" Height="18" Minimum="0" LowerValue="20" UpperValue="60" Maximum="500" x:Name="rsProductFindLimitPrice" IsMouseCapturedChanged="rsProductFindLimitPrice_IsMouseCapturedChanged" />
                 </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="Quản lý đơn hàng" KeyTip="H">
-                
+            <RibbonTab Header="Quản lý đơn hàng" KeyTip="H" >
+                <RibbonGroup Header="Thao tác cơ bản">
+                    <Button Content="Tạo" Width="83" Name="btnOrderActAdd" Click="btnOrderActAdd_Click">
+                        <Button.ToolTip>
+                            <ToolTip Content="Tạo đơn hàng" />
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Xóa" Width="83" IsEnabled="False" Name="btnOrderActDelete" Click="btnOrderActDelete_Click">
+                        <Button.ToolTip>
+                            <ToolTip Content="Xóa đơn hàng đã chọn" />
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Cập nhật" Width="83" IsEnabled="False" Name="btnOrderActUpdate" Click="btnOrderActUpdate_Click" >
+                        <Button.ToolTip>
+                            <ToolTip Content="Cập nhật đơn hàng đã chọn" />
+                        </Button.ToolTip>
+                    </Button>
+                </RibbonGroup>
+                <RibbonGroup Header="Xem">
+                    <Label Height="22" Content="Chọn trang:" HorizontalAlignment="Left" Padding="5,3,5,-10" Width="70" HorizontalContentAlignment="Center" />
+                    <RibbonComboBox Name="cbbOrderPages" />
+                    <Button Content="Xem" Name="btnOrderSee" Click="btnOrderSee_Click" Width="100" />
+                </RibbonGroup>
+                <RibbonGroup Header="Tìm kiếm">
+                    <Label Content="Từ ngày:" />
+                    <Label Content="Đến ngày:" />
+                    <DatePicker Name="dpOrderFindStart" SelectedDateChanged="dpOrderFindStart_SelectedDateChanged" />
+                    <DatePicker Name="dpOrderFindEnd" SelectedDateChanged="dpOrderFindEnd_SelectedDateChanged" />
+                    <Button Content="Tìm" Height="18" Width="100" Padding="0" Name="btnOrderFind" Click="btnOrderFind_Click" />
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Quản lý Khuyến mãi" KeyTip="P" IsEnabled="False">
+
             </RibbonTab>
             <RibbonTab Header="Quản lý khách hàng" KeyTip="C">
-
-            </RibbonTab>
-            <RibbonTab Header="Quản lý Khuyến mãi" KeyTip="P">
-
+                <RibbonGroup Header="Thao tác cơ bản">
+                    <Button Content="Thêm" Width="100" Name="btnCustomerAdd" Margin="5 5" Click="btnCustomerAdd_Click" />
+                    <Button Content="Cập nhật" Width="100" Name="btnCustomerUpdate" IsEnabled="False" Margin="5 5" Click="btnCustomerUpdate_Click" />
+                </RibbonGroup>
+                <RibbonGroup Header="Xem">
+                    <RibbonComboBox Label="Trang:" Name="cbbCustomerPage" Margin="0 5" DropDownClosed="cbbCustomerPage_DropDownClosed"/>
+                    <Button Content="XEM" Width="106" Margin="15 6" Name="btnCustomerSeeList" Click="btnCustomerSeeList_Click" />
+                </RibbonGroup>
+                <RibbonGroup Header="Lọc">
+                    <Label Content="Từ khóa:" />
+                    <RibbonTextBox Name="txtCustomerFind" KeyUp="txtCustomerFind_KeyUp" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Báo cáo/thống kê" KeyTip="R">
-
+                <RibbonGroup Header="Báo cáo doanh thu">
+                    <Label Content="Từ ngày:" />
+                    <Label Content="Đến ngày:" />
+                    <DatePicker Name="dpReportSalesStart" />
+                    <DatePicker Name="dpReportSalestEnd" />
+                    <RibbonButton Label="Xem" Name="btnReportSale" Click="btnReportSale_Click" />
+                </RibbonGroup>
+                <RibbonGroup Header="Thống kê lượng hàng">
+                    <Label Content="Từ ngày:" />
+                    <Label Content="Đến ngày:" />
+                    <DatePicker Name="dpReportProductStart" />
+                    <DatePicker Name="dpReportProductEnd" />
+                    <RibbonButton Label="Xem" Name="btnReportProducts" Click="btnReportProducts_Click" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Cấu hình" KeyTip="S">
-
+                <RibbonGroup Header="Đăng nhập">
+                    <CheckBox Content="Tự động đăng nhập" Name="cbSettingAutoLogin" />
+                    <CheckBox Content="Lưu thông tin đăng nhập" Name="cbSettingSaveLogin" />
+                </RibbonGroup>
+                <RibbonGroup Header="Phân trang">
+                    <Label Content="Số phần tử mỗi trang:" />
+                    <TextBox Width="130" Name="tbSettingItemPerPage" TextChanged="tbSettingItemPerPage_TextChanged" />
+                </RibbonGroup>
+                <RibbonGroup>
+                    <CheckBox Content="Mở lại màn hình cuối" Name="cbSettingOpenLastControl" />
+                </RibbonGroup>
+                <RibbonGroup>
+                    <Button Content="Lưu" Height="60" Width="80" Name="cbSettingSave" Click="cbSettingSave_Click" />
+                </RibbonGroup>
             </RibbonTab>
         </Ribbon>
         <DockPanel Name="UIPanel" Grid.Row="1" Background="#FFCAD89B">

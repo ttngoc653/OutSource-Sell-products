@@ -16,8 +16,8 @@ namespace SellProducts.Model
     {
         public MANAGER()
         {
-            this.ACTIONS = new List<ACTION>();
-            this.SETTINGS = new List<SETTING>();
+            this.ACTIONS = null;
+            this.SETTINGS = null;
         }
     
         public string account { get; set; }
@@ -32,5 +32,38 @@ namespace SellProducts.Model
     
         public virtual IList<ACTION> ACTIONS { get; set; }
         public virtual IList<SETTING> SETTINGS { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MANAGER m &&
+                   account == m.account &&
+                   name == m.name &&
+                   password == m.password &&
+                   phone == m.phone &&
+                   email == m.email &&
+                   address == m.address &&
+                   type == m.type &&
+                   is_disable == m.is_disable &&
+                   comment == m.comment &&
+                   EqualityComparer<IList<ACTION>>.Default.Equals(ACTIONS, m.ACTIONS) &&
+                   EqualityComparer<IList<SETTING>>.Default.Equals(SETTINGS, m.SETTINGS);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 979828064;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(account);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(password);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(phone);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(email);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(address);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(type);
+            hashCode = hashCode * -1521134295 + is_disable.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(comment);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<ACTION>>.Default.GetHashCode(ACTIONS);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IList<SETTING>>.Default.GetHashCode(SETTINGS);
+            return hashCode;
+        }
     }
 }
