@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SellProducts.Common.ConnectDB
 {
-    class Insert
+ public class Insert
     {
         public bool Instance(ACTION action)
         {

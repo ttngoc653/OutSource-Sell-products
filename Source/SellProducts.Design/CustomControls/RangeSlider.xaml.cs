@@ -18,11 +18,15 @@ namespace DesignInControl
 	/// </summary>
 	public partial class RangeSlider : UserControl
 	{
-		public RangeSlider()
+        public RangeSlider()
 		{
 			this.InitializeComponent();
             this.LayoutUpdated += new EventHandler(RangeSlider_LayoutUpdated);
-		}
+
+            this.LowerSlider.ToolTip = new ToolTip();
+            this.UpperSlider.ToolTip = new ToolTip();
+
+        }
 
         void RangeSlider_LayoutUpdated(object sender, EventArgs e)
         {
@@ -113,8 +117,8 @@ namespace DesignInControl
                 slider.LowerSlider.Value = Math.Min(slider.UpperSlider.Value, slider.LowerSlider.Value);
             }
             slider.SetProgressBorder();
-            slider.UpperSlider.ToolTip = slider.UpperSlider.Value;
-            slider.LowerSlider.ToolTip = slider.LowerSlider.Value;
+            ((ToolTip)slider.UpperSlider.ToolTip).Content = slider.UpperSlider.Value;
+            ((ToolTip)slider.LowerSlider.ToolTip).Content = slider.LowerSlider.Value;
         }
 	}
 }

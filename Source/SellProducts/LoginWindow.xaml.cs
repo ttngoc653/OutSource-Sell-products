@@ -82,6 +82,20 @@ namespace SellProducts
                     Properties.Settings.Default.remember = Getlogin().Remember;
 
                     Properties.Settings.Default.Save();
+
+                    Util.SaveSettings(new Model.SETTING()
+                    {
+                        account = login1.UserName,
+                        name = SellProduct_CONSTANT.SETTING_AUTO_LOGIN,
+                        value = login1.Remember.ToString()
+                    });
+
+                    Util.SaveSettings(new Model.SETTING()
+                    {
+                        account = login1.UserName,
+                        name = SellProduct_CONSTANT.SETTING_REMEMBER_NAME,
+                        value = login1.Remember.ToString()
+                    });
                 }
                 DialogResult = true;
             }

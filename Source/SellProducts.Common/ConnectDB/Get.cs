@@ -16,7 +16,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from ACTIONS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -32,7 +32,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from CARTS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -47,7 +47,7 @@ namespace SellProducts.Common.ConnectDB
             List<CATEGORY> result = new List<CATEGORY>();
 
             SqlCommand command = new SqlCommand("select * from CATEGORIES");
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -62,7 +62,7 @@ namespace SellProducts.Common.ConnectDB
             List<CLASSIFY> result = new List<CLASSIFY>();
 
             SqlCommand command = new SqlCommand("select * from CLASSIFIES");
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -77,7 +77,7 @@ namespace SellProducts.Common.ConnectDB
             List<CUSTOMER> result = new List<CUSTOMER>();
 
             SqlCommand command = new SqlCommand("select * from CUSTOMERS");
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -92,7 +92,7 @@ namespace SellProducts.Common.ConnectDB
             List<HISTORY> result = new List<HISTORY>();
 
             SqlCommand command = new SqlCommand("select * from HISTORIES");
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -107,7 +107,7 @@ namespace SellProducts.Common.ConnectDB
             List<MADEIN> result = new List<MADEIN>();
 
             SqlCommand command = new SqlCommand("select * from MADEINS");
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -123,7 +123,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from MANAGERS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var iM in list)
             {
@@ -139,7 +139,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from MANUFACTURERES");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var iM in list)
             {
@@ -155,7 +155,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from ORDERS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var iM in list)
             {
@@ -171,7 +171,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from PRODUCTS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var iM in list)
             {
@@ -187,7 +187,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from PROMOTIONS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -203,7 +203,7 @@ namespace SellProducts.Common.ConnectDB
 
             SqlCommand command = new SqlCommand("select * from SETTINGS");
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var i in list)
             {
@@ -220,7 +220,7 @@ namespace SellProducts.Common.ConnectDB
             SqlCommand command = new SqlCommand("select * from CATEGORIES where id in (select c.cat_parent from CATEGORIES where c.name like @na)");
             command.Parameters.AddWithValue("@na", name);
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var item in list)
             {
@@ -238,7 +238,7 @@ namespace SellProducts.Common.ConnectDB
             command.Parameters.AddWithValue("@ac", username);
             command.Parameters.AddWithValue("@pa", password);
 
-            IList<Dictionary<string, string>> list = General.ConnectDB.SelectRecords(command);
+            IList<Dictionary<string, object>> list = General.ConnectDB.SelectRecords(command);
 
             foreach (var iM in list)
             {

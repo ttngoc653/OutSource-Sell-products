@@ -22,14 +22,19 @@ namespace SellProducts
     /// </summary>
     public partial class MainWindow : RibbonWindow
     {
-        private string username;
+        private Impl.ViewModel.Login inforLogin;
 
         public MainWindow()
         {
             try
             {
-
                 InitializeComponent();
+                string[] arg = Environment.GetCommandLineArgs();
+                if (arg.Length > 1)
+                {
+                    Common.ConnectDB.General.ConnectDB.SetConnectString(arg[1]);
+                }
+                this.rbMenu.SelectionChanged += RbMenu_SelectionChanged;
             }
             catch (Exception ex)
             {
@@ -39,6 +44,9 @@ namespace SellProducts
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.rbMenu.IsMinimized = true;
+            this.rbMenu.SelectedIndex = -1;
+
             try
             {
 
@@ -59,7 +67,7 @@ namespace SellProducts
                 bool? resultLogin = window.ShowDialog();
                 if (resultLogin == true)
                 {
-                    username = window.Getlogin().UserName;
+                    inforLogin = window.Getlogin();
                 }
                 else
                 {
@@ -79,7 +87,17 @@ namespace SellProducts
 
         private void MenuGoHome_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach (object item in UIManager.Children)
+            {
+                if (item is Design.UI.DashboardControl)
+                {
+                    (item as Design.UI.DashboardControl).Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    (item as UserControl).Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         private void MenuBackuUpDatabase_Click(object sender, RoutedEventArgs e)
@@ -219,12 +237,161 @@ namespace SellProducts
 
         private void cbSettingSave_Click(object sender, RoutedEventArgs e)
         {
+            /// save setting auto login
+            try
+            {
+                Util.SaveSettings(new Model.SETTING()
+                {
+                    account = inforLogin.UserName,
+                    name = SellProduct_CONSTANT.SETTING_AUTO_LOGIN,
+                    value = cbSettingAutoLogin.IsChecked.ToString()
+                });
+            }
+            catch (Exception) { }
 
+            /// load setting save user name
+            try
+            {
+                Util.SaveSettings(new Model.SETTING()
+                {
+                    account = inforLogin.UserName,
+                    name = SellProduct_CONSTANT.SETTING_REMEMBER_NAME,
+                    value = cbSettingSaveLogin.IsChecked.ToString()
+                });
+                cbSettingSaveLogin.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_REMEMBER_NAME).value);
+            }
+            catch (Exception) { }
+
+            /// load setting paging
+            try
+            {
+                if (tbSettingItemPerPage.Background != Brushes.Red)
+                {
+                    Util.SaveSettings(new Model.SETTING()
+                    {
+                        account = inforLogin.UserName,
+                        name = SellProduct_CONSTANT.SETTING_PAGING,
+                        value = tbSettingItemPerPage.Text
+                    });
+                }
+            }
+            catch (Exception) { }
+
+            /// load setting open screen last
+            try
+            {
+                Util.SaveSettings(new Model.SETTING()
+                {
+                    account = inforLogin.UserName,
+                    name = SellProduct_CONSTANT.SETTING_SAVE_FUNCTION_LAST,
+                    value = cbSettingOpenLastControl.IsChecked.ToString()
+                });
+            }
+            catch (Exception) { }
+
+            if (cbSettingSaveLogin.IsChecked==true)
+            {
+                Properties.Settings.Default.user = inforLogin.UserName;
+            }
+            if (cbSettingAutoLogin.IsChecked==true)
+            {
+                Properties.Settings.Default.pass = inforLogin.Password;
+                Properties.Settings.Default.remember = cbSettingAutoLogin.IsEnabled;
+            }
+
+            Properties.Settings.Default.Save();
         }
 
         private void tbSettingItemPerPage_TextChanged(object sender, TextChangedEventArgs e)
         {
+            try
+            {
+                int num = int.Parse(tbSettingItemPerPage.Text);
 
+                this.tbSettingItemPerPage.Background = null;
+            }
+            catch (Exception)
+            {
+                this.tbSettingItemPerPage.Background = Brushes.Red;
+            }
+        }
+
+
+        private void RbMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count>0 && e.AddedItems[0] is RibbonTab)
+            {
+                RibbonTab tab = e.AddedItems[0] as RibbonTab;
+                if (tab == rtCustomer)
+                {
+                    LoadTabCustomer();
+                }
+                else if (tab == rtOrder)
+                {
+
+                }
+                else if (tab == rtProduct)
+                {
+                    LoadTabProduct();
+                }
+                else if (tab == rtPromotion)
+                {
+
+                }
+                else if (tab == rtReport)
+                {
+
+                }
+                else if (tab == rtSettings)
+                {
+                    LoadTabSettings();
+                }
+                else
+                {
+                    MessageBox.Show("Nhóm chức năng không có.");
+                }
+            }
+        }
+
+        private void LoadTabProduct()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadTabSettings()
+        {
+            /// load setting auto login
+            try
+            {
+                cbSettingAutoLogin.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_AUTO_LOGIN).value);
+            }
+            catch (Exception) { }
+
+            /// load setting save user name
+            try
+            {
+                cbSettingSaveLogin.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_REMEMBER_NAME).value);
+            }
+            catch (Exception) { }
+
+            /// load setting paging
+            try
+            {
+                tbSettingItemPerPage.Text = new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value;
+            }
+            catch (Exception) { }
+
+            /// load setting open screen last
+            try
+            {
+                cbSettingOpenLastControl.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_SAVE_FUNCTION_LAST).value);
+            }
+            catch (Exception) { }
+        }
+
+        private void LoadTabCustomer()
+        {
+            throw new NotImplementedException();
         }
     }
 }

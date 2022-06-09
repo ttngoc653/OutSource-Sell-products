@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:myCustom="clr-namespace:DesignInControl"
+        xmlns:myCustom="clr-namespace:DesignInControl;assembly=SellProducts.Design"
+        xmlns:dashboardCtrl="clr-namespace:SellProducts.Design.UI;assembly=SellProducts.Design"
+        xmlns:productManCtrl="clr-namespace:SellProducts.Design.UI.ManagerProduct;assembly=SellProducts.Design"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800" Loaded="Window_Loaded" Name="MainForm">
     <Grid>
@@ -11,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="5">
+        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="0" Name="rbMenu">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.SmallImageSource>
@@ -38,7 +40,7 @@
                     <RibbonApplicationMenuItem Name="MenuExit" Header="Thoát" Click="MenuExit_Click" />
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
-            <RibbonTab Header="Quản lý hàng hóa" KeyTip="P">
+            <RibbonTab Header="Quản lý hàng hóa" KeyTip="P" Name="rtProduct">
                 <RibbonGroup Header="Import">
                     <Button Name="btnProductImportCategores" Width="80" Click="btnProductImportCategory_Click" Height="50" Margin="5">
                         <Button.ToolTip>
@@ -86,14 +88,14 @@
                         </Button.ToolTip>
                     </Button>
                 </RibbonGroup>
-                <RibbonGroup Header="Tìm kiếm" Width="{Binding ElementName=tab, Path=ActualWidth}">
-                    <Label Content="Theo tên:" Width="50" />
-                    <Label Content="Theo giá:" Width="50" />
+                <RibbonGroup Header="Tìm kiếm">
+                    <Label Content="Theo tên:" Width="60" />
+                    <Label Content="Theo giá:" Width="60" />
                     <TextBox Width="110" Name="txtProductFindName" TextChanged="txtProductFindName_TextChanged" />
-                    <myCustom:RangeSlider Width="110" Margin="0 7" Height="18" Minimum="0" LowerValue="20" UpperValue="60" Maximum="500" x:Name="rsProductFindLimitPrice" IsMouseCapturedChanged="rsProductFindLimitPrice_IsMouseCapturedChanged" />
+                    <myCustom:RangeSlider Width="110" Margin="0 7" Height="18" x:Name="rsProductFindLimitPrice" IsMouseCapturedChanged="rsProductFindLimitPrice_IsMouseCapturedChanged" />
                 </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="Quản lý đơn hàng" KeyTip="H" >
+            <RibbonTab Header="Quản lý đơn hàng" KeyTip="H" Name="rtOrder">
                 <RibbonGroup Header="Thao tác cơ bản">
                     <Button Content="Tạo" Width="83" Name="btnOrderActAdd" Click="btnOrderActAdd_Click">
                         <Button.ToolTip>
@@ -124,10 +126,10 @@
                     <Button Content="Tìm" Height="18" Width="100" Padding="0" Name="btnOrderFind" Click="btnOrderFind_Click" />
                 </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="Quản lý Khuyến mãi" KeyTip="P" IsEnabled="False">
+            <RibbonTab Header="Quản lý Khuyến mãi" KeyTip="P" IsEnabled="False" Name="rtPromotion">
 
             </RibbonTab>
-            <RibbonTab Header="Quản lý khách hàng" KeyTip="C">
+            <RibbonTab Header="Quản lý khách hàng" KeyTip="C" Name="rtCustomer">
                 <RibbonGroup Header="Thao tác cơ bản">
                     <Button Content="Thêm" Width="100" Name="btnCustomerAdd" Margin="5 5" Click="btnCustomerAdd_Click" />
                     <Button Content="Cập nhật" Width="100" Name="btnCustomerUpdate" IsEnabled="False" Margin="5 5" Click="btnCustomerUpdate_Click" />
@@ -141,7 +143,7 @@
                     <RibbonTextBox Name="txtCustomerFind" KeyUp="txtCustomerFind_KeyUp" />
                 </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="Báo cáo/thống kê" KeyTip="R">
+            <RibbonTab Header="Báo cáo/thống kê" KeyTip="R" Name="rtReport">
                 <RibbonGroup Header="Báo cáo doanh thu">
                     <Label Content="Từ ngày:" />
                     <Label Content="Đến ngày:" />
@@ -157,7 +159,7 @@
                     <RibbonButton Label="Xem" Name="btnReportProducts" Click="btnReportProducts_Click" />
                 </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="Cấu hình" KeyTip="S">
+            <RibbonTab Header="Cấu hình" KeyTip="S" Name="rtSettings">
                 <RibbonGroup Header="Đăng nhập">
                     <CheckBox Content="Tự động đăng nhập" Name="cbSettingAutoLogin" />
                     <CheckBox Content="Lưu thông tin đăng nhập" Name="cbSettingSaveLogin" />
@@ -174,8 +176,15 @@
                 </RibbonGroup>
             </RibbonTab>
         </Ribbon>
-        <DockPanel Name="UIPanel" Grid.Row="1" Background="#FFCAD89B">
-
-        </DockPanel>
+        <Grid Name="UIManager" Grid.Row="1" Background="#FFCAD89B">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <dashboardCtrl:DashboardControl Visibility="Collapsed" Grid.Column="0" Grid.Row="0" />
+            <productManCtrl:ProductControl Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" />
+        </Grid>
     </Grid>
 </RibbonWindow>

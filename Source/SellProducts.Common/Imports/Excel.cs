@@ -25,7 +25,7 @@ namespace SellProducts.Common.Imports
         public const string columnNameProductPriceSale = "Giá khuyến mãi";
         public const string columnNameProductDecribe = "Mô tả ngắn";
         public const string columnNameProductDetail = "Chi tiết";
-        public const string columnNameProductAvatar = "Hình ảnh";
+        public const string columnNameProductAvatar = "Địa chỉ hình đại diện";
         public const string columnNameProductAmount = "Số lượng";
 
         WorkBook workBook = null;
@@ -181,10 +181,16 @@ namespace SellProducts.Common.Imports
                     code = workSheet.GetCellAt(i + (pHeaderCode.y - pHeaderName.y), pHeaderCode.x).Text,
                     name = workSheet.GetCellAt(i, pHeaderName.x).Text,
                     detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text,
-                    avatar = workSheet.GetCellAt(i + (pHeaderAvatar.y - pHeaderName.y), pHeaderAvatar.x).Text,
                     describe = workSheet.GetCellAt(i + (pHeaderDescribe.y - pHeaderName.y), pHeaderDescribe.x).Text,
                     is_hide = false
                 };
+
+                try
+                {
+                    Uri uri = new Uri(workSheet.GetCellAt(i + (pHeaderAvatar.y - pHeaderName.y), pHeaderAvatar.x).Text);
+                    c.avatar = new System.Windows.Media.Imaging.BitmapImage(uri);
+                }
+                catch (Exception) { }
 
                 try
                 {

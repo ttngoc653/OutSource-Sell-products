@@ -9,511 +9,520 @@ namespace SellProducts.Common.Utils
 {
     class ConverterUtil
     {
-        internal static ACTION Dictionary2Action(Dictionary<string, string> keyValues)
+        internal static ACTION Dictionary2Action(Dictionary<string, object> keyValues)
         {
             ACTION a = new ACTION();
 
             try
             {
-                a.id = int.Parse(keyValues["id"]);
+                a.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                a.idref = keyValues["idref"];
+                a.idref = (string)keyValues["idref"];
             }
             catch (Exception) { }
 
             try
             {
-                a.time = DateTime.Parse(keyValues["time"]);
+                a.time = (DateTime?)keyValues["time"];
             }
             catch (Exception) { }
 
             try
             {
-                a.detail = keyValues["detail"];
+                a.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             try
             {
-                a.manager = keyValues["manager"];
+                a.manager = (string)keyValues["manager"];
             }
             catch (Exception) { }
 
             return a;
         }
 
-        internal static CART Dictionary2Cart(Dictionary<string, string> i)
+        internal static CART Dictionary2Cart(Dictionary<string, object> i)
         {
             CART c = new CART();
 
             try
             {
-                c.idorder = int.Parse(i["idorder"]);
+                c.idorder = (int)i["idorder"];
             }
             catch (Exception) { }
 
             try
             {
-                c.idproduct = int.Parse(i["idproduct"]);
+                c.idproduct = (int)i["idproduct"];
             }
             catch (Exception) { }
 
             try
             {
-                c.amount = int.Parse(i["amount"]);
+                c.amount = (int)i["amount"];
             }
             catch (Exception) { }
 
             try
             {
-                c.price = int.Parse(i["price"]);
+                c.price = (int)i["price"];
             }
             catch (Exception) { }
 
             return c;
         }
 
-        internal static CATEGORY Dictionary2Categoty(Dictionary<string, string> keyValues)
+        internal static CATEGORY Dictionary2Categoty(Dictionary<string, object> keyValues)
         {
             CATEGORY result = new CATEGORY();
 
             try
             {
-                result.id = int.Parse(keyValues["id"]);
+                result.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                result.name = keyValues["name"];
+                result.name = (string)keyValues["name"];
             }
             catch (Exception) { }
 
             try
             {
-                result.detail = keyValues["detail"];
+                result.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             try
             {
-                result.cat_parent = int.Parse(keyValues["cat_parent"]);
+                result.cat_parent = (int?)keyValues["cat_parent"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static CLASSIFY Dictionary2Classify(Dictionary<string, string> keyValues)
+        internal static CLASSIFY Dictionary2Classify(Dictionary<string, object> keyValues)
         {
             CLASSIFY result = new CLASSIFY();
 
             try
             {
-                result.category = int.Parse(keyValues["category"]);
+                result.category = (int)keyValues["category"];
             }
             catch (Exception) { }
 
             try
             {
-                result.product = int.Parse(keyValues["product"]);
+                result.product = (int)keyValues["product"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static CUSTOMER Dictionary2Customer(Dictionary<string, string> keyValues)
+        internal static CUSTOMER Dictionary2Customer(Dictionary<string, object> keyValues)
         {
             CUSTOMER result = new CUSTOMER();
 
             try
             {
-                result.phone = keyValues["phone"];
+                result.phone = (string)keyValues["phone"];
             }
             catch (Exception) { }
 
             try
             {
-                result.name = keyValues["name"];
+                result.name = (string)keyValues["name"];
             }
             catch (Exception) { }
 
             try
             {
-                result.address = keyValues["address"];
+                result.address = (string)keyValues["address"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static HISTORY Dictionary2History(Dictionary<string, string> keyValues)
+        internal static HISTORY Dictionary2History(Dictionary<string, object> keyValues)
         {
             HISTORY result = new HISTORY();
 
             try
             {
-                result.idorder = int.Parse(keyValues["idorder"]);
+                result.idorder = (int)keyValues["idorder"];
             }
             catch (Exception) { }
 
             try
             {
-                result.datetime = DateTime.Parse( keyValues["datetime"]);
+                result.datetime = (DateTime)keyValues["datetime"];
             }
             catch (Exception) { }
 
             try
             {
-                result.detail = keyValues["detail"];
+                result.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             try
             {
-                result.act = keyValues["act"];
+                result.act = (string)keyValues["act"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static MADEIN Dictionary2MadeIn(Dictionary<string, string> keyValues)
+        internal static MADEIN Dictionary2MadeIn(Dictionary<string, object> keyValues)
         {
             MADEIN result = new MADEIN();
 
             try
             {
-                result.id = int.Parse(keyValues["id"]);
+                result.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                result.location = keyValues["location"];
+                result.location = (string)keyValues["location"];
             }
             catch (Exception) { }
 
             try
             {
-                result.detail = keyValues["detail"];
+                result.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static MANAGER Dictionary2Manager(Dictionary<string, string> keyValues)
+        internal static MANAGER Dictionary2Manager(Dictionary<string, object> keyValues)
         {
             MANAGER result = new MANAGER();
 
             try
             {
-                result.account = keyValues["account"];
+                result.account = (string)keyValues["account"];
             }
             catch (Exception) { }
 
             try
             {
-                result.address = keyValues["address"];
+                result.address = (string)keyValues["address"];
             }
             catch (Exception) { }
 
             try
             {
-                result.comment = keyValues["comment"];
+                result.comment = (string)keyValues["comment"];
             }
             catch (Exception) { }
 
             try
             {
-                result.email = keyValues["email"];
+                result.email = (string)keyValues["email"];
             }
             catch (Exception) { }
 
             try
             {
-                result.is_disable = Boolean.Parse(keyValues["is_disable"]);
+                result.is_disable = (bool?)keyValues["is_disable"];
             }
             catch (Exception) { }
 
             try
             {
-                result.name = keyValues["name"];
+                result.name = (string)keyValues["name"];
             }
             catch (Exception) { }
 
             try
             {
-                result.password = keyValues["password"];
+                result.password = (string)keyValues["password"];
             }
             catch (Exception) { }
 
             try
             {
-                result.phone = keyValues["phone"];
+                result.phone = (string)keyValues["phone"];
             }
             catch (Exception) { }
 
             try
             {
-                result.type = keyValues["type"];
+                result.type = (string)keyValues["type"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static MANUFACTURER Dictionary2Manufacturer(Dictionary<string, string> keyValues)
+        internal static MANUFACTURER Dictionary2Manufacturer(Dictionary<string, object> keyValues)
         {
             MANUFACTURER result = new MANUFACTURER();
 
             try
             {
-                result.id = int.Parse(keyValues["id"]);
+                result.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                result.name = keyValues["name"];
+                result.name = (string)keyValues["name"];
             }
             catch (Exception) { }
 
             try
             {
-                result.detail = keyValues["detail"];
+                result.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static ORDER Dictionary2Order(Dictionary<string, string> keyValues)
+        internal static ORDER Dictionary2Order(Dictionary<string, object> keyValues)
         {
             ORDER result = new ORDER();
 
             try
             {
-                result.id = int.Parse(keyValues["id"]);
+                result.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                result.time = DateTime.Parse(keyValues["time"]);
+                result.time = (DateTime)keyValues["time"];
             }
             catch (Exception) { }
 
             try
             {
-                result.customer = keyValues["customer"];
+                result.customer = (string)keyValues["customer"];
             }
             catch (Exception) { }
 
             try
             {
-                result.promotion = int.Parse(keyValues["promotion"]);
+                result.promotion = (int?)keyValues["promotion"];
             }
             catch (Exception) { }
 
             try
             {
-                result.total = int.Parse(keyValues["total"]);
+                result.total = (int?)keyValues["total"];
             }
             catch (Exception) { }
 
             try
             {
-                result.comment = keyValues["comment"];
+                result.comment = (string)keyValues["comment"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static PRODUCT Dictionary2Product(Dictionary<string, string> keyValues)
+        internal static PRODUCT Dictionary2Product(Dictionary<string, object> keyValues)
         {
             PRODUCT result = new PRODUCT();
 
             try
             {
-                result.id = int.Parse(keyValues["id"]);
+                result.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                result.code = keyValues["code"];
+                result.code = (string)keyValues["code"];
             }
             catch (Exception) { }
 
             try
             {
-                result.name = keyValues["name"];
+                result.name = (string)keyValues["name"];
             }
             catch (Exception) { }
 
             try
             {
-                result.price = int.Parse(keyValues["price"]);
+                result.price = (int?)keyValues["price"];
             }
             catch (Exception) { }
 
             try
             {
-                result.price_sale = int.Parse(keyValues["price_sale"]);
+                result.price_sale = (int?)keyValues["price_sale"];
             }
             catch (Exception) { }
 
             try
             {
-                result.describe = keyValues["describe"];
+                result.describe = (string)keyValues["describe"];
             }
             catch (Exception) { }
 
             try
             {
-                result.detail = keyValues["detail"];
+                result.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             try
             {
-                result.avatar = keyValues["avatar"];
+                byte[] bytes = (byte[])keyValues["avatar"];
+                using (System.IO.MemoryStream ms=new System.IO.MemoryStream(bytes))
+                {
+                    result.avatar = new System.Windows.Media.Imaging.BitmapImage();
+
+                    result.avatar.BeginInit();
+                    result.avatar.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                    result.avatar.StreamSource = ms;
+                    result.avatar.EndInit();
+                }
             }
             catch (Exception) { }
 
             try
             {
-                result.amount_current = int.Parse(keyValues["amount_current"]);
+                result.amount_current = (int?)keyValues["amount_current"];
             }
             catch (Exception) { }
 
             try
             {
-                result.madein = int.Parse(keyValues["madein"]);
+                result.madein = (int?)keyValues["madein"];
             }
             catch (Exception) { }
 
             try
             {
-                result.manufacturer = int.Parse(keyValues["manufacturer"]);
+                result.manufacturer = (int?)keyValues["manufacturer"];
             }
             catch (Exception) { }
 
             try
             {
-                result.is_hide = bool.Parse(keyValues["is_hide"]);
+                result.is_hide = (bool)keyValues["is_hide"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static PROMOTION Dictionary2Promotion(Dictionary<string, string> keyValues)
+        internal static PROMOTION Dictionary2Promotion(Dictionary<string, object> keyValues)
         {
             PROMOTION result = new PROMOTION();
 
             try
             {
-                result.id = int.Parse(keyValues["id"]);
+                result.id = (int)keyValues["id"];
             }
             catch (Exception) { }
 
             try
             {
-                result.code = keyValues["code"];
+                result.code = (string)keyValues["code"];
             }
             catch (Exception) { }
 
             try
             {
-                result.title = keyValues["title"];
+                result.title = (string)keyValues["title"];
             }
             catch (Exception) { }
 
             try
             {
-                result.detail = keyValues["detail"];
+                result.detail = (string)keyValues["detail"];
             }
             catch (Exception) { }
 
             try
             {
-                result.date_start = DateTime.Parse(keyValues["date_start"]);
+                result.date_start = (DateTime?)keyValues["date_start"];
             }
             catch (Exception) { }
 
             try
             {
-                result.date_end = DateTime.Parse(keyValues["date_end"]);
+                result.date_end = (DateTime?)keyValues["date_end"];
             }
             catch (Exception) { }
 
             try
             {
-                result.type = keyValues["type"];
+                result.type = (string)keyValues["type"];
             }
             catch (Exception) { }
 
             try
             {
-                result.percent_discount = decimal.Parse(keyValues["percent_discount"]);
+                result.percent_discount = (decimal?)keyValues["percent_discount"];
             }
             catch (Exception) { }
 
             try
             {
-                result.discount = int.Parse(keyValues["discount"]);
+                result.discount = (int?)keyValues["discount"];
             }
             catch (Exception) { }
 
             try
             {
-                result.is_stop = bool.Parse(keyValues["is_stop"]);
+                result.is_stop = (bool)keyValues["is_stop"];
             }
             catch (Exception) { }
 
             try
             {
-                result.is_hide = bool.Parse(keyValues["is_hide"]);
+                result.is_hide = (bool)keyValues["is_hide"];
             }
             catch (Exception) { }
 
             try
             {
-                result.amount = int.Parse(keyValues["amount"]);
+                result.amount = (int?)keyValues["amount"];
             }
             catch (Exception) { }
 
             return result;
         }
 
-        internal static SETTING Dictionary2Setting(Dictionary<string, string> keyValues)
+        internal static SETTING Dictionary2Setting(Dictionary<string, object> keyValues)
         {
             SETTING result = new SETTING();
 
             try
             {
-                result.account = keyValues["account"];
+                result.account = (string)keyValues["account"];
             }
             catch (Exception) { }
 
             try
             {
-                result.name = keyValues["name"];
+                result.name = (string)keyValues["name"];
             }
             catch (Exception) { }
 
             try
             {
-                result.value = keyValues["value"];
+                result.value = (string)keyValues["value"];
             }
             catch (Exception) { }
 

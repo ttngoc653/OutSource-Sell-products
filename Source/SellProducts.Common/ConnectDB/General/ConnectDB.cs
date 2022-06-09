@@ -31,13 +31,13 @@ namespace SellProducts.Common.ConnectDB.General
                 connection.Close();
                 return connected;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
             finally
             {
-                if (connection.State!= System.Data.ConnectionState.Closed)
+                if (connection != null && connection.State != System.Data.ConnectionState.Closed)
                 {
                     connection.Close();
                 }
@@ -71,9 +71,9 @@ namespace SellProducts.Common.ConnectDB.General
             return result;
         }
 
-        internal static List<Dictionary<String, String>> SelectRecords(SqlCommand sqlCommand)
+        internal static List<Dictionary<string, object>> SelectRecords(SqlCommand sqlCommand)
         {
-            List<Dictionary<String, String>> listRecord = new List<Dictionary<String, String>>();
+            List<Dictionary<string, object>> listRecord = new List<Dictionary<string, object>>();
 
             try
             {
@@ -85,12 +85,12 @@ namespace SellProducts.Common.ConnectDB.General
 
                 while (sqlDataReader.Read())
                 {
-                    Dictionary<string, string> keyValues = new Dictionary<string, string>();
+                    Dictionary<string, object> keyValues = new Dictionary<string, object>();
 
                     for (int i = 0; i < sqlDataReader.FieldCount; i++)
                     {
                         string key = sqlDataReader.GetName(i);
-                        string value = sqlDataReader.GetValue(i).ToString();
+                        object value = sqlDataReader.GetValue(i);
 
                         keyValues.Add(key, value);
                     }

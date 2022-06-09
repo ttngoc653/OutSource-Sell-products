@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="SellProducts.Design.UI.ManagerProduct.ProductControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SellProducts.Design.UI.ManagerProduct"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel LastChildFill="True">
+        <TextBlock DockPanel.Dock="Top" Text="DANH SÁCH SẢN PHẨM" FontFamily="Verdana" FontSize="20" TextAlignment="Center" FontWeight="Bold"/>
+        <DataGrid CanUserAddRows="False" CanUserDeleteRows="False" Name="dgList">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.Items>
+                        <MenuItem Header="Xem chi tiết" Name="menuSeeDetail" Click="menuSeeDetail_Click" />
+                        <MenuItem Header="Xóa" Name="menuDelete" Click="menuDelete_Click" />
+                        <MenuItem Header="Cập nhật ngay sản phảm này" Name="menuUpdateOnlyOnce" Click="menuUpdateOnlyOnce_Click" />
+                    </ContextMenu.Items>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mã" Binding="{Binding Code}" />
+                <DataGridTextColumn Header="Tên" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Giá gốc" Binding="{Binding Price}" />
+                <DataGridTextColumn Header="Giá giảm" Binding="{Binding PriceSale}" />
+                <DataGridTextColumn Header="SL còn lại" Binding="{Binding Amount}" />
+                <DataGridComboBoxColumn Header="Thương hiệu" SelectedValueBinding="{Binding ManufacturerName}" />
+                <DataGridComboBoxColumn Header="Nơi sản xuát" SelectedValueBinding="{Binding MadeInName}" />
+                <DataGridCheckBoxColumn Header="Ẩn (không bán)" Binding="{Binding IsHide}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>
