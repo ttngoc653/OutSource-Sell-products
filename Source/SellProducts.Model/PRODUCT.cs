@@ -30,7 +30,6 @@ namespace SellProducts.Model
         public Nullable<int> price_sale { get; set; }
         public string describe { get; set; }
         public string detail { get; set; }
-        public BitmapImage avatar { get; set; }
         public Nullable<int> amount_current { get; set; }
         public Nullable<int> madein { get; set; }
         public Nullable<int> manufacturer { get; set; }

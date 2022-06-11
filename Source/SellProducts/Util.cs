@@ -12,7 +12,7 @@ namespace SellProducts
         {
             try
             {
-                bool existSettingRemember = new Common.ConnectDB.Get().Settings().Where(p => p.account == setting1.account && p.name == SellProduct_CONSTANT.SETTING_AUTO_LOGIN).FirstOrDefault() != null;
+                bool existSettingRemember = Common.ConnectDB.Get.Settings().Where(p => p.account == setting1.account && p.name == SellProduct_CONSTANT.SETTING_AUTO_LOGIN).FirstOrDefault() != null;
                 if (existSettingRemember)
                 {
 
@@ -30,7 +30,7 @@ namespace SellProducts
             {
                 if (ex.GetType() == typeof(Exception) && ex.Message == "")
                 {
-                    new Common.ConnectDB.Insert().Instance(setting1);
+                    Common.ConnectDB.Insert.Instance(setting1);
                 }
             }
         }

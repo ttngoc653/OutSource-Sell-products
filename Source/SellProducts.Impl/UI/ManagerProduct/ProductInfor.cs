@@ -29,23 +29,45 @@ namespace SellProducts.Impl.UI.ManagerProduct
 
         public string Detail { get => _product.detail; set => _product.detail = value; }
 
-        public BitmapImage Avatar { get { return _product.avatar; } set { _product.avatar = value; } }
-
         public int Amount { get => (int)_product.amount_current; set => _product.amount_current = value; }
 
-        public string Manufacturer
+        public string ManufacturerName
         {
             get
             {
                 if (_product.MANUFACTURERE == null)
                 {
-                    _product.MANUFACTURERE = new Common.ConnectDB.Get().Manufactureres().Where(m => m.id == _product.manufacturer).FirstOrDefault();
+                    _product.MANUFACTURERE = Common.ConnectDB.Get.Manufactureres().Where(m => m.id == _product.manufacturer).FirstOrDefault();
                 }
                 return _product.MANUFACTURERE?.name;
             }
 
-            set => _product.MANUFACTURERE = new Common.ConnectDB.Get().Manufactureres().Where(m => m.name == value).FirstOrDefault();
+            set
+            {
+                _product.MANUFACTURERE = Common.ConnectDB.Get.Manufactureres().Where(m => m.name == value).FirstOrDefault();
+                _product.manufacturer = _product.MANUFACTURERE.id;
+            }
         }
+
+        public string MadeInName
+        {
+            get
+            {
+                if (_product.MADEIN1 == null)
+                {
+                    _product.MADEIN1 = Common.ConnectDB.Get.Madeins().Where(m => m.id == _product.madein).FirstOrDefault();
+                }
+                return _product.MADEIN1?.location;
+            }
+
+            set
+            {
+                _product.MADEIN1 = Common.ConnectDB.Get.Madeins().Where(m => m.location == value).FirstOrDefault();
+                _product.madein = _product.MADEIN1.id;
+            }
+        }
+
+        public bool Save() => Common.ConnectDB.Insert.Instance(_product);
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

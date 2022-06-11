@@ -10,7 +10,7 @@ namespace SellProducts.Common.ConnectDB
 {
  public class Insert
     {
-        public bool Instance(ACTION action)
+        public static bool Instance(ACTION action)
         {
             SqlCommand command = new SqlCommand("INSERT INTO [ACTIONS]([idref], [time], [detail], [manager]) " +
                 "VALUES (@idref, @time, @detail, @m)");
@@ -22,7 +22,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(CART cart)
+        public static bool Instance(CART cart)
         {
             SqlCommand command = new SqlCommand("INSERT INTO [CARTS]([idorder], [idproduct], [amount], [price]) " +
                 "VALUES (@idorder, @idproduct, @amount, @price)");
@@ -34,7 +34,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(CATEGORY c)
+        public static bool Instance(CATEGORY c)
         {
             if (c is null)
             {
@@ -50,7 +50,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(CLASSIFY c)
+        public static bool Instance(CLASSIFY c)
         {
             if (c is null)
             {
@@ -65,7 +65,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(CUSTOMER c)
+        public static bool Instance(CUSTOMER c)
         {
             if (c is null)
             {
@@ -81,7 +81,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(HISTORY c)
+        public static bool Instance(HISTORY c)
         {
             if (c is null)
             {
@@ -98,7 +98,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(MADEIN c)
+        public static bool Instance(MADEIN c)
         {
             if (c is null)
             {
@@ -112,7 +112,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(MANAGER m)
+        public static bool Instance(MANAGER m)
         {
             if (m is null)
             {
@@ -134,7 +134,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(MANUFACTURER m)
+        public static bool Instance(MANUFACTURER m)
         {
             if (m is null)
             {
@@ -149,7 +149,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(ORDER m)
+        public static bool Instance(ORDER m)
         {
             if (m is null)
             {
@@ -166,7 +166,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(PRODUCT m)
+        public static bool Instance(PRODUCT m)
         {
             if (m is null)
             {
@@ -180,7 +180,6 @@ namespace SellProducts.Common.ConnectDB
             command.Parameters.AddWithValue("@price_sale", m.price_sale);
             command.Parameters.AddWithValue("@describe", m.describe);
             command.Parameters.AddWithValue("@detail", m.detail);
-            command.Parameters.AddWithValue("@avatar", m.avatar);
             command.Parameters.AddWithValue("@amount_current", m.amount_current);
             command.Parameters.AddWithValue("@madein", m.madein);
             command.Parameters.AddWithValue("@manufacturer", m.manufacturer);
@@ -189,7 +188,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(PROMOTION m)
+        public static bool Instance(PROMOTION m)
         {
             if (m is null)
             {
@@ -213,7 +212,7 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.AddRecord(command) > 1;
         }
 
-        public bool Instance(SETTING m)
+        public static bool Instance(SETTING m)
         {
             if (m is null)
             {

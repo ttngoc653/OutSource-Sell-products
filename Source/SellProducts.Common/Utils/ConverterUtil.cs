@@ -385,21 +385,6 @@ namespace SellProducts.Common.Utils
 
             try
             {
-                byte[] bytes = (byte[])keyValues["avatar"];
-                using (System.IO.MemoryStream ms=new System.IO.MemoryStream(bytes))
-                {
-                    result.avatar = new System.Windows.Media.Imaging.BitmapImage();
-
-                    result.avatar.BeginInit();
-                    result.avatar.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                    result.avatar.StreamSource = ms;
-                    result.avatar.EndInit();
-                }
-            }
-            catch (Exception) { }
-
-            try
-            {
                 result.amount_current = (int?)keyValues["amount_current"];
             }
             catch (Exception) { }

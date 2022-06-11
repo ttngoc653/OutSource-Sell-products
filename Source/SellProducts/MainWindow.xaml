@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:myCustom="clr-namespace:DesignInControl;assembly=SellProducts.Design"
         xmlns:dashboardCtrl="clr-namespace:SellProducts.Design.UI;assembly=SellProducts.Design"
         xmlns:productManCtrl="clr-namespace:SellProducts.Design.UI.ManagerProduct;assembly=SellProducts.Design"
@@ -56,8 +57,18 @@
                     </Button>
                 </RibbonGroup>
                 <RibbonGroup Header="Xem danh sách sản phẩm">
-                    <RibbonComboBox Label="Theo loại:" DisplayMemberPath="Name" Name="cbbProductCategoryName" DropDownClosed="cbbProductCategoryName_DropDownClosed" />
-                    <RibbonComboBox Label="Theo trang:" DisplayMemberPath="Name" Name="cbbProductCategoryPage" DropDownClosed="cbbProductCategoryPage_DropDownClosed" />
+                    <Label Content="Loại:" />
+                    <Label Content="Trang:" />
+                    <ComboBox Name="cbbProductCategoryName" DropDownClosed="cbbProductCategoryName_DropDownClosed" Width="140" Height="27" SelectedValuePath="Id">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox DisplayMemberPath="Name" Name="cbbProductCategoryPage" DropDownClosed="cbbProductCategoryPage_DropDownClosed" Width="140" Height="27" >
+
+                    </ComboBox>
                 </RibbonGroup>
                 <RibbonGroup Header="Danh mục (Loại)">
                     <Button Content="Xem" Name="btnProductCategorySee" Click="btnProductCategorySee_Click" Width="75" Margin="4 0">
@@ -166,7 +177,7 @@
                 </RibbonGroup>
                 <RibbonGroup Header="Phân trang">
                     <Label Content="Số phần tử mỗi trang:" />
-                    <TextBox Width="130" Name="tbSettingItemPerPage" TextChanged="tbSettingItemPerPage_TextChanged" />
+                    <mah:NumericUpDown Width="130" Name="tbSettingItemPerPage" ValueChanged="tbSettingItemPerPage_ValueChanged" />
                 </RibbonGroup>
                 <RibbonGroup>
                     <CheckBox Content="Mở lại màn hình cuối" Name="cbSettingOpenLastControl" />

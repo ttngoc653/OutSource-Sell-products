@@ -4,30 +4,236 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SellProducts.Design.UI.ManagerProduct"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" xmlns:managerproduct="clr-namespace:SellProducts.Impl.UI.ManagerProduct;assembly=SellProducts.Impl" d:DataContext="{d:DesignInstance Type=managerproduct:ProductInfor}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel LastChildFill="True">
-        <TextBlock DockPanel.Dock="Top" Text="DANH SÁCH SẢN PHẨM" FontFamily="Verdana" FontSize="20" TextAlignment="Center" FontWeight="Bold"/>
-        <DataGrid CanUserAddRows="False" CanUserDeleteRows="False" Name="dgList">
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <ContextMenu.Items>
-                        <MenuItem Header="Xem chi tiết" Name="menuSeeDetail" Click="menuSeeDetail_Click" />
-                        <MenuItem Header="Xóa" Name="menuDelete" Click="menuDelete_Click" />
-                        <MenuItem Header="Cập nhật ngay sản phảm này" Name="menuUpdateOnlyOnce" Click="menuUpdateOnlyOnce_Click" />
-                    </ContextMenu.Items>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Mã" Binding="{Binding Code}" />
-                <DataGridTextColumn Header="Tên" Binding="{Binding Name}" />
-                <DataGridTextColumn Header="Giá gốc" Binding="{Binding Price}" />
-                <DataGridTextColumn Header="Giá giảm" Binding="{Binding PriceSale}" />
-                <DataGridTextColumn Header="SL còn lại" Binding="{Binding Amount}" />
-                <DataGridComboBoxColumn Header="Thương hiệu" SelectedValueBinding="{Binding ManufacturerName}" />
-                <DataGridComboBoxColumn Header="Nơi sản xuát" SelectedValueBinding="{Binding MadeInName}" />
-                <DataGridCheckBoxColumn Header="Ẩn (không bán)" Binding="{Binding IsHide}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="0" LastChildFill="True">
+            <TextBlock DockPanel.Dock="Top" Text="DANH SÁCH SẢN PHẨM" FontFamily="Verdana" FontSize="20" TextAlignment="Center" FontWeight="Bold"/>
+            <DataGrid CanUserAddRows="False" CanUserDeleteRows="False" Name="dgList" IsReadOnly="True">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Items>
+                            <MenuItem Header="Xem chi tiết" Name="menuSeeDetail" Click="menuSeeDetail_Click" />
+                            <MenuItem Header="Xóa" Name="menuDelete" Click="menuDelete_Click" />
+                            <MenuItem Header="Cập nhật ngay sản phảm này" Name="menuUpdateOnlyOnce" Click="menuUpdateOnlyOnce_Click" />
+                        </ContextMenu.Items>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Mã" Binding="{Binding Code}" />
+                    <DataGridTextColumn Header="Tên" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Giá gốc" Binding="{Binding Price, ConverterCulture=vi-VN, StringFormat={}{0:C}, Mode=TwoWay}" />
+                    <DataGridTextColumn Header="Giá giảm"  Binding="{Binding PriceSale, ConverterCulture=vi-VN, StringFormat={}{0:C}, Mode=TwoWay}" />
+                    <DataGridTextColumn Header="SL còn lại" Binding="{Binding Amount}" />
+                    <DataGridComboBoxColumn Header="Thương hiệu" SelectedValueBinding="{Binding ManufacturerName}" />
+                    <DataGridComboBoxColumn Header="Nơi sản xuát" SelectedValueBinding="{Binding MadeInName}" />
+                    <DataGridCheckBoxColumn Header="Ẩn (không bán)" Binding="{Binding IsHide}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" />
+        <DockPanel Grid.Column="2" LastChildFill="True" Name="dpAdd" IsVisibleChanged="dpAdd_IsVisibleChanged">
+            <TextBlock DockPanel.Dock="Top" Text="THÊM" HorizontalAlignment="Center" />
+            <StackPanel>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Mã:" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectedItem.Code, ElementName=dgList, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectedItem.Name, ElementName=dgList, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Giá bán:" VerticalAlignment="Center" />
+                    <mah:NumericUpDown Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding SelectedItem.Price, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Giá khuyến mãi:" VerticalAlignment="Center" />
+                    <mah:NumericUpDown Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding SelectedItem.PriceSale, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Mô tả ngắn:" VerticalAlignment="Center" />
+                    <TextBox VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Describe, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Chi tiết:" VerticalAlignment="Center" />
+                    <TextBox VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedItem.Detail, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Hãng:" VerticalAlignment="Center" />
+                    <ComboBox Name="cbAddManufacturer" VerticalAlignment="Top" Grid.Column="1" Text="{Binding Path=ManufactorerName, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="2" Content="Thêm" Name="bAddManufacturerAdd" Click="bAddManufacturerAdd_Click" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Sản xuất tại:" VerticalAlignment="Center" />
+                    <ComboBox Name="cbAddMadeIn" VerticalAlignment="Top" Grid.Column="1" Text="{Binding XPath=MadeInName, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="2" Content="Thêm" Name="bAddAddMadeIn" Click="bMadeInAdd_Click"/>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Grid.Column="1" Content="Ẩn" IsChecked="{Binding Path=IsHide, Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.Column="2" LastChildFill="True" Visibility="Collapsed" Name="dpDetail" IsVisibleChanged="dpDetail_IsVisibleChanged">
+            <TextBlock Visibility="Collapsed" DockPanel.Dock="Top" Text="CHI TIẾT SẢN PHẨM" HorizontalAlignment="Center" />
+            <StackPanel>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Mã:" VerticalAlignment="Center" />
+                    <TextBox Name="tbDetailCode" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedItem.Code, ElementName=dgList, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
+                    <TextBox Name="tbDetailName" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedItem.Name, ElementName=dgList, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Giá bán:" VerticalAlignment="Center" />
+                    <mah:NumericUpDown x:Name="tbDetailPrice" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailPrice_ValueChanged" Value="{Binding SelectedItem.Price, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Giá khuyến mãi:" VerticalAlignment="Center" />
+                    <mah:NumericUpDown x:Name="tbDetailPriceSale" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailPriceSale_ValueChanged"  Value="{Binding SelectedItem.PriceSale, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Mô tả ngắn:" VerticalAlignment="Center" />
+                    <TextBox Name="tbDetailDescribe" TextChanged="RichTextBox_TextChanged" VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedItem.Describe, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Chi tiết:" VerticalAlignment="Center" />
+                    <TextBox Name="tbDetailDetail" VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedItem.Detail, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Hãng:" VerticalAlignment="Center" />
+                    <ComboBox Name="cbDetailManufacturer" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="cbDetailManufacturer_SelectionChanged"  Text="{Binding SelectedItem.ManufactorerName, ElementName=dgList, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="2" Content="Thêm" Name="bDetailAddManufacturer" Click="bDetailAddManufacturer_Click" />
+                </Grid>
+                <Grid Margin="5 5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Name="cbDetailMadeIn" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="cbDetailMadeIn_SelectionChanged" Text="{Binding SelectedItem.MadeInName, ElementName=dgList, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Location,Mode=OneWay}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="2" Content="Thêm" Name="bDetaiAddMadeIn" Click="bMadeInAdd_Click"/>
+                </Grid>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <CheckBox Name="ckDetailIsHide" Checked="CkDetailIsHide_Changed" Grid.Column="1" Content="Ẩn" IsChecked="{Binding SelectedItem.IsHide, ElementName=dgList, Mode=TwoWay}" />
+                </Grid>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
 </UserControl>

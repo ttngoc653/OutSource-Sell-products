@@ -12,7 +12,7 @@ namespace SellProducts.Impl.UI
     {
         public DashboardInfo()
         {
-            ProductSaling = new Common.ConnectDB.Get().Products().Where(p => !p.is_hide && p.amount_current > 0).Count();
+            ProductSaling = Common.ConnectDB.Get.Products().Where(p => !p.is_hide && p.amount_current > 0).Count();
 
             DateTime dateTimeToday = DateTime.Today;
 
@@ -23,13 +23,13 @@ namespace SellProducts.Impl.UI
                 firstDayInWeek = firstDayInWeek.AddDays(-1);
             }
 
-            OrderWeek = new Common.ConnectDB.Get().Orders().
+            OrderWeek = Common.ConnectDB.Get.Orders().
                 Where(p => firstDayInWeek < p.time && p.time < firstDayInWeek.AddDays(7)).Count();
 
-            OrderMonth = new Common.ConnectDB.Get().Orders().
+            OrderMonth = Common.ConnectDB.Get.Orders().
                 Where(p => p.time.Year == dateTimeToday.Year && p.time.Month == dateTimeToday.Month).Count();
 
-            IList<Model.PRODUCT> products = new Common.ConnectDB.Get().Products().Where(p => p.amount_current < 5).OrderBy(p => p.amount_current).ToList();
+            IList<Model.PRODUCT> products = Common.ConnectDB.Get.Products().Where(p => p.amount_current < 5).OrderBy(p => p.amount_current).ToList();
 
             ProductInfors = new List<ManagerProduct.ProductInfor>();
 

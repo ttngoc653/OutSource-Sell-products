@@ -10,7 +10,7 @@ namespace SellProducts.Common.ConnectDB
 {
     public class Get
     {
-        public IList<ACTION> Actions()
+        public static IList<ACTION> Actions()
         {
             IList<ACTION> result = new List<ACTION>();
 
@@ -26,7 +26,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<CART> Carts()
+        public static IList<CART> Carts()
         {
             IList<CART> result = new List<CART>();
 
@@ -42,7 +42,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<CATEGORY> Categories()
+        public static IList<CATEGORY> Categories()
         {
             List<CATEGORY> result = new List<CATEGORY>();
 
@@ -57,7 +57,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<CLASSIFY> Classifies()
+        public static IList<CLASSIFY> Classifies()
         {
             List<CLASSIFY> result = new List<CLASSIFY>();
 
@@ -72,7 +72,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<CUSTOMER> Customers()
+        public static IList<CUSTOMER> Customers()
         {
             List<CUSTOMER> result = new List<CUSTOMER>();
 
@@ -87,7 +87,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<HISTORY> Histories()
+        public static IList<HISTORY> Histories()
         {
             List<HISTORY> result = new List<HISTORY>();
 
@@ -102,7 +102,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<MADEIN> Madeins()
+        public static IList<MADEIN> Madeins()
         {
             List<MADEIN> result = new List<MADEIN>();
 
@@ -117,7 +117,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<MANAGER> Managers()
+        public static IList<MANAGER> Managers()
         {
             IList<MANAGER> result = new List<MANAGER>();
 
@@ -133,7 +133,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<MANUFACTURER> Manufactureres()
+        public static IList<MANUFACTURER> Manufactureres()
         {
             IList<MANUFACTURER> result = new List<MANUFACTURER>();
 
@@ -149,7 +149,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<ORDER> Orders()
+        public static IList<ORDER> Orders()
         {
             IList<ORDER> result = new List<ORDER>();
 
@@ -165,7 +165,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<PRODUCT> Products()
+        public static IList<PRODUCT> Products()
         {
             IList<PRODUCT> result = new List<PRODUCT>();
 
@@ -181,7 +181,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<PROMOTION> Promotions()
+        public static IList<PROMOTION> Promotions()
         {
             IList<PROMOTION> result = new List<PROMOTION>();
 
@@ -197,7 +197,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public IList<SETTING> Settings()
+        public static IList<SETTING> Settings()
         {
             IList<SETTING> result = new List<SETTING>();
 
@@ -213,7 +213,7 @@ namespace SellProducts.Common.ConnectDB
             return result;
         }
 
-        public CATEGORY GetParentCategory(string name)
+        public static CATEGORY GetParentCategory(string name)
         {
             List<CATEGORY> cs = new List<CATEGORY>();
 
@@ -230,7 +230,7 @@ namespace SellProducts.Common.ConnectDB
             return cs.Count > 0 ? cs.ElementAt(0) : null;
         }
 
-        public MANAGER Login(string username, string password)
+        public static MANAGER Login(string username, string password)
         {
             MANAGER result = null;
 

@@ -25,7 +25,6 @@ namespace SellProducts.Common.Imports
         public const string columnNameProductPriceSale = "Giá khuyến mãi";
         public const string columnNameProductDecribe = "Mô tả ngắn";
         public const string columnNameProductDetail = "Chi tiết";
-        public const string columnNameProductAvatar = "Địa chỉ hình đại diện";
         public const string columnNameProductAmount = "Số lượng";
 
         WorkBook workBook = null;
@@ -100,7 +99,6 @@ namespace SellProducts.Common.Imports
             Point pHeaderPriceSale = new Point() { x = -1, y = -1 };
             Point pHeaderDescribe = new Point() { x = -1, y = -1 };
             Point pHeaderDetail = new Point() { x = -1, y = -1 };
-            Point pHeaderAvatar = new Point() { x = -1, y = -1 };
             Point pHeaderAmount = new Point() { x = -1, y = -1 };
 
             int headerFind = 0;
@@ -122,12 +120,6 @@ namespace SellProducts.Common.Imports
                     {
                         pHeaderAmount.x = x;
                         pHeaderAmount.y = y;
-                        headerFind++;
-                    }
-                    else if (textCell == columnNameProductAvatar)
-                    {
-                        pHeaderAvatar.x = x;
-                        pHeaderAvatar.y = y;
                         headerFind++;
                     }
                     else if (textCell == columnNameProductCode)
@@ -167,7 +159,7 @@ namespace SellProducts.Common.Imports
                         headerFind++;
                     }
 
-                    if (headerFind==8)
+                    if (headerFind==7)
                     {
                         break;
                     }
@@ -184,13 +176,6 @@ namespace SellProducts.Common.Imports
                     describe = workSheet.GetCellAt(i + (pHeaderDescribe.y - pHeaderName.y), pHeaderDescribe.x).Text,
                     is_hide = false
                 };
-
-                try
-                {
-                    Uri uri = new Uri(workSheet.GetCellAt(i + (pHeaderAvatar.y - pHeaderName.y), pHeaderAvatar.x).Text);
-                    c.avatar = new System.Windows.Media.Imaging.BitmapImage(uri);
-                }
-                catch (Exception) { }
 
                 try
                 {

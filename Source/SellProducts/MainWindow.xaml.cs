@@ -24,11 +24,14 @@ namespace SellProducts
     {
         private Impl.ViewModel.Login inforLogin;
 
+        private uint numberItemPerPage = uint.MaxValue;
+
         public MainWindow()
         {
+            InitializeComponent();
+
             try
             {
-                InitializeComponent();
                 string[] arg = Environment.GetCommandLineArgs();
                 if (arg.Length > 1)
                 {
@@ -40,6 +43,12 @@ namespace SellProducts
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        public int GetNumberItemPerPage()
+        {
+            return int.Parse(Common.ConnectDB.Get.Settings()
+                                                             .FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -127,7 +136,7 @@ namespace SellProducts
 
         private void cbbProductCategoryName_DropDownClosed(object sender, EventArgs e)
         {
-
+            string ssada = "SAD";
         }
 
         private void cbbProductCategoryPage_DropDownClosed(object sender, EventArgs e)
@@ -258,7 +267,7 @@ namespace SellProducts
                     name = SellProduct_CONSTANT.SETTING_REMEMBER_NAME,
                     value = cbSettingSaveLogin.IsChecked.ToString()
                 });
-                cbSettingSaveLogin.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_REMEMBER_NAME).value);
+                cbSettingSaveLogin.IsChecked = bool.Parse(Common.ConnectDB.Get.Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_REMEMBER_NAME).value);
             }
             catch (Exception) { }
 
@@ -271,7 +280,7 @@ namespace SellProducts
                     {
                         account = inforLogin.UserName,
                         name = SellProduct_CONSTANT.SETTING_PAGING,
-                        value = tbSettingItemPerPage.Text
+                        value = tbSettingItemPerPage.Value.ToString()
                     });
                 }
             }
@@ -306,7 +315,7 @@ namespace SellProducts
         {
             try
             {
-                int num = int.Parse(tbSettingItemPerPage.Text);
+                int num = (int)tbSettingItemPerPage.Value;
 
                 this.tbSettingItemPerPage.Background = null;
             }
@@ -355,7 +364,25 @@ namespace SellProducts
 
         private void LoadTabProduct()
         {
-            throw new NotImplementedException();
+            IList<Model.CATEGORY> categories = Common.ConnectDB.Get.Categories();
+            categories.Insert(0, new Model.CATEGORY() { name = "" });
+
+            cbbProductCategoryName.Items.Clear();
+            for (int i = 0; i < categories.Count; i++)
+            {
+                cbbProductCategoryName.Items.Add(new Impl.ViewModel.Category(categories.ElementAt(i)));
+            }
+
+            IList<Model.PRODUCT> p = Common.ConnectDB.Get.Products();
+
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void LoadTabSettings()
@@ -363,28 +390,30 @@ namespace SellProducts
             /// load setting auto login
             try
             {
-                cbSettingAutoLogin.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_AUTO_LOGIN).value);
+                cbSettingAutoLogin.IsChecked = bool.Parse(Common.ConnectDB.Get.Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_AUTO_LOGIN).value);
             }
             catch (Exception) { }
 
             /// load setting save user name
             try
             {
-                cbSettingSaveLogin.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_REMEMBER_NAME).value);
+                cbSettingSaveLogin.IsChecked = bool.Parse(Common.ConnectDB.Get.Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_REMEMBER_NAME).value);
             }
             catch (Exception) { }
 
             /// load setting paging
             try
             {
-                tbSettingItemPerPage.Text = new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value;
+                tbSettingItemPerPage.Value = int.Parse(Common.ConnectDB.Get.Settings()
+                                                                 .FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value);
+                numberItemPerPage = (uint)tbSettingItemPerPage.Value;
             }
             catch (Exception) { }
 
             /// load setting open screen last
             try
             {
-                cbSettingOpenLastControl.IsChecked = bool.Parse(new Common.ConnectDB.Get().Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_SAVE_FUNCTION_LAST).value);
+                cbSettingOpenLastControl.IsChecked = bool.Parse(Common.ConnectDB.Get.Settings().FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_SAVE_FUNCTION_LAST).value);
             }
             catch (Exception) { }
         }
@@ -392,6 +421,11 @@ namespace SellProducts
         private void LoadTabCustomer()
         {
             throw new NotImplementedException();
+        }
+
+        private void tbSettingItemPerPage_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+
         }
     }
 }

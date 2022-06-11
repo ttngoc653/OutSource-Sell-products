@@ -206,7 +206,6 @@ namespace SellProducts.Common.ConnectDB
                 "[price_sale] = @price_sale, " +
                 "[describe] = @describe, " +
                 "[detail] = @detail, " +
-                "[avatar] = @avatar, " +
                 "[amount_current] = @amount_current, " +
                 "[madein] = @madein, " +
                 "[manufacturer] = @manufacturer, " +
@@ -214,7 +213,6 @@ namespace SellProducts.Common.ConnectDB
                 "WHERE [id] = @id");
             command.Parameters.AddWithValue("@id", p.id);
             command.Parameters.AddWithValue("@amount_current", p.amount_current);
-            command.Parameters.AddWithValue("@avatar", p.avatar);
             command.Parameters.AddWithValue("@code", p.code);
             command.Parameters.AddWithValue("@describe", p.describe);
             command.Parameters.AddWithValue("@detail", p.detail);

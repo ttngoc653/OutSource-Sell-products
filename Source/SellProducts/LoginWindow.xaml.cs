@@ -73,7 +73,7 @@ namespace SellProducts
 
         private void CheckAccount()
         {
-            if (new Common.ConnectDB.Get().Login(Getlogin().UserName, Getlogin().Password) != null)
+            if (Common.ConnectDB.Get.Login(Getlogin().UserName, Getlogin().Password) != null)
             {
                 if (Getlogin().Remember)
                 {
