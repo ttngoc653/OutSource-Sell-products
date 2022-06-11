@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
+using Microsoft.Win32;
 
 namespace SellProducts
 {
@@ -47,8 +48,15 @@ namespace SellProducts
 
         public int GetNumberItemPerPage()
         {
-            return int.Parse(Common.ConnectDB.Get.Settings()
-                                                             .FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value);
+            try
+            {
+                return int.Parse(Common.ConnectDB.Get.Settings()
+                                                                 .FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value);
+            }
+            catch (Exception)
+            {
+            }
+            return 5;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -96,17 +104,7 @@ namespace SellProducts
 
         private void MenuGoHome_Click(object sender, RoutedEventArgs e)
         {
-            foreach (object item in UIManager.Children)
-            {
-                if (item is Design.UI.DashboardControl)
-                {
-                    (item as Design.UI.DashboardControl).Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    (item as UserControl).Visibility = Visibility.Collapsed;
-                }
-            }
+            this.ucDashboard.Visibility = Visibility.Visible;
         }
 
         private void MenuBackuUpDatabase_Click(object sender, RoutedEventArgs e)
@@ -126,22 +124,46 @@ namespace SellProducts
 
         private void btnProductImportCategory_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file excel:";
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
 
+            if (openFileDialog.ShowDialog().Value)
+            {
+                List<Model.CATEGORY> cs = new Common.Imports.Excel(openFileDialog.FileName).GetCategories();
+
+                int numberAdded = 0;
+                foreach (Model.CATEGORY item in cs)
+                {
+                    if (new Impl.UI.ManagerProduct.Category(item).Insert())
+                        numberAdded++;
+                }
+
+
+                MessageBox.Show(string.Format("Đã thêm {0} sản phẩm", numberAdded));
+            }
         }
 
         private void btnProductImportProducts_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn file excel:";
+            openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
 
-        }
+            if (openFileDialog.ShowDialog().Value)
+            {
+                List<Model.PRODUCT> cs = new Common.Imports.Excel(openFileDialog.FileName).GetProducts();
 
-        private void cbbProductCategoryName_DropDownClosed(object sender, EventArgs e)
-        {
-            string ssada = "SAD";
-        }
+                int numberAdded = 0;
+                foreach (Model.PRODUCT item in cs)
+                {
+                    if (new Impl.UI.ManagerProduct.ProductInfor(item).Insert())
+                        numberAdded++;
+                }
 
-        private void cbbProductCategoryPage_DropDownClosed(object sender, EventArgs e)
-        {
 
+                MessageBox.Show(string.Format("Đã thêm {0} sản phẩm", numberAdded));
+            }
         }
 
         private void btnProductCategoryAdd_Click(object sender, RoutedEventArgs e)
@@ -151,32 +173,37 @@ namespace SellProducts
 
         private void btnProductCategorySee_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void btnProductCategoryDelete_Click(object sender, RoutedEventArgs e)
-        {
-
+            ucCMM.Visibility = Visibility.Visible;
         }
 
         private void btnProductProductAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            ucProduct.Visibility = Visibility.Visible;
+            ucProduct.ShowAddProduct();
         }
 
         private void btnProductProductUpdate_Click(object sender, RoutedEventArgs e)
         {
+            List<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
 
+            foreach (Impl.UI.ManagerProduct.ProductInfor item in productInfors)
+            {
+                item.Update();
+            }
+
+            FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
 
         private void txtProductFindName_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            ucProduct.Visibility = Visibility.Visible;
+            FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
 
         private void rsProductFindLimitPrice_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-
+            ucProduct.Visibility = Visibility.Visible;
+            FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
 
         private void btnOrderActAdd_Click(object sender, RoutedEventArgs e)
@@ -283,6 +310,12 @@ namespace SellProducts
                         value = tbSettingItemPerPage.Value.ToString()
                     });
                 }
+                else
+                {
+                    MessageBox.Show("Số lượng phần từ trong 1 trang không hợp lệ. Vui lòng kiểm tra lại");
+                    tbSettingItemPerPage.Value = tbSettingItemPerPage.Value;
+                    tbSettingItemPerPage.Focus();
+                }
             }
             catch (Exception) { }
 
@@ -310,21 +343,6 @@ namespace SellProducts
 
             Properties.Settings.Default.Save();
         }
-
-        private void tbSettingItemPerPage_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                int num = (int)tbSettingItemPerPage.Value;
-
-                this.tbSettingItemPerPage.Background = null;
-            }
-            catch (Exception)
-            {
-                this.tbSettingItemPerPage.Background = Brushes.Red;
-            }
-        }
-
 
         private void RbMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -364,25 +382,57 @@ namespace SellProducts
 
         private void LoadTabProduct()
         {
-            IList<Model.CATEGORY> categories = Common.ConnectDB.Get.Categories();
-            categories.Insert(0, new Model.CATEGORY() { name = "" });
+            IList<Impl.UI.ManagerProduct.ProductInfor> ps = Impl.UI.ManagerProduct.ProductInfor.GetAll();
+            int? maxPriceSale = ps.OrderByDescending(p => p.Price).FirstOrDefault()?.PriceSale;
+            int? minPriceSale = ps.OrderBy(p => p.Price).FirstOrDefault()?.PriceSale;
 
-            cbbProductCategoryName.Items.Clear();
-            for (int i = 0; i < categories.Count; i++)
+            int? maxPrice = ps.OrderByDescending(p => p.Price).FirstOrDefault()?.Price;
+            int? minPrice = ps.OrderBy(p => p.Price).FirstOrDefault()?.Price;
+
+            rsProductFindLimitPrice.Maximum = Math.Max(maxPrice.Value, maxPriceSale.Value) * 1.25;
+            rsProductFindLimitPrice.Minimum = rsProductFindLimitPrice.Maximum * (-0.01);
+
+            rsProductFindLimitPrice.LowerValue = 0;
+            rsProductFindLimitPrice.UpperValue = rsProductFindLimitPrice.Maximum;
+
+            FilterAndGenPageProduct(ps);
+        }
+
+        List<Impl.UI.ManagerProduct.PageProducts> pageProductInfor = new List<Impl.UI.ManagerProduct.PageProducts>();
+        private void FilterAndGenPageProduct(IList<Impl.UI.ManagerProduct.ProductInfor> products)
+        {
+            IList<Impl.UI.ManagerProduct.ProductInfor> psFilter = products.Where(p => p.Name.Contains(txtProductFindName.Text)).ToList();
+
+            psFilter = psFilter.Where(p => (rsProductFindLimitPrice.LowerValue <= p.Price && p.Price <= rsProductFindLimitPrice.UpperValue) ||
+                 (rsProductFindLimitPrice.LowerValue <= p.PriceSale && p.PriceSale <= rsProductFindLimitPrice.UpperValue)).ToList();
+
+            if (cbbProductCategoryName.SelectedItem != null && !string.IsNullOrEmpty(cbbProductCategoryName.Text))
             {
-                cbbProductCategoryName.Items.Add(new Impl.ViewModel.Category(categories.ElementAt(i)));
+                int idCategorySeleted = ((Impl.UI.ManagerProduct.Category)cbbProductCategoryName.SelectedItem).Id;
+                psFilter = psFilter.Where(p => p.Categories.Where(c => c.Id == idCategorySeleted).Count() > 0).ToList();
             }
 
-            IList<Model.PRODUCT> p = Common.ConnectDB.Get.Products();
-
-            try
+            pageProductInfor.Clear();
+            
+            for (int i = 0; i < products.Count; i++)
             {
+                if (i % GetNumberItemPerPage() == 0)
+                {
+                    Impl.UI.ManagerProduct.PageProducts pageProducts = new Impl.UI.ManagerProduct.PageProducts()
+                    {
+                        IndexPage = pageProductInfor.Count + 1,
+                        Products = new List<Impl.UI.ManagerProduct.ProductInfor>() { products.ElementAt(i) }
+                    };
 
+                    pageProductInfor.Add(pageProducts);
+                }
+                else
+                {
+                    pageProductInfor.Last().Products.Add(products.ElementAt(i));
+                }
             }
-            catch (Exception)
-            {
 
-            }
+            cbbProductCategoryPage.ItemsSource = pageProductInfor;
         }
 
         private void LoadTabSettings()
@@ -406,9 +456,11 @@ namespace SellProducts
             {
                 tbSettingItemPerPage.Value = int.Parse(Common.ConnectDB.Get.Settings()
                                                                  .FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value);
-                numberItemPerPage = (uint)tbSettingItemPerPage.Value;
             }
-            catch (Exception) { }
+            catch (Exception) {
+                tbSettingItemPerPage.Value = 5;
+            }
+            numberItemPerPage = (uint)tbSettingItemPerPage.Value;
 
             /// load setting open screen last
             try
@@ -420,12 +472,88 @@ namespace SellProducts
 
         private void LoadTabCustomer()
         {
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void tbSettingItemPerPage_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
+            uint numberItemPerPage = 5;
+            tbSettingItemPerPage.ToolTip = tbSettingItemPerPage.Value;
 
+            try
+            {
+                if (!uint.TryParse(tbSettingItemPerPage.Value.Value.ToString(), out numberItemPerPage))
+                {
+                    throw new Exception();
+                }
+                else if (tbSettingItemPerPage.Background == Brushes.Red)
+                {
+                    tbSettingItemPerPage.Background = SystemColors.WindowBrush;
+                }
+            }
+            catch (Exception)
+            {
+                tbSettingItemPerPage.Background = Brushes.Red;
+            }
+        }
+
+        private void cbbProductCategoryName_DropDownOpened(object sender, EventArgs e)
+        {
+            IList<Impl.UI.ManagerProduct.Category> categories = Impl.UI.ManagerProduct.Category.GetAll();
+            categories.Insert(0, new Impl.UI.ManagerProduct.Category(new Model.CATEGORY() { name = "" }));
+
+            cbbProductCategoryName.Items.Clear();
+            foreach (Impl.UI.ManagerProduct.Category item in categories)
+            {
+                cbbProductCategoryName.Items.Add(item);
+            }
+
+        }
+
+        private void uc_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is UserControl)
+            {
+                UserControl userControl = sender as UserControl;
+
+                Grid controlParent = (Grid)userControl.Parent;
+
+                foreach (var item in controlParent.Children)
+                {
+                    Control control = item as Control;
+                    if (control!=sender)
+                    {
+                        control.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+        private void cbbProductCategoryPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ucProduct.Visibility = Visibility.Visible;
+
+            List<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
+
+            ucProduct.ProductInfors = productInfors;
+        }
+
+        private void cbbProductCategoryName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ucProduct.Visibility = Visibility.Visible;
+            FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
+        }
+
+        private void ucProduct_ListProductChanged(object sender, RoutedEventArgs e)
+        {
+            btnProductProductUpdate.IsEnabled = true;
         }
     }
 }

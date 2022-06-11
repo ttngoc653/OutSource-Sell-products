@@ -13,7 +13,7 @@ namespace SellProducts.Common.Imports
        public int x, y;
     }
 
-    class Excel
+public    class Excel
     {
         public const string columnNameCategoryName = "Tên loại";
         public const string columnNameCategoryDetail = "Chi tiết";
@@ -79,9 +79,13 @@ namespace SellProducts.Common.Imports
             {
                 Model.CATEGORY c = new Model.CATEGORY()
                 {
-                    name = workSheet.GetCellAt(i, pHeaderName.y).Text,
-                    detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text
+                    name = workSheet.GetCellAt(i, pHeaderName.y).Text
                 };
+
+                if (pHeaderDetail.x>-1)
+                {
+                    c.detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text;
+                }
 
                 result.Add(c);
             }
@@ -171,29 +175,44 @@ namespace SellProducts.Common.Imports
                 Model.PRODUCT c = new Model.PRODUCT()
                 {
                     code = workSheet.GetCellAt(i + (pHeaderCode.y - pHeaderName.y), pHeaderCode.x).Text,
-                    name = workSheet.GetCellAt(i, pHeaderName.x).Text,
-                    detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text,
-                    describe = workSheet.GetCellAt(i + (pHeaderDescribe.y - pHeaderName.y), pHeaderDescribe.x).Text,
                     is_hide = false
                 };
 
-                try
+                if (pHeaderName.x>-1)
                 {
-                    c.price = workSheet.GetCellAt(i + (pHeaderPrice.y - pHeaderName.y), pHeaderPrice.x).IntValue;
+                    c.name = workSheet.GetCellAt(i, pHeaderName.x).Text;
                 }
-                catch (Exception) { }
+                
+                if (pHeaderDetail.x>-1)
+                {
+                    c.detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text;
+                }
+                
+                if (pHeaderDescribe.x>-1)
+                {
+                    c.describe = workSheet.GetCellAt(i + (pHeaderDescribe.y - pHeaderName.y), pHeaderDescribe.x).Text;
+                }
 
-                try
-                {
-                    c.price_sale = workSheet.GetCellAt(i + (pHeaderPriceSale.y - pHeaderName.y), pHeaderPriceSale.x).IntValue;
-                }
-                catch (Exception) { }
+                if (pHeaderPrice.x > -1)
+                    try
+                    {
+                        c.price = workSheet.GetCellAt(i + (pHeaderPrice.y - pHeaderName.y), pHeaderPrice.x).IntValue;
+                    }
+                    catch (Exception) { }
 
-                try
-                {
-                    c.amount_current = workSheet.GetCellAt(i + (pHeaderAmount.y - pHeaderName.y), pHeaderAmount.x).IntValue;
-                }
-                catch (Exception) { }
+                if (pHeaderPriceSale.x > -1)
+                    try
+                    {
+                        c.price_sale = workSheet.GetCellAt(i + (pHeaderPriceSale.y - pHeaderName.y), pHeaderPriceSale.x).IntValue;
+                    }
+                    catch (Exception) { }
+
+                if (pHeaderAmount.x > -1)
+                    try
+                    {
+                        c.amount_current = workSheet.GetCellAt(i + (pHeaderAmount.y - pHeaderName.y), pHeaderAmount.x).IntValue;
+                    }
+                    catch (Exception) { }
 
                 result.Add(c);
             }

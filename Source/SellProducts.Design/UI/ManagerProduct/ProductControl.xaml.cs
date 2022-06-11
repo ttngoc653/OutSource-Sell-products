@@ -23,14 +23,31 @@ namespace SellProducts.Design.UI.ManagerProduct
     /// </summary>
     public partial class ProductControl : UserControl
     {
-        IList<Impl.UI.ManagerProduct.ProductInfor> _productInfors = null;
+        IList<ProductInfor> _productInfors = null;
 
-        public event Notify ListChanged;
+        ProductInfor productInfor = new ProductInfor();
 
-        protected virtual void OnListChanged()
+        #region CustomEvent
+        public static readonly RoutedEvent ListProductChangedEvent = EventManager.RegisterRoutedEvent(
+            "ListProductChanged",
+            RoutingStrategy.Bubble,
+            typeof(RoutedEventHandler),
+            typeof(ProductControl)
+            );
+
+        public event RoutedEventHandler ListProductChanged
         {
-            ListChanged?.Invoke();
+            add { AddHandler(ListProductChangedEvent, value); }
+            remove { RemoveHandler(ListProductChangedEvent, value); }
         }
+
+        void RaiseCustomRoutedEvent()
+        {
+            RoutedEventArgs routedEventArgs = new RoutedEventArgs(ListProductChangedEvent);
+
+            RaiseEvent(routedEventArgs);
+        }
+        #endregion
 
         public ProductControl(IList<Impl.UI.ManagerProduct.ProductInfor> productInfors)
         {
@@ -41,23 +58,39 @@ namespace SellProducts.Design.UI.ManagerProduct
         public ProductControl()
         {
             InitializeComponent();
-            this.dgList.SelectedCellsChanged += DgList_SelectedCellsChanged;
+            this.dgList.SelectionChanged += DgList_SelectionChanged; ;
+
+            this.dpAdd.DataContext = productInfor;
+        }
+
+        private void DgList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dpAdd.Visibility = Visibility.Collapsed;
+            dpDetail.Visibility = Visibility.Visible;
         }
 
         private void DgList_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            string a = "sdf";
         }
 
-        public IList<Impl.UI.ManagerProduct.ProductInfor> ProductInfors { 
-            get => (IList<Impl.UI.ManagerProduct.ProductInfor>)this.dgList.DataContext;
-            set => this.dgList.DataContext = value;
+        public IList<ProductInfor> ProductInfors
+        {
+            get => (IList<ProductInfor>)this.dgList.DataContext;
+            set
+            {
+                this.dgList.Items.Clear();
+                foreach (ProductInfor item in value)
+                {
+                    this.dgList.Items.Add(item);
+                }
+                this._productInfors = value;
+            }
         }
-        public IList<ProductInfor> ProductInfors1 { get => _productInfors; set => _productInfors = value; }
-
+        
         public void ShowAddProduct()
         {
             this.dpAdd.Visibility = Visibility.Visible;
+            this.dpDetail.Visibility = Visibility.Collapsed;
         }
 
         private void menuSeeDetail_Click(object sender, RoutedEventArgs e)
@@ -80,78 +113,141 @@ namespace SellProducts.Design.UI.ManagerProduct
             if (e.Property.Name == "Visibility"
                 && (Visibility)e.NewValue == Visibility.Visible)
             {
-
+                dpDetail.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void dpDetail_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void DpDetail_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-
-        }
-
-        private void bMadeInAdd_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (e.Property.Name == "Visibility"
+                && (Visibility)e.NewValue == Visibility.Visible)
+            {
+                dpAdd.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void cbDetailMadeIn_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            RaiseCustomRoutedEvent();
         }
 
         private void cbDetailManufacturer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-        }
-
-        private void cbAddManufacturer_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cbAddMadeIn_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void bAddManufacturerAdd_Click(object sender, RoutedEventArgs e)
-        {
-
+            tbDetailManufacturer.Text = cbDetailManufacturer.Text;
+            RaiseCustomRoutedEvent();
         }
 
         private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (sender is TextBox)
+            {
+                TextBox textBox = sender as TextBox;
 
-        }
+                if (textBox.Name==tbDetailManufacturer.Name)
+                {
+                    List<Manufacturer> manufacturers = Manufacturer.GetAll();
+                    Manufacturer manufacturer = manufacturers.Where(m=>m.Name==tbDetailManufacturer.Text).FirstOrDefault();
 
-        private void bDetailAddManufacturer_Click(object sender, RoutedEventArgs e)
-        {
-
+                    cbDetailManufacturer.Items.Clear();
+                    foreach (var item in manufacturers)
+                    {
+                        cbDetailManufacturer.Items.Add(item);
+                        if (tbDetailManufacturer.Text==item.Name)
+                        {
+                            cbDetailManufacturer.SelectedIndex = cbDetailManufacturer.Items.Count - 1;
+                        }
+                    }
+                }
+            }
+            RaiseCustomRoutedEvent();
         }
 
         private void CkDetailIsHide_Changed(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void NumericUpDown_TextChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
-        {
-
+            RaiseCustomRoutedEvent();
         }
 
         private void tbDetailPrice_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
-
+            RaiseCustomRoutedEvent();
         }
 
         private void tbDetailPriceSale_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
         {
+            RaiseCustomRoutedEvent();
+        }
+
+        private void cbManufacturer_DropDownOpened(object sender, EventArgs e)
+        {
+            if (sender is ComboBox)
+            {
+                ComboBox comboBox = sender as ComboBox;
+
+                List<Manufacturer> manufacturers = Manufacturer.GetAll();
+
+                comboBox.Items.Clear();
+                foreach (Manufacturer item in manufacturers)
+                {
+                    comboBox.Items.Add(item);
+                }
+            }
+        }
+
+        private void cbMadeIn_DropDownOpened(object sender, EventArgs e)
+        {
+            if (sender is ComboBox)
+            {
+                ComboBox comboBox = sender as ComboBox;
+
+                List<MadeIn> categories = MadeIn.GetAll();
+
+                comboBox.Items.Clear();
+                foreach (MadeIn item in categories)
+                {
+                    comboBox.Items.Add(item);
+                }
+            }
+        }
+
+        private void bProductAdd_Click(object sender, RoutedEventArgs e)
+        {
+            productInfor.Insert();
+        }
+
+        private void tbDetailAmount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
 
         }
 
-        private void dgList_Selected(object sender, RoutedEventArgs e)
+        private void lbDetailCategories_Selected(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void lbDetailCategories_Unselected(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void lbCategories_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is ListBox)
+            {
+                ListBox listBox = sender as ListBox;
+
+                List<Category> categories = Category.GetAll();
+
+                listBox.Items.Clear();
+                foreach (Category item in categories)
+                {
+                    listBox.Items.Add(item);
+                }
+            }
+        }
+
+        private void dgList_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }

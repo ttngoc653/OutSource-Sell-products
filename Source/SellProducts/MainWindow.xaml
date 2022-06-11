@@ -8,7 +8,16 @@
         xmlns:dashboardCtrl="clr-namespace:SellProducts.Design.UI;assembly=SellProducts.Design"
         xmlns:productManCtrl="clr-namespace:SellProducts.Design.UI.ManagerProduct;assembly=SellProducts.Design"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Loaded="Window_Loaded" Name="MainForm">
+        Title="Quản lý Cửa hàng bách hóa HCMUS" Height="600" Width="1000" Loaded="Window_Loaded" Name="MainForm">
+    <RibbonWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </RibbonWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -45,13 +54,28 @@
                 <RibbonGroup Header="Import">
                     <Button Name="btnProductImportCategores" Width="80" Click="btnProductImportCategory_Click" Height="50" Margin="5">
                         <Button.ToolTip>
-                            <ToolTip Content="Thêm danh sách loại sản phẩm từ file excel" />
+                            <ToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="Thêm danh sách loại sản phẩm từ file excel." />
+                                    <TextBlock Text="Bắt buộc bảng phải ở tab đầu tiên trong file." />
+                                    <TextBlock Text="Bắt buộc bảng ở dạng dọc xuống." />
+                                    <TextBlock Text="Bắt buộc phải có cột 'Tên loại'" />
+                                </StackPanel>
+                            </ToolTip>
                         </Button.ToolTip>
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center">Import loại sản phẩm</TextBlock>
                     </Button>
                     <Button Name="btnProductImportProducts" Width="100" Click="btnProductImportProducts_Click" Height="50" Margin="5">
                         <Button.ToolTip>
-                            <ToolTip Content="Thêm danh sách sản phẩm từ file excel" />
+                            <ToolTip >
+                                <StackPanel>
+                                    <TextBlock Text="Thêm danh sách sản phẩm từ file excel." />
+                                    <TextBlock Text="Bắt buộc bảng phải ở tab đầu tiên trong file." />
+                                    <TextBlock Text="Bắt buộc bảng ở dạng dọc xuống." />
+                                    <TextBlock Text="Bắt buộc phải có các cột: 'Tên sản phẩm', 'Giá', 'Số lượng'" />
+                                    <TextBlock Text="Các cột tùy chọn: 'Mã sản phẩm', 'Giá khuyến mãi', 'Mô tả ngắn', 'Chi tiết'" />
+                                </StackPanel>
+                            </ToolTip>
                         </Button.ToolTip>
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center">Import danh sách sản phẩm</TextBlock>
                     </Button>
@@ -59,15 +83,19 @@
                 <RibbonGroup Header="Xem danh sách sản phẩm">
                     <Label Content="Loại:" />
                     <Label Content="Trang:" />
-                    <ComboBox Name="cbbProductCategoryName" DropDownClosed="cbbProductCategoryName_DropDownClosed" Width="140" Height="27" SelectedValuePath="Id">
+                    <ComboBox Name="cbbProductCategoryName" SelectionChanged="cbbProductCategoryName_SelectionChanged" DropDownOpened="cbbProductCategoryName_DropDownOpened" Width="100" Height="27" SelectedValuePath="Id">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <ComboBox DisplayMemberPath="Name" Name="cbbProductCategoryPage" DropDownClosed="cbbProductCategoryPage_DropDownClosed" Width="140" Height="27" >
-
+                    <ComboBox Name="cbbProductCategoryPage" Width="100" SelectionChanged="cbbProductCategoryPage_SelectionChanged" Height="27" SelectedValuePath="IndexPage">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndexPage}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
                 </RibbonGroup>
                 <RibbonGroup Header="Danh mục (Loại)">
@@ -76,24 +104,14 @@
                             <ToolTip Content="Xem cây danh mục danh sách danh mục hiện có" />
                         </Button.ToolTip>
                     </Button>
-                    <Button Content="Thêm" Name="btnProductCategoryAdd" Click="btnProductCategoryAdd_Click" Width="75" Margin="4 0">
-                        <Button.ToolTip>
-                            <ToolTip Content="Thêm danh mục" />
-                        </Button.ToolTip>
-                    </Button>
-                    <Button Content="Xóa" Name="btnProductCategoryDelete" Click="btnProductCategoryDelete_Click" Width="75" Margin="4 0" IsEnabled="False">
-                        <Button.ToolTip>
-                            <ToolTip Content="Xóa danh mục" />
-                        </Button.ToolTip>
-                    </Button>
                 </RibbonGroup>
                 <RibbonGroup Header="Sản phẩm">
-                    <Button Content="Thêm" Name="btnProductProductAdd" Click="btnProductProductAdd_Click" Width="75" Margin="4 5">
+                    <Button Content="THÊM" Name="btnProductProductAdd" Click="btnProductProductAdd_Click" Width="75" Margin="4 3">
                         <Button.ToolTip>
                             <ToolTip Content="Thêm sản phẩm" />
                         </Button.ToolTip>
                     </Button>
-                    <Button Content="Cập nhật" Name="btnProductProductUpdate" Click="btnProductProductUpdate_Click" Width="75" Margin="4 5">
+                    <Button Content="Cập nhật" Name="btnProductProductUpdate" Click="btnProductProductUpdate_Click" Width="75" Margin="4 3">
                         <Button.ToolTip>
                             <ToolTip Content="Thay đổi thông tin các sản phẩm" />
                         </Button.ToolTip>
@@ -177,7 +195,9 @@
                 </RibbonGroup>
                 <RibbonGroup Header="Phân trang">
                     <Label Content="Số phần tử mỗi trang:" />
-                    <mah:NumericUpDown Width="130" Name="tbSettingItemPerPage" ValueChanged="tbSettingItemPerPage_ValueChanged" />
+                    <StackPanel Background="Gray">
+                        <mah:NumericUpDown Width="130" Name="tbSettingItemPerPage" ValueChanged="tbSettingItemPerPage_ValueChanged" Background="AntiqueWhite" Minimum="1" Margin="1" NumericInputMode="Numbers" InterceptArrowKeys="True" />
+                    </StackPanel>
                 </RibbonGroup>
                 <RibbonGroup>
                     <CheckBox Content="Mở lại màn hình cuối" Name="cbSettingOpenLastControl" />
@@ -194,8 +214,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <dashboardCtrl:DashboardControl Visibility="Collapsed" Grid.Column="0" Grid.Row="0" />
-            <productManCtrl:ProductControl Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" />
+            <dashboardCtrl:DashboardControl Name="ucDashboard" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
+            <productManCtrl:ProductControl Name="ucProduct" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" ListProductChanged="ucProduct_ListProductChanged" />
+            <productManCtrl:CategoryManufacturerMadeInControl Name="ucCMM" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
         </Grid>
     </Grid>
 </RibbonWindow>

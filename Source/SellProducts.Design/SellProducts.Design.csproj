@@ -59,7 +59,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="CustomBehavior\ListBoxSelectionBehavior.cs" />
+    <Compile Include="CustomBehavior\SelectedItemsBahavior.cs" />
     <Compile Include="CustomControls\RangeSlider.xaml.cs">
       <DependentUpon>RangeSlider.xaml</DependentUpon>
     </Compile>
@@ -67,19 +68,24 @@
     <Compile Include="UI\DashboardControl.xaml.cs">
       <DependentUpon>DashboardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ManagerProduct\CategoryManufacturerMadeInControl.xaml.cs">
+      <DependentUpon>CategoryManufacturerMadeInControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ManagerProduct\ProductControl.xaml.cs">
       <DependentUpon>ProductControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="CustomControls\RangeSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\DashboardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ManagerProduct\CategoryManufacturerMadeInControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

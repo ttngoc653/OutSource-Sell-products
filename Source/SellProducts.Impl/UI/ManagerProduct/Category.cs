@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SellProducts.Impl.ViewModel
+namespace SellProducts.Impl.UI.ManagerProduct
 {
-    public class Category: INotifyPropertyChanged
+    public class Category : IImpl, INotifyPropertyChanged
     {
 
         Model.CATEGORY _cat = null;
@@ -39,7 +39,17 @@ namespace SellProducts.Impl.ViewModel
                 {
                     _parent = new Category(Common.ConnectDB.Get.Categories().Where(i => i.id == _cat.cat_parent).FirstOrDefault());
 
-                    _cat.cat_parent = _parent.Id;
+                    try
+                    {
+                        if (_parent != null)
+                        {
+                            _cat.cat_parent = _parent.Id;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                 }
 
                 return _parent;
@@ -75,22 +85,65 @@ namespace SellProducts.Impl.ViewModel
                 }
                 return _childs;
             }
-            set { _childs = value; }
+            set
+            {
+                foreach (Category item in value)
+                {
+                    item._cat.cat_parent = Id;
+                }
+
+                _childs = value;
+            }
         }
 
-        public bool Insert()
+        public override bool Insert()
         {
-            if (Common.ConnectDB.Get.Categories().Where(i=>i.name==_cat.name).Count()>0)
-            {
+            if (Common.ConnectDB.Get.Categories().Where(i => i.name == _cat.name).Count() > 0)
                 return false;
+
+            Common.ConnectDB.Insert.Instance(_cat);
+
+            return true;
+        }
+
+        public override bool Update()
+        {
+            if (this.Id != 0)
+            {
+                Common.ConnectDB.Update.Instance(this._cat);
+
+                if (_parent != null)
+                {
+                    _parent.Update();
+                }
+
+                if (_childs != null)
+                {
+                    foreach (Category item in _childs)
+                    {
+                        item.Update();
+                    }
+                }
             }
 
             return true;
         }
 
-        public bool Update()
+        public static List<Category> GetAll()
         {
-            
+            return Common.ConnectDB.Get.Categories().Select(item => new Category(item)).ToList();
+        }
+
+        public override bool Remove()
+        {
+            foreach (var item in _childs)
+            {
+                item._cat.cat_parent = null;
+
+                item.Update();
+            }
+
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

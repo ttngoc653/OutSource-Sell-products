@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace SellProducts.Common.ConnectDB
 {
-    public class Modify
+    public class Update
     {
-        public int ChangePassword(string username, string oldPassword, string newPassword)
+        public static int ChangePassword(string username, string oldPassword, string newPassword)
         {
             SqlCommand command = new SqlCommand("UPDATE [MANAGERS] SET " +
                 "[password] = @newPa " +
@@ -23,7 +23,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateCart(CART p)
+        /// <summary>
+        /// Update the setting record with key as idorder and idproduct
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(CART p)
         {
             if (p is null)
             {
@@ -43,7 +48,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateCategory(CATEGORY p)
+        /// <summary>
+        /// Update the setting record with key as id
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(CATEGORY p)
         {
             if (p is null)
             {
@@ -63,7 +73,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateCustomer(CUSTOMER p)
+        /// <summary>
+        /// Update the setting record with key as phone
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(CUSTOMER p)
         {
             if (p is null)
             {
@@ -81,7 +96,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateHistory(HISTORY p)
+        /// <summary>
+        /// Update the setting record with key as idorder and datetime
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(HISTORY p)
         {
             if (p is null)
             {
@@ -101,7 +121,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateMadeIn(MADEIN p)
+        /// <summary>
+        /// Update the setting record with key as id
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(MADEIN p)
         {
             if (p is null)
             {
@@ -119,7 +144,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateManager(MANAGER p)
+        /// <summary>
+        /// Update the setting record with key as account
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(MANAGER p)
         {
             if (p is null)
             {
@@ -150,7 +180,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateManufacturer(MANUFACTURER p)
+        /// <summary>
+        /// Update the setting record with key as id
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(MANUFACTURER p)
         {
             if (p is null)
             {
@@ -168,7 +203,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateOrder(ORDER p)
+        /// <summary>
+        /// Update the setting record with key as id
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(ORDER p)
         {
             if (p is null)
             {
@@ -192,7 +232,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateProduct(PRODUCT p)
+        /// <summary>
+        /// Update the setting record with key as id
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(PRODUCT p)
         {
             if (p is null)
             {
@@ -226,7 +271,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdatePromotion(PROMOTION p)
+        /// <summary>
+        /// Update the setting record with key as id
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(PROMOTION p)
         {
             if (p is null)
             {
@@ -262,7 +312,12 @@ namespace SellProducts.Common.ConnectDB
             return General.ConnectDB.UpdateRecord(command);
         }
 
-        public int UpdateSetting(SETTING p)
+        /// <summary>
+        /// Update the setting record with key as name and account
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(SETTING p)
         {
             if (p is null)
             {

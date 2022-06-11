@@ -16,7 +16,7 @@ namespace SellProducts
                 if (existSettingRemember)
                 {
 
-                    if (new Common.ConnectDB.Modify().UpdateSetting(setting1) == 0)
+                    if (Common.ConnectDB.Update.Instance(setting1) == 0)
                     {
                         throw new Exception("");
                     }
