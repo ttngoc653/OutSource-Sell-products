@@ -16,14 +16,15 @@ namespace SellProducts.Impl.UI.ManagerProduct
             _m = m;
         }
 
+        public int Id { get => _m.id; set => _m.id = value; }
         public string Location { get =>_m.location; set => _m.location = value; }
 
         public string Detail { get => _m.detail; set => _m.detail = value; }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static List<MadeIn> GetAll()
-        {
+        {   
             return Common.ConnectDB.Get.Madeins().Select(item => new MadeIn(item)).ToList();
         }
 

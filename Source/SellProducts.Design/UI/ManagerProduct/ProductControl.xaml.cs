@@ -105,7 +105,9 @@ namespace SellProducts.Design.UI.ManagerProduct
 
         private void menuUpdateOnlyOnce_Click(object sender, RoutedEventArgs e)
         {
-            string see = "asfdg";
+            Impl.UI.ManagerProduct.ProductInfor productInfor = (ProductInfor)dgList.SelectedItem;
+
+            productInfor.Update();
         }
 
         private void dpAdd_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -133,32 +135,10 @@ namespace SellProducts.Design.UI.ManagerProduct
 
         private void cbDetailManufacturer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tbDetailManufacturer.Text = cbDetailManufacturer.Text;
-            RaiseCustomRoutedEvent();
         }
 
         private void RichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (sender is TextBox)
-            {
-                TextBox textBox = sender as TextBox;
-
-                if (textBox.Name==tbDetailManufacturer.Name)
-                {
-                    List<Manufacturer> manufacturers = Manufacturer.GetAll();
-                    Manufacturer manufacturer = manufacturers.Where(m=>m.Name==tbDetailManufacturer.Text).FirstOrDefault();
-
-                    cbDetailManufacturer.Items.Clear();
-                    foreach (var item in manufacturers)
-                    {
-                        cbDetailManufacturer.Items.Add(item);
-                        if (tbDetailManufacturer.Text==item.Name)
-                        {
-                            cbDetailManufacturer.SelectedIndex = cbDetailManufacturer.Items.Count - 1;
-                        }
-                    }
-                }
-            }
             RaiseCustomRoutedEvent();
         }
 

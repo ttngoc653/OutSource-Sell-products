@@ -18,7 +18,7 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Column="0" LastChildFill="True">
             <TextBlock DockPanel.Dock="Top" Text="DANH SÁCH SẢN PHẨM" FontFamily="Verdana" FontSize="20" TextAlignment="Center" FontWeight="Bold"/>
-            <ListView Name="dgList">
+            <ListView Name="dgList" IsSynchronizedWithCurrentItem="True">
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <ContextMenu.Items>
@@ -52,248 +52,257 @@
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5" />
         <DockPanel Grid.Column="2" LastChildFill="True" Name="dpAdd" IsVisibleChanged="dpAdd_IsVisibleChanged" Visibility="Visible">
             <TextBlock DockPanel.Dock="Top" Text="THÊM" HorizontalAlignment="Center" />
-            <StackPanel>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Mã:" VerticalAlignment="Center" />
-                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Code, Mode=TwoWay}"/>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Hãng:" VerticalAlignment="Center" />
-                    <ComboBox Name="cbAddManufacturer" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ManufacturerName, Mode=TwoWay}" DropDownOpened="cbManufacturer_DropDownOpened">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
-                    <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Name, Mode=TwoWay}"/>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Giá bán:" VerticalAlignment="Center" />
-                    <mah:NumericUpDown Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding Price, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Giá khuyến mãi:" VerticalAlignment="Center" />
-                    <mah:NumericUpDown Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding PriceSale, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Số lượng hiện tại::" VerticalAlignment="Center" />
-                    <mah:NumericUpDown x:Name="tbAddAmount" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding Amount, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Mô tả ngắn:" VerticalAlignment="Center" />
-                    <TextBox VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Describe, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Chi tiết:" VerticalAlignment="Center" />
-                    <TextBox VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Detail, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Sản xuất tại:" VerticalAlignment="Center" />
-                    <ComboBox Name="cbAddMadeIn" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding MadeInName, Mode=TwoWay}" DropDownOpened="cbMadeIn_DropDownOpened">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Location}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Danh mục:" VerticalAlignment="Center" />
-                    <ListBox Name="lbAddCategories" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Loaded="lbCategories_Loaded" SelectionMode="Multiple">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name,Mode=TwoWay}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <CheckBox Grid.Column="1" Content="Ẩn" IsChecked="{Binding Path=IsHide, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <Button Name="bProductAdd" Grid.Column="0" Grid.ColumnSpan="3" Content="Thêm" Click="bProductAdd_Click" />
-                </Grid>
-            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Mã:" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Code, Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Hãng:" VerticalAlignment="Center" />
+                        <ComboBox Name="cbAddManufacturer" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding ManufacturerProduct, Mode=TwoWay}" DropDownOpened="cbManufacturer_DropDownOpened">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Name, Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Giá bán:" VerticalAlignment="Center" />
+                        <mah:NumericUpDown Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding Price, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Giá khuyến mãi:" VerticalAlignment="Center" />
+                        <mah:NumericUpDown Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding PriceSale, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Số lượng hiện tại::" VerticalAlignment="Center" />
+                        <mah:NumericUpDown x:Name="tbAddAmount" Grid.Column="1" Grid.ColumnSpan="2" Value="{Binding Amount, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Mô tả ngắn:" VerticalAlignment="Center" />
+                        <TextBox VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Describe, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Chi tiết:" VerticalAlignment="Center" />
+                        <TextBox VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Detail, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Sản xuất tại:" VerticalAlignment="Center" />
+                        <ComboBox Name="cbAddMadeIn" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding MadeInProduct, Mode=TwoWay}" DropDownOpened="cbMadeIn_DropDownOpened">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Location}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Danh mục:" VerticalAlignment="Center" />
+                        <ListBox Name="lbAddCategories" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" behaviors:SelectedItemsBahavior.SelectedItems="{Binding Categories}" Loaded="lbCategories_Loaded" SelectionMode="Multiple">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name,Mode=TwoWay}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Grid.Column="1" Content="Ẩn" IsChecked="{Binding Path=IsHide, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Button Name="bProductAdd" Grid.Column="0" Grid.ColumnSpan="3" Content="Thêm" Click="bProductAdd_Click" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
         </DockPanel>
         <DockPanel Grid.Column="2" LastChildFill="True" Visibility="Collapsed" Name="dpDetail" IsVisibleChanged="DpDetail_IsVisibleChanged">
             <TextBlock DockPanel.Dock="Top" Text="CHI TIẾT SẢN PHẨM" HorizontalAlignment="Center" />
-            <StackPanel>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Mã:" VerticalAlignment="Center" />
-                    <TextBox Name="tbDetailCode" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedValue.Code, ElementName=dgList, Mode=TwoWay}"/>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Hãng:" VerticalAlignment="Center" />
-                    <TextBox Name="tbDetailManufacturer" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedValue.ManufacturerName, ElementName=dgList, Mode=TwoWay}" Visibility="Collapsed"/>
-                    <ComboBox Name="cbDetailManufacturer" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" DisplayMemberPath="Name" SelectedValuePath="Name" SelectionChanged="cbDetailManufacturer_SelectionChanged" DropDownOpened="cbManufacturer_DropDownOpened" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
-                    <TextBox Name="tbDetailName" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedValue.Name, ElementName=dgList, Mode=TwoWay}"/>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Giá bán:" VerticalAlignment="Center" />
-                    <mah:NumericUpDown x:Name="tbDetailPrice" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailPrice_ValueChanged" Value="{Binding SelectedValue.Price, ElementName=dgList, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Giá khuyến mãi:" VerticalAlignment="Center" />
-                    <mah:NumericUpDown x:Name="tbDetailPriceSale" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailPriceSale_ValueChanged"  Value="{Binding SelectedValue.PriceSale, ElementName=dgList, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Số lượng hiện tại::" VerticalAlignment="Center" />
-                    <mah:NumericUpDown x:Name="tbDetailAmount" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailAmount_ValueChanged"  Value="{Binding SelectedValue.Amount, ElementName=dgList, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Mô tả ngắn:" VerticalAlignment="Center" />
-                    <TextBox Name="tbDetailDescribe" TextChanged="RichTextBox_TextChanged" VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedValue.Describe, ElementName=dgList, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Chi tiết:" VerticalAlignment="Center" />
-                    <TextBox Name="tbDetailDetail" VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedValue.Detail, ElementName=dgList, Mode=TwoWay}" />
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Sản xuất tại:" VerticalAlignment="Center" />
-                    <ComboBox Name="cbDetailMadeIn" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" SelectionChanged="cbDetailMadeIn_SelectionChanged" Text="{Binding SelectedValue.MadeInName, ElementName=dgList, Mode=TwoWay}" DropDownOpened="cbMadeIn_DropDownOpened">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Location,Mode=TwoWay}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-                <Grid Margin="5 5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Danh mục:" VerticalAlignment="Center" />
-                    <ListBox Name="lbDetailCategories" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" SelectionMode="Multiple" SelectionChanged="cbDetailMadeIn_SelectionChanged" Loaded="lbCategories_Loaded" behaviors:SelectedItemsBahavior.SelectedItems="{Binding SelectedValue.Categories, ElementName=dgList, Mode=TwoWay}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name,Mode=TwoWay}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="50" />
-                    </Grid.ColumnDefinitions>
-                    <CheckBox Name="ckDetailIsHide" Checked="CkDetailIsHide_Changed" Grid.Column="1" Content="Ẩn" IsChecked="{Binding SelectedValue.IsHide, ElementName=dgList, Mode=TwoWay}" />
-                </Grid>
-            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Mã:" VerticalAlignment="Center" />
+                        <TextBox Name="tbDetailCode" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedValue.Code, ElementName=dgList, Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Hãng:" VerticalAlignment="Center" />
+                        <ComboBox Name="cbDetailManufacturer" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" SelectedValue="{Binding SelectedValue.ManufacturerProduct, ElementName=dgList, Mode=TwoWay}" DropDownOpened="cbManufacturer_DropDownOpened" IsSynchronizedWithCurrentItem="True">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name,Mode=TwoWay}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
+                        <TextBox Name="tbDetailName" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" Text="{Binding SelectedValue.Name, ElementName=dgList, Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Giá bán:" VerticalAlignment="Center" />
+                        <mah:NumericUpDown x:Name="tbDetailPrice" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailPrice_ValueChanged" Value="{Binding SelectedValue.Price, ElementName=dgList, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Giá khuyến mãi:" VerticalAlignment="Center" />
+                        <mah:NumericUpDown x:Name="tbDetailPriceSale" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailPriceSale_ValueChanged"  Value="{Binding SelectedValue.PriceSale, ElementName=dgList, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Số lượng hiện tại::" VerticalAlignment="Center" />
+                        <mah:NumericUpDown x:Name="tbDetailAmount" Grid.Column="1" Grid.ColumnSpan="2" ValueChanged="tbDetailAmount_ValueChanged"  Value="{Binding SelectedValue.Amount, ElementName=dgList, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Mô tả ngắn:" VerticalAlignment="Center" />
+                        <TextBox Name="tbDetailDescribe" TextChanged="RichTextBox_TextChanged" VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedValue.Describe, ElementName=dgList, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Chi tiết:" VerticalAlignment="Center" />
+                        <TextBox Name="tbDetailDetail" VerticalAlignment="Top" Height="auto" Grid.Column="1" Grid.ColumnSpan="2" TextChanged="RichTextBox_TextChanged" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedValue.Detail, ElementName=dgList, Mode=TwoWay}" />
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Sản xuất tại:" VerticalAlignment="Center" />
+                        <ComboBox Name="cbDetailMadeIn" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" SelectionChanged="cbDetailMadeIn_SelectionChanged" SelectedValue="{Binding SelectedValue.MadeInProduct, ElementName=dgList, Mode=TwoWay}" DropDownOpened="cbMadeIn_DropDownOpened">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Location,Mode=TwoWay}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                    <Grid Margin="5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Danh mục:" VerticalAlignment="Center" />
+                        <ListBox Name="lbDetailCategories" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" SelectionMode="Multiple" SelectionChanged="cbDetailMadeIn_SelectionChanged" Loaded="lbCategories_Loaded" behaviors:SelectedItemsBahavior.SelectedItems="{Binding SelectedValue.Categories, ElementName=dgList, Mode=TwoWay}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name,Mode=TwoWay}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Name="ckDetailIsHide" Checked="CkDetailIsHide_Changed" Grid.Column="1" Content="Ẩn" IsChecked="{Binding SelectedValue.IsHide, ElementName=dgList, Mode=TwoWay}" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </UserControl>

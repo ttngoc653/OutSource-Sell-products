@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
+using SellProducts.Impl.UI.ManagerCustomer;
 
 namespace SellProducts
 {
@@ -183,7 +184,7 @@ namespace SellProducts
 
         private void txtCustomerFind_KeyUp(object sender, KeyEventArgs e)
         {
-
+            FilterAndGenPageCustomer();
         }
 
         private void btnProductImportCategory_Click(object sender, RoutedEventArgs e)
@@ -307,7 +308,10 @@ namespace SellProducts
 
         private void cbbCustomerPage_DropDownClosed(object sender, EventArgs e)
         {
+            ucCustomer.Visibility = Visibility.Visible;
 
+            ucCustomer.Customers = ((PageCustomers)cbbCustomerPage.SelectionBoxItem).Customers;
+            btnCustomerUpdate.IsEnabled = false;
         }
 
         private void btnCustomerSeeList_Click(object sender, RoutedEventArgs e)
@@ -317,12 +321,17 @@ namespace SellProducts
 
         private void btnCustomerAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            ucCustomer.Visibility = Visibility.Visible;
         }
 
         private void btnCustomerUpdate_Click(object sender, RoutedEventArgs e)
         {
+            foreach (Impl.UI.ManagerCustomer.Customer item in ucCustomer.Customers)
+            {
+                item.Update();
+            }
 
+            btnCustomerUpdate.IsEnabled = false;
         }
 
         private void btnReportSale_Click(object sender, RoutedEventArgs e)
@@ -537,13 +546,43 @@ namespace SellProducts
 
         private void LoadTabCustomer()
         {
-            try
+
+            FilterAndGenPageCustomer();
+        }
+
+        private void FilterAndGenPageCustomer()
+        {
+            List<Impl.UI.ManagerCustomer.Customer> customers = Impl.UI.ManagerCustomer.Customer.GetAll();
+
+            customers = customers.Where(p => p.Phone.Contains(txtCustomerFind.Text) || p.Name.Contains(txtCustomerFind.Text) || p.Address.Contains(txtCustomerFind.Text)).ToList();
+
+            int itemPerPage = GetNumberItemPerPage();
+
+            List<PageCustomers> pageCustomers = new List<PageCustomers>();
+
+            for (int i = 0; i < customers.Count; i++)
             {
-                throw new NotImplementedException();
+                Customer item = customers[i];
+                if (i % GetNumberItemPerPage() == 0)
+                {
+                    PageCustomers pageProducts = new PageCustomers()
+                    {
+                        IndexPage = pageProductInfor.Count + 1,
+                        Customers = new List<Customer>() { customers.ElementAt(i) }
+                    };
+
+                    pageCustomers.Add(pageProducts);
+                }
+                else
+                {
+                    pageCustomers.Last().Customers.Add(customers.ElementAt(i));
+                }
             }
-            catch (Exception e)
+
+            cbbCustomerPage.Items.Clear();
+            foreach (PageCustomers item in pageCustomers)
             {
-                MessageBox.Show(e.Message);
+                cbbCustomerPage.Items.Add(item);
             }
         }
 
@@ -579,7 +618,6 @@ namespace SellProducts
             {
                 cbbProductCategoryName.Items.Add(item);
             }
-
         }
 
         private void uc_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -660,6 +698,11 @@ namespace SellProducts
                     }
                 }
             }
+        }
+
+        private void ucCustomer_ListCustomerChanged(object sender, RoutedEventArgs e)
+        {
+            btnCustomerUpdate.IsEnabled = true;
         }
     }
 }

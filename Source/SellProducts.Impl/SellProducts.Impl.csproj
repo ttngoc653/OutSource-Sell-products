@@ -47,6 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\DashboardInfo.cs" />
     <Compile Include="UI\IImpl.cs" />
+    <Compile Include="UI\ManagerCustomer\Customer.cs" />
+    <Compile Include="UI\ManagerCustomer\PageCustomers.cs" />
     <Compile Include="UI\ManagerProduct\MadeIn.cs" />
     <Compile Include="UI\ManagerProduct\Manufacturer.cs" />
     <Compile Include="UI\ManagerProduct\PageProducts.cs" />

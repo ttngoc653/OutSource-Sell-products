@@ -12,6 +12,8 @@ namespace SellProducts.Impl.UI.ManagerProduct
     public class ProductInfor : IImpl, INotifyPropertyChanged
     {
         public Model.PRODUCT _product = null;
+        private Manufacturer _manufacturer = null;
+        private MadeIn _madeIn = null;
 
         public ProductInfor()
         {
@@ -48,17 +50,32 @@ namespace SellProducts.Impl.UI.ManagerProduct
         {
             get
             {
-                if (_product.MANUFACTURERE == null)
-                {
-                    _product.MANUFACTURERE = Common.ConnectDB.Get.Manufactureres().Where(m => m.id == _product.manufacturer).FirstOrDefault();
-                }
-                return _product.MANUFACTURERE?.name;
+                return ManufacturerProduct?.Name;
             }
 
             set
             {
-                _product.MANUFACTURERE = Common.ConnectDB.Get.Manufactureres().Where(m => m.name == value).FirstOrDefault();
-                _product.manufacturer = _product?.MANUFACTURERE.id;
+                _manufacturer = Manufacturer.GetAll().Where(m => m.Name == value).FirstOrDefault();
+                _product.manufacturer = _manufacturer?.Id;
+            }
+        }
+
+        public Manufacturer ManufacturerProduct
+        {
+            get
+            {
+                if (_manufacturer == null)
+                {
+                    _manufacturer = Manufacturer.GetAll().Where(m => m.Id == _product.manufacturer).FirstOrDefault();
+                }
+                return _manufacturer;
+            }
+
+            set
+            {
+                _manufacturer = Manufacturer.GetAll().Where(m => m.Name == value?.Name).FirstOrDefault();
+                _product.manufacturer = _manufacturer?.Id;
+                MadeInName = _manufacturer?.Name;
             }
         }
 
@@ -76,7 +93,25 @@ namespace SellProducts.Impl.UI.ManagerProduct
             set
             {
                 _product.MADEIN1 = Common.ConnectDB.Get.Madeins().Where(m => m.location == value).FirstOrDefault();
-                _product.madein = _product.MADEIN1.id;
+                _product.madein = _product.MADEIN1?.id;
+            }
+        }
+
+        public MadeIn MadeInProduct
+        {
+            get
+            {
+                if (_madeIn == null)
+                {
+                    _madeIn = MadeIn.GetAll().Where(m => m.Id == _product.madein).FirstOrDefault();
+                }
+                return _madeIn;
+            }
+
+            set
+            {
+                _madeIn = value;
+                _product.madein = value?.Id;
             }
         }
 

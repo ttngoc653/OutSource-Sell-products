@@ -7,6 +7,7 @@
         xmlns:myCustom="clr-namespace:DesignInControl;assembly=SellProducts.Design"
         xmlns:dashboardCtrl="clr-namespace:SellProducts.Design.UI;assembly=SellProducts.Design"
         xmlns:productManCtrl="clr-namespace:SellProducts.Design.UI.ManagerProduct;assembly=SellProducts.Design"
+        xmlns:customerCtrl="clr-namespace:SellProducts.Design.UI.ManagerCustomer;assembly=SellProducts.Design"
         mc:Ignorable="d"
         Title="Quản lý Cửa hàng bách hóa HCMUS" Height="600" Width="1000" Loaded="Window_Loaded" Name="MainForm" Closing="MainForm_Closing">
     <RibbonWindow.Resources>
@@ -23,7 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="0" Name="rbMenu">
+        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="3" Name="rbMenu">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.SmallImageSource>
@@ -164,7 +165,13 @@
                     <Button Content="Cập nhật" Width="100" Name="btnCustomerUpdate" IsEnabled="False" Margin="5 5" Click="btnCustomerUpdate_Click" />
                 </RibbonGroup>
                 <RibbonGroup Header="Xem">
-                    <RibbonComboBox Label="Trang:" Name="cbbCustomerPage" Margin="0 5" DropDownClosed="cbbCustomerPage_DropDownClosed"/>
+                    <RibbonComboBox Label="Trang:" Name="cbbCustomerPage" Margin="0 5" DropDownClosed="cbbCustomerPage_DropDownClosed">
+                        <RibbonComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndexPage}" />
+                            </DataTemplate>
+                        </RibbonComboBox.ItemTemplate>
+                    </RibbonComboBox>
                     <Button Content="XEM" Width="106" Margin="15 6" Name="btnCustomerSeeList" Click="btnCustomerSeeList_Click" />
                 </RibbonGroup>
                 <RibbonGroup Header="Lọc">
@@ -214,9 +221,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <dashboardCtrl:DashboardControl Name="ucDashboard" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
+            <dashboardCtrl:DashboardControl Name="ucDashboard" Visibility="Visible" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
             <productManCtrl:ProductControl Name="ucProduct" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" ListProductChanged="ucProduct_ListProductChanged" />
             <productManCtrl:CategoryManufacturerMadeInControl Name="ucCMM" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
+            <customerCtrl:CustomerControl Name="ucCustomer" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" ListCustomerChanged="ucCustomer_ListCustomerChanged" />
         </Grid>
     </Grid>
 </RibbonWindow>
