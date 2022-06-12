@@ -85,6 +85,33 @@ namespace SellProducts
                 if (resultLogin == true)
                 {
                     inforLogin = window.Getlogin();
+
+                    List<Model.SETTING> settings = Common.ConnectDB.Get.Settings().Where(w => w.account == inforLogin.UserName && SellProduct_CONSTANT.SETTING_SAVE_FUNCTION_LAST == w.name).ToList();
+                    if (settings.Count > 0)
+                    {
+                        if (settings.ElementAt(0).value == true.ToString())
+                        {
+                            settings = Common.ConnectDB.Get.Settings().Where(w => w.account == inforLogin.UserName && SellProduct_CONSTANT.SETTING_FUNCTION_LAST_SAVED == w.name).ToList();
+
+                            if (settings.Count > 0)
+                            {
+                                string nameControl = settings.ElementAt(0).value;
+
+                                foreach (object item in UIManager.Children)
+                                {
+                                    if (item is Control)
+                                    {
+                                        Control control = item as Control;
+
+                                        if (control.Name == settings.ElementAt(0).value)
+                                        {
+                                            control.Visibility = Visibility.Visible;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -111,7 +138,7 @@ namespace SellProducts
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Title = "Chọn nơi lưu tệp backup cơ sở dữ liệu";
-            saveFileDialog.Filter= "Backup Files (*.bak;*.trn)|*.bak;*.trn|All file (*)|*";
+            saveFileDialog.Filter = "Backup Files (*.bak;*.trn)|*.bak;*.trn|All file (*)|*";
 
             if (saveFileDialog.ShowDialog().Value)
             {
@@ -368,11 +395,11 @@ namespace SellProducts
             }
             catch (Exception) { }
 
-            if (cbSettingSaveLogin.IsChecked==true)
+            if (cbSettingSaveLogin.IsChecked == true)
             {
                 Properties.Settings.Default.user = inforLogin.UserName;
             }
-            if (cbSettingAutoLogin.IsChecked==true)
+            if (cbSettingAutoLogin.IsChecked == true)
             {
                 Properties.Settings.Default.pass = inforLogin.Password;
                 Properties.Settings.Default.remember = cbSettingAutoLogin.IsEnabled;
@@ -383,7 +410,7 @@ namespace SellProducts
 
         private void RbMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count>0 && e.AddedItems[0] is RibbonTab)
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is RibbonTab)
             {
                 RibbonTab tab = e.AddedItems[0] as RibbonTab;
                 if (tab == rtCustomer)
@@ -450,7 +477,7 @@ namespace SellProducts
             }
 
             pageProductInfor.Clear();
-            
+
             for (int i = 0; i < products.Count; i++)
             {
                 if (i % GetNumberItemPerPage() == 0)
@@ -494,7 +521,8 @@ namespace SellProducts
                 tbSettingItemPerPage.Value = int.Parse(Common.ConnectDB.Get.Settings()
                                                                  .FirstOrDefault(p => p.account == inforLogin.UserName && p.name == SellProduct_CONSTANT.SETTING_PAGING).value);
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 tbSettingItemPerPage.Value = 5;
             }
             numberItemPerPage = (uint)tbSettingItemPerPage.Value;
@@ -565,7 +593,7 @@ namespace SellProducts
                 foreach (var item in controlParent.Children)
                 {
                     Control control = item as Control;
-                    if (control!=sender)
+                    if (control != sender)
                     {
                         control.Visibility = Visibility.Collapsed;
                     }
@@ -591,6 +619,47 @@ namespace SellProducts
         private void ucProduct_ListProductChanged(object sender, RoutedEventArgs e)
         {
             btnProductProductUpdate.IsEnabled = true;
+        }
+
+        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            List<Model.SETTING> settings = Common.ConnectDB.Get.Settings().Where(w => w.account == inforLogin.UserName && SellProduct_CONSTANT.SETTING_SAVE_FUNCTION_LAST == w.name).ToList();
+            if (settings.Count <= 0)
+            {
+                return;
+            }
+            if (settings.ElementAt(0).value != true.ToString())
+            {
+                return;
+            }
+            settings = Common.ConnectDB.Get.Settings().Where(w => w.account == inforLogin.UserName && SellProduct_CONSTANT.SETTING_FUNCTION_LAST_SAVED == w.name).ToList();
+
+            foreach (object item in UIManager.Children)
+            {
+                if (item is Control)
+                {
+                    Control control = item as Control;
+
+                    if (control.Visibility == Visibility.Visible)
+                    {
+                        Model.SETTING setting = new Model.SETTING()
+                        {
+                            account = inforLogin.UserName,
+                            name = SellProduct_CONSTANT.SETTING_FUNCTION_LAST_SAVED,
+                            value = control.Name
+                        };
+
+                        try
+                        {
+                            Common.ConnectDB.Insert.Instance(setting);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Lỗi lưu giao diện đang mở." + Environment.NewLine+ex.Message);
+                        }
+                    }
+                }
+            }
         }
     }
 }

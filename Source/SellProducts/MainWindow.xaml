@@ -8,7 +8,7 @@
         xmlns:dashboardCtrl="clr-namespace:SellProducts.Design.UI;assembly=SellProducts.Design"
         xmlns:productManCtrl="clr-namespace:SellProducts.Design.UI.ManagerProduct;assembly=SellProducts.Design"
         mc:Ignorable="d"
-        Title="Quản lý Cửa hàng bách hóa HCMUS" Height="600" Width="1000" Loaded="Window_Loaded" Name="MainForm">
+        Title="Quản lý Cửa hàng bách hóa HCMUS" Height="600" Width="1000" Loaded="Window_Loaded" Name="MainForm" Closing="MainForm_Closing">
     <RibbonWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

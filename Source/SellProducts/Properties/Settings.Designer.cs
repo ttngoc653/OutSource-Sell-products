@@ -58,5 +58,17 @@ namespace SellProducts.Properties {
                 this["remember"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string nameScreenClosedFromBefore {
+            get {
+                return ((string)(this["nameScreenClosedFromBefore"]));
+            }
+            set {
+                this["nameScreenClosedFromBefore"] = value;
+            }
+        }
     }
 }
