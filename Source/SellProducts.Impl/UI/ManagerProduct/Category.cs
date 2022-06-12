@@ -37,18 +37,16 @@ namespace SellProducts.Impl.UI.ManagerProduct
             {
                 if (_parent==null)
                 {
-                    _parent = new Category(Common.ConnectDB.Get.Categories().Where(i => i.id == _cat.cat_parent).FirstOrDefault());
+                    List<Model.CATEGORY> categoriesParent = Common.ConnectDB.Get.Categories().Where(i => i.id == _cat.cat_parent).ToList();
 
-                    try
+                    if (categoriesParent.Count>0)
                     {
+                        _parent = new Category(categoriesParent.FirstOrDefault());
+
                         if (_parent != null)
                         {
                             _cat.cat_parent = _parent.Id;
                         }
-                    }
-                    catch (Exception e)
-                    {
-
                     }
                 }
 

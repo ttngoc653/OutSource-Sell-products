@@ -111,7 +111,7 @@ namespace SellProducts.Common.ConnectDB.General
                     connection.Close();
                 }
             }
-         
+
             return listRecord;
         }
         internal static int UpdateRecord(SqlCommand sqlCommand)
@@ -119,7 +119,7 @@ namespace SellProducts.Common.ConnectDB.General
             int result = -1;
             try
             {
-                SqlConnection connection = new SqlConnection(connectionString);
+                connection = new SqlConnection(connectionString);
                 connection.Open();
                 sqlCommand.Connection = connection;
                 result = sqlCommand.ExecuteNonQuery();
@@ -139,6 +139,63 @@ namespace SellProducts.Common.ConnectDB.General
             }
 
             return result;
+        }
+
+        public static int BackUpDb(string fileBak)
+        {
+            int result = 0;
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+
+                SqlCommand command = new SqlCommand("BACKUP DATABASE [SellProduct_DB] TO DISK=@pathBak", connection);
+                command.Parameters.AddWithValue("@pathBak", fileBak);
+
+                result = command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
+            return result;
+        }
+
+        [Obsolete]
+        public static void Restore(string Filepath)
+        {
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+
+                SqlCommand cmd2 = new SqlCommand("ALTER DATABASE [SellProduct_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE; " +
+                    "RESTORE FILELISTONLY FROM disk = @filepath; " +
+                    "USE master; " +
+                    "RESTORE DATABASE [SellProduct_DB] FROM DISK=@filepath WITH REPLACE; " +
+                    "ALTER DATABASE [SellProduct_DB] SET MULTI_USER; ", connection);
+                cmd2.Parameters.Add("@filepath", Filepath);
+                cmd2.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connection.State != System.Data.ConnectionState.Closed)
+                {
+                    connection.Close();
+                }
+            }
         }
     }
 }

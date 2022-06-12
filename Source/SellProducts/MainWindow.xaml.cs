@@ -109,12 +109,49 @@ namespace SellProducts
 
         private void MenuBackuUpDatabase_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Chọn nơi lưu tệp backup cơ sở dữ liệu";
+            saveFileDialog.Filter= "Backup Files (*.bak;*.trn)|*.bak;*.trn|All file (*)|*";
 
+            if (saveFileDialog.ShowDialog().Value)
+            {
+                try
+                {
+                    if (Common.ConnectDB.General.ConnectDB.BackUpDb(saveFileDialog.FileName) == -1)
+                    {
+                        MessageBox.Show("Backup thành công");
+                    }
+                    else
+                    {
+                        throw new Exception("null");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Backup thất bại: " + ex.Message);
+                }
+            }
         }
 
+        [Obsolete]
         private void MenuRestoreDatabase_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Chọn tệp backup:";
+            openFileDialog.Filter = "Backup Files (*.bak;*.trn)|*.bak;*.trn|All file (*)|*";
 
+            if (openFileDialog.ShowDialog().Value)
+            {
+                try
+                {
+                    Common.ConnectDB.General.ConnectDB.Restore(openFileDialog.FileName);
+                    MessageBox.Show("Backup thành công");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Restore thất bại: " + ex.Message);
+                }
+            }
         }
 
         private void txtCustomerFind_KeyUp(object sender, KeyEventArgs e)
