@@ -30,6 +30,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
             _product = product1;
         }
 
+        public int Id { get { return _product.id; } set { _product.id = value; } }
         public string Code { get { return _product.code; } set { _product.code = value; } }
 
         public string Name { get => _product.name; set => _product.name = value; }
