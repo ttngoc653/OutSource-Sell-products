@@ -27,6 +27,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,7 +67,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ConnectDB\Delete.cs" />
     <Compile Include="ConnectDB\General\ConnectDB.cs" />
     <Compile Include="ConnectDB\Get.cs" />
     <Compile Include="ConnectDB\Insert.cs" />
@@ -102,4 +104,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release $(ProjectDir)..\Libs\ConfuserEx\Confuser.CLI.exe -n "$(ProjectDir)$(TargetName).crproj"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

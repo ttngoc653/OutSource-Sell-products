@@ -1,0 +1,5 @@
+<project outputDir=".\bin\Release" baseDir=".\bin\Release" xmlns="http://confuser.codeplex.com">
+  <module path="SellProducts.Impl.dll">
+    <rule pattern="true" preset="normal" inherit="false" />
+  </module>
+</project>

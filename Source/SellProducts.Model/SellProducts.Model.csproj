@@ -86,4 +86,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Release $(ProjectDir)..\Libs\ConfuserEx\Confuser.CLI.exe -n "$(ProjectDir)$(TargetName).crproj"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
