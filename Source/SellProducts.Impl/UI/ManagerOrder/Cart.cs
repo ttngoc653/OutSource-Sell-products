@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -105,11 +106,11 @@ namespace SellProducts.Impl.UI.ManagerOrder
             return Common.ConnectDB.Update.Instance(_cart) > 0;
         }
 
-        public static List<Cart> GetAll()
+        public static ObservableCollection<Cart> GetAll()
         {
             List<Model.CART> cs = (List<Model.CART>)Common.ConnectDB.Get.Carts();
 
-            List<Cart> carts = new List<Cart>();
+            ObservableCollection<Cart> carts = new ObservableCollection<Cart>();
             foreach (var item in cs)
             {
                 carts.Add(new Cart(item));

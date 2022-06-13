@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace SellProducts.Impl.UI
 
             IList<Model.PRODUCT> products = Common.ConnectDB.Get.Products().Where(p => p.amount_current < 5).OrderBy(p => p.amount_current).ToList();
 
-            ProductInfors = new List<ManagerProduct.ProductInfor>();
+            ProductInfors = new ObservableCollection<ManagerProduct.ProductInfor>();
 
             for (int i = 0; i < Math.Min(products.Count, 5); i++)
             {
@@ -46,7 +47,7 @@ namespace SellProducts.Impl.UI
 
         public int OrderMonth { get; set; }
 
-        public IList<ManagerProduct.ProductInfor> ProductInfors { get; set; }
+        public ObservableCollection<ManagerProduct.ProductInfor> ProductInfors { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

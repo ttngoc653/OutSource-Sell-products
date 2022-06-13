@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using SellProducts.Impl.UI.ManagerCustomer;
@@ -64,7 +58,8 @@ namespace SellProducts
         {
             this.rbMenu.IsMinimized = true;
             this.rbMenu.SelectedIndex = -1;
-
+            ucProduct.ListProductChanged += ucProduct_ListProductChanged;
+            ucCustomer.ListCustomerChanged += ucCustomer_ListCustomerChanged;
             try
             {
 
@@ -249,7 +244,7 @@ namespace SellProducts
 
         private void btnProductProductUpdate_Click(object sender, RoutedEventArgs e)
         {
-            List<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
+            ObservableCollection<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
 
             foreach (Impl.UI.ManagerProduct.ProductInfor item in productInfors)
             {
@@ -494,7 +489,7 @@ namespace SellProducts
                     Impl.UI.ManagerProduct.PageProducts pageProducts = new Impl.UI.ManagerProduct.PageProducts()
                     {
                         IndexPage = pageProductInfor.Count + 1,
-                        Products = new List<Impl.UI.ManagerProduct.ProductInfor>() { products.ElementAt(i) }
+                        Products = new ObservableCollection<Impl.UI.ManagerProduct.ProductInfor>() { products.ElementAt(i) }
                     };
 
                     pageProductInfor.Add(pageProducts);
@@ -552,9 +547,9 @@ namespace SellProducts
 
         private void FilterAndGenPageCustomer()
         {
-            List<Impl.UI.ManagerCustomer.Customer> customers = Impl.UI.ManagerCustomer.Customer.GetAll();
+            ObservableCollection<Customer> customers = Customer.GetAll();
 
-            customers = customers.Where(p => p.Phone.Contains(txtCustomerFind.Text) || p.Name.Contains(txtCustomerFind.Text) || p.Address.Contains(txtCustomerFind.Text)).ToList();
+            customers = new ObservableCollection<Customer>(customers.Where(p => p.Phone.Contains(txtCustomerFind.Text) || p.Name.Contains(txtCustomerFind.Text) || p.Address.Contains(txtCustomerFind.Text)));
 
             int itemPerPage = GetNumberItemPerPage();
 
@@ -568,7 +563,7 @@ namespace SellProducts
                     PageCustomers pageProducts = new PageCustomers()
                     {
                         IndexPage = pageProductInfor.Count + 1,
-                        Customers = new List<Customer>() { customers.ElementAt(i) }
+                        Customers = new ObservableCollection<Customer>() { customers.ElementAt(i) }
                     };
 
                     pageCustomers.Add(pageProducts);
@@ -643,7 +638,7 @@ namespace SellProducts
         {
             ucProduct.Visibility = Visibility.Visible;
 
-            List<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
+            ObservableCollection<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
 
             ucProduct.ProductInfors = productInfors;
         }

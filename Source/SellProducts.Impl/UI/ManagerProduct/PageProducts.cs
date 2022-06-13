@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
     {
         public int IndexPage { get; set; }
 
-        public List<ProductInfor> Products { get; set; }
+        public ObservableCollection<ProductInfor> Products { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
 
         Model.CATEGORY _cat = null;
         Category _parent = null;
-        IList<Category> _childs = null;
+        ObservableCollection<Category> _childs = null;
 
         public Category(Model.CATEGORY cat)
         {
@@ -67,7 +68,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
             }
         }
 
-        public IList<Category> Childs
+        public ObservableCollection<Category> Childs
         {
             get
             {
@@ -75,7 +76,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
                 {
                     IList<Model.CATEGORY> cs = Common.ConnectDB.Get.Categories().Where(i => i.cat_parent == _cat.id).ToList();
 
-                    _childs = new List<Category>();
+                    _childs = new ObservableCollection<Category>();
                     foreach (Model.CATEGORY item in cs)
                     {
                         _childs.Add(new Category(item));
@@ -127,9 +128,9 @@ namespace SellProducts.Impl.UI.ManagerProduct
             return true;
         }
 
-        public static List<Category> GetAll()
+        public static ObservableCollection<Category> GetAll()
         {
-            return Common.ConnectDB.Get.Categories().Select(item => new Category(item)).ToList();
+            return new ObservableCollection<Category>(Common.ConnectDB.Get.Categories().Select(item => new Category(item)).ToList());
         }
 
         public override bool Remove()

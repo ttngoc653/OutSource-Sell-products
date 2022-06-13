@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -39,11 +40,11 @@ namespace SellProducts.Impl.UI.ManagerCustomer
             set { totalOrder = value; }
         }
 
-        public static List<Customer> GetAll()
+        public static ObservableCollection<Customer> GetAll()
         {
             List<Model.CUSTOMER> cs = Common.ConnectDB.Get.Customers().ToList();
 
-            List<Customer> customers = new List<Customer>();
+            ObservableCollection<Customer> customers = new ObservableCollection<Customer>();
 
             foreach (Model.CUSTOMER item in cs)
             {

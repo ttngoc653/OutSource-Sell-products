@@ -1,6 +1,7 @@
 ﻿using SellProducts.Impl.UI.ManagerProduct;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace SellProducts.Impl.UI.ManagerOrder
     {
         public Model.ORDER _order = null;
 
-        private List<Cart> _carts = null;
+        private ObservableCollection<Cart> _carts = null;
 
         public Order(Model.ORDER o)
         {
@@ -113,27 +114,13 @@ namespace SellProducts.Impl.UI.ManagerOrder
             }
         }
 
-        private List<ManagerProduct.ProductInfor> _productInfors = null;
-
-        public List<ProductInfor> ProductInfors
-        {
-            get
-            {
-                return _productInfors;
-            }
-            set
-            {
-                _productInfors = value;
-            }
-        }
-
-        public List<Cart> Carts
+        public ObservableCollection<Cart> Carts
         {
             get
             {
                 if (_carts == null || _carts.Count == 0)
                 {
-                    _carts = Cart.GetAll().Where(i => i.IdOrder == _order.id).ToList();
+                    _carts = new ObservableCollection<Cart>(Cart.GetAll().Where(i => i.IdOrder == _order.id).ToList());
                 }
                 return _carts;
             }
@@ -143,11 +130,11 @@ namespace SellProducts.Impl.UI.ManagerOrder
             }
         }
 
-        public static List<Order> GetAll()
+        public static ObservableCollection<Order> GetAll()
         {
             List<Model.ORDER> cs = (List<Model.ORDER>)Common.ConnectDB.Get.Orders();
 
-            List<Order> orders = new List<Order>();
+            ObservableCollection<Order> orders = new ObservableCollection<Order>();
             foreach (var item in cs)
             {
                 orders.Add(new Order(item));

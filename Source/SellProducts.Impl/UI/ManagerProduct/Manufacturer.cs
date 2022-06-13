@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
     {
         Model.MANUFACTURER _m = null;
 
-        List<ProductInfor> _products = null;
+        ObservableCollection<ProductInfor> _products = null;
 
         public Manufacturer(Model.MANUFACTURER m)
         {
@@ -22,7 +23,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
         public string Name { get => _m.name; set => _m.name = value; }
         public string Detail { get => _m.detail; set => _m.detail = value; }
 
-        public List<ProductInfor> ProductInfors
+        public ObservableCollection<ProductInfor> ProductInfors
         {
             get
             {
@@ -30,7 +31,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
                 {
                     _m.PRODUCTS = Common.ConnectDB.Get.Products().Where(p => p.manufacturer.HasValue && p.manufacturer.Value == _m.id).ToList();
 
-                    _products = new List<ProductInfor>();
+                    _products = new ObservableCollection<ProductInfor>();
                     foreach (Model.PRODUCT item in _m.PRODUCTS)
                     {
                         _products.Add(new ProductInfor(item));
@@ -42,10 +43,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
             set { this._products = value; }
         }
 
-        public static List<Manufacturer> GetAll()
-        {
-            return Common.ConnectDB.Get.Manufactureres().Select(item => new Manufacturer(item)).ToList();
-        }
+        public static ObservableCollection<Manufacturer> GetAll() => new ObservableCollection<Manufacturer>(Common.ConnectDB.Get.Manufactureres().Select(item => new Manufacturer(item)));
 
         public override bool Insert()
         {

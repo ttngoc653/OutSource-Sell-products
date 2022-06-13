@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -23,9 +24,9 @@ namespace SellProducts.Impl.UI.ManagerProduct
         
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static List<MadeIn> GetAll()
-        {   
-            return Common.ConnectDB.Get.Madeins().Select(item => new MadeIn(item)).ToList();
+        public static ObservableCollection<MadeIn> GetAll()
+        {
+            return new ObservableCollection<MadeIn>(Common.ConnectDB.Get.Madeins().Select(item => new MadeIn(item)).ToList());
         }
 
         public override bool Insert()

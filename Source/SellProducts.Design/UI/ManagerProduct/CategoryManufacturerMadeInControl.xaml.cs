@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace SellProducts.Design.UI.ManagerProduct
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            List<Impl.UI.ManagerProduct.Category> categories = Impl.UI.ManagerProduct.Category.GetAll().Where(p => p.Parent == null).ToList();
+            ObservableCollection<Impl.UI.ManagerProduct.Category> categories = new ObservableCollection<Impl.UI.ManagerProduct.Category>(Impl.UI.ManagerProduct.Category.GetAll().Where(p => p.Parent == null));
 
             tvCategory.Items.Clear();
             foreach (Impl.UI.ManagerProduct.Category item in categories)

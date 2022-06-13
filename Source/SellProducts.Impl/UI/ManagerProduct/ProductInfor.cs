@@ -1,6 +1,7 @@
 ﻿using SellProducts.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
             Amount = 0;
         }
 
-        private List<Category> _categories = null;
+        private ObservableCollection<Category> _categories = null;
 
         public ProductInfor(Model.PRODUCT product1)
         {
@@ -116,14 +117,14 @@ namespace SellProducts.Impl.UI.ManagerProduct
             }
         }
 
-        public List<Category> Categories
+        public ObservableCollection<Category> Categories
         {
             get
             {
                 if (_categories==null)
                 {
-                    List<CLASSIFY> cLASSIFies = Common.ConnectDB.Get.Classifies().Where(c => c.product == this._product.id).ToList();
-                    _categories = new List<Category>();
+                    IEnumerable<CLASSIFY> cLASSIFies = Common.ConnectDB.Get.Classifies().Where(c => c.product == this._product.id);
+                    _categories = new ObservableCollection<Category>();
 
                     foreach (CLASSIFY item in cLASSIFies)
                     {
@@ -137,9 +138,9 @@ namespace SellProducts.Impl.UI.ManagerProduct
 
         public override bool Insert() => Common.ConnectDB.Insert.Instance(_product);
 
-        public static List<ProductInfor> GetAll()
+        public static ObservableCollection<ProductInfor> GetAll()
         {
-            List<ProductInfor> productInfors = new List<ProductInfor>();
+            ObservableCollection<ProductInfor> productInfors = new ObservableCollection<ProductInfor>();
 
             foreach (Model.PRODUCT item in Common.ConnectDB.Get.Products())
             {

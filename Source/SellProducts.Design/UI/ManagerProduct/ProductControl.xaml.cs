@@ -1,6 +1,7 @@
 ﻿using SellProducts.Impl.UI.ManagerProduct;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -163,7 +164,7 @@ namespace SellProducts.Design.UI.ManagerProduct
             {
                 ComboBox comboBox = sender as ComboBox;
 
-                List<Manufacturer> manufacturers = Manufacturer.GetAll();
+                ObservableCollection<Manufacturer> manufacturers = Manufacturer.GetAll();
 
                 comboBox.Items.Clear();
                 foreach (Manufacturer item in manufacturers)
@@ -179,7 +180,7 @@ namespace SellProducts.Design.UI.ManagerProduct
             {
                 ComboBox comboBox = sender as ComboBox;
 
-                List<MadeIn> categories = MadeIn.GetAll();
+                ObservableCollection<MadeIn> categories = MadeIn.GetAll();
 
                 comboBox.Items.Clear();
                 foreach (MadeIn item in categories)
@@ -215,7 +216,7 @@ namespace SellProducts.Design.UI.ManagerProduct
             {
                 ListBox listBox = sender as ListBox;
 
-                List<Category> categories = Category.GetAll();
+                ObservableCollection<Category> categories = Category.GetAll();
 
                 listBox.Items.Clear();
                 foreach (Category item in categories)

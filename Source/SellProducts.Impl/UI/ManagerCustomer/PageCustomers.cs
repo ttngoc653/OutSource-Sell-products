@@ -11,7 +11,7 @@ namespace SellProducts.Impl.UI.ManagerCustomer
     {
         public int IndexPage { get; set; }
 
-        public List<Customer> Customers { get; set; }
+        public System.Collections.ObjectModel.ObservableCollection<Customer> Customers { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

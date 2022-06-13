@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,17 +50,16 @@ namespace SellProducts.Design.UI.ManagerCustomer
             InitializeComponent();
         }
 
-        public List<Impl.UI.ManagerCustomer.Customer> Customers
+        public ObservableCollection<Impl.UI.ManagerCustomer.Customer> Customers
         {
-            get => (from Impl.UI.ManagerCustomer.Customer item in lvList.Items
-                    select item).ToList(); 
+            get
+            {
+                ObservableCollection<Impl.UI.ManagerCustomer.Customer> items = (ObservableCollection<Impl.UI.ManagerCustomer.Customer>)lvList.DataContext;
+                return items;
+            }
             set
             {
-                lvList.Items.Clear();
-                foreach (Impl.UI.ManagerCustomer.Customer item in value)
-                {
-                    lvList.Items.Add(item);
-                }
+                lvList.DataContext = value;
             }
         }
 

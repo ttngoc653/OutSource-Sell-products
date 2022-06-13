@@ -222,9 +222,9 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <dashboardCtrl:DashboardControl Name="ucDashboard" Visibility="Visible" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
-            <productManCtrl:ProductControl Name="ucProduct" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" ListProductChanged="ucProduct_ListProductChanged" />
+            <productManCtrl:ProductControl Name="ucProduct" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
             <productManCtrl:CategoryManufacturerMadeInControl Name="ucCMM" Visibility="Collapsed"  Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
-            <customerCtrl:CustomerControl Name="ucCustomer" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" ListCustomerChanged="ucCustomer_ListCustomerChanged" />
+            <customerCtrl:CustomerControl Name="ucCustomer" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
         </Grid>
     </Grid>
 </RibbonWindow>
