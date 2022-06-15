@@ -256,13 +256,11 @@ namespace SellProducts
 
         private void txtProductFindName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ucProduct.Visibility = Visibility.Visible;
             FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
 
         private void rsProductFindLimitPrice_IsMouseCapturedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ucProduct.Visibility = Visibility.Visible;
             FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
 
@@ -474,7 +472,7 @@ namespace SellProducts
             psFilter = psFilter.Where(p => (rsProductFindLimitPrice.LowerValue <= p.Price && p.Price <= rsProductFindLimitPrice.UpperValue) ||
                  (rsProductFindLimitPrice.LowerValue <= p.PriceSale && p.PriceSale <= rsProductFindLimitPrice.UpperValue)).ToList();
 
-            if (cbbProductCategoryName.SelectedItem != null && !string.IsNullOrEmpty(cbbProductCategoryName.Text))
+            if (cbbProductCategoryName.SelectedItem != null)
             {
                 int idCategorySeleted = ((Impl.UI.ManagerProduct.Category)cbbProductCategoryName.SelectedItem).Id;
                 psFilter = psFilter.Where(p => p.Categories.Where(c => c.Id == idCategorySeleted).Count() > 0).ToList();
@@ -482,7 +480,7 @@ namespace SellProducts
 
             pageProductInfor.Clear();
 
-            for (int i = 0; i < products.Count; i++)
+            for (int i = 0; i < psFilter.Count; i++)
             {
                 if (i % GetNumberItemPerPage() == 0)
                 {
@@ -501,6 +499,10 @@ namespace SellProducts
             }
 
             cbbProductCategoryPage.ItemsSource = pageProductInfor;
+            if (psFilter.Count == 0)
+                ucProduct.ProductInfors = new ObservableCollection<Impl.UI.ManagerProduct.ProductInfor>();
+            else
+                cbbProductCategoryPage.SelectedIndex = 1;
         }
 
         private void LoadTabSettings()
@@ -636,16 +638,14 @@ namespace SellProducts
 
         private void cbbProductCategoryPage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ucProduct.Visibility = Visibility.Visible;
-
             ObservableCollection<Impl.UI.ManagerProduct.ProductInfor> productInfors = ((Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem).Products;
 
             ucProduct.ProductInfors = productInfors;
+            ucProduct.Visibility = Visibility.Visible;
         }
 
         private void cbbProductCategoryName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ucProduct.Visibility = Visibility.Visible;
             FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
 

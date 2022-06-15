@@ -15,6 +15,8 @@ namespace SellProducts.Impl.UI.ManagerOrder
 
         private ObservableCollection<Cart> _carts = null;
 
+        private ManagerCustomer.Customer _customer = null;
+
         public Order(Model.ORDER o)
         {
             _order = o;
@@ -98,8 +100,6 @@ namespace SellProducts.Impl.UI.ManagerOrder
                 _order.comment = value;
             }
         }
-
-        private ManagerCustomer.Customer _customer = null;
 
         public Impl.UI.ManagerCustomer.Customer CustomerOrder
         {

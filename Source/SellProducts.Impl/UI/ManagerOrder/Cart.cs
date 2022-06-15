@@ -64,6 +64,11 @@ namespace SellProducts.Impl.UI.ManagerOrder
             }
         }
 
+        public string ProductName
+        {
+            get { return ProductCart?.Name; }
+        }
+
         public int Amount
         {
             get
@@ -86,6 +91,11 @@ namespace SellProducts.Impl.UI.ManagerOrder
             {
                 _cart.price = value;
             }
+        }
+
+        public int Total
+        {
+            get => _cart.amount * _cart.price;
         }
 
 

@@ -73,6 +73,9 @@
     <Compile Include="UI\DashboardControl.xaml.cs">
       <DependentUpon>DashboardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ManagerOrder\OrderAddControl.xaml.cs">
+      <DependentUpon>OrderAddControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ManagerProduct\CategoryManufacturerMadeInControl.xaml.cs">
       <DependentUpon>CategoryManufacturerMadeInControl.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\DashboardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ManagerOrder\OrderAddControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

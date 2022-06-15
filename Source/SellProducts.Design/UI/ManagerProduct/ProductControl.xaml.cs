@@ -170,6 +170,7 @@ namespace SellProducts.Design.UI.ManagerProduct
         private void bProductAdd_Click(object sender, RoutedEventArgs e)
         {
             productInfor.Insert();
+            _productInfors.Add(productInfor);
         }
 
         private void tbDetailAmount_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
