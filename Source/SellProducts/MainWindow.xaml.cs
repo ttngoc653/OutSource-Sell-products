@@ -24,15 +24,16 @@ namespace SellProducts
 
         public MainWindow()
         {
+            string[] arg = Environment.GetCommandLineArgs();
+            if (arg.Length > 1)
+            {
+                Common.ConnectDB.General.ConnectDB.SetConnectString(arg[1]);
+            }
+
             InitializeComponent();
 
             try
             {
-                string[] arg = Environment.GetCommandLineArgs();
-                if (arg.Length > 1)
-                {
-                    Common.ConnectDB.General.ConnectDB.SetConnectString(arg[1]);
-                }
                 this.rbMenu.SelectionChanged += RbMenu_SelectionChanged;
             }
             catch (Exception ex)
@@ -239,7 +240,6 @@ namespace SellProducts
         private void btnProductProductAdd_Click(object sender, RoutedEventArgs e)
         {
             ucProduct.Visibility = Visibility.Visible;
-            ucProduct.ShowAddProduct();
         }
 
         private void btnProductProductUpdate_Click(object sender, RoutedEventArgs e)

@@ -66,9 +66,21 @@ namespace SellProducts.Common.ConnectDB
                 "[detail] = @detail " +
                 "WHERE [id] = @id");
             command.Parameters.AddWithValue("@id", p.id);
-            command.Parameters.AddWithValue("@name", p.name);
-            command.Parameters.AddWithValue("@cat_parent", p.cat_parent);
-            command.Parameters.AddWithValue("@detail", p.detail);
+
+            if (string.IsNullOrEmpty(p.name))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@name", p.name);
+            
+            if (p.cat_parent.HasValue)
+                command.Parameters.AddWithValue("@cat_parent", p.cat_parent);
+            else
+                command.Parameters.AddWithValue("@cat_parent", DBNull.Value);
+
+            if (string.IsNullOrEmpty(p.detail))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@detail", p.detail);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -90,8 +102,16 @@ namespace SellProducts.Common.ConnectDB
                 "[address] = @address " +
                 "WHERE [phone] = @phone");
             command.Parameters.AddWithValue("@phone", p.phone);
-            command.Parameters.AddWithValue("@name", p.name);
-            command.Parameters.AddWithValue("@address", p.address);
+
+            if (string.IsNullOrEmpty(p.name))
+                command.Parameters.AddWithValue("@name", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@name", p.name);
+
+            if (string.IsNullOrEmpty(p.address))
+                command.Parameters.AddWithValue("@address", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@address", p.address);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -114,8 +134,17 @@ namespace SellProducts.Common.ConnectDB
                 "WHERE [idorder] = @idorder" +
                 "AND [datetime] = @datetime");
             command.Parameters.AddWithValue("@datetime", p.datetime);
-            command.Parameters.AddWithValue("@act", p.act);
-            command.Parameters.AddWithValue("@detail", p.detail);
+
+            if (string.IsNullOrEmpty(p.act))
+                command.Parameters.AddWithValue("@act", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@act", p.act);
+
+            if (string.IsNullOrEmpty(p.detail))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@detail", p.detail);
+            
             command.Parameters.AddWithValue("@idorder", p.idorder);
 
             return General.ConnectDB.UpdateRecord(command);
@@ -138,8 +167,16 @@ namespace SellProducts.Common.ConnectDB
                 "[detail] = @detail " +
                 "WHERE [id] = @id");
             command.Parameters.AddWithValue("@id", p.id);
-            command.Parameters.AddWithValue("@location", p.location);
-            command.Parameters.AddWithValue("@detail", p.detail);
+
+            if (string.IsNullOrEmpty(p.location))
+                command.Parameters.AddWithValue("@location", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@location", p.location);
+
+            if (string.IsNullOrEmpty(p.detail))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@detail", p.detail);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -168,14 +205,40 @@ namespace SellProducts.Common.ConnectDB
                 "[comment] = @comment " +
                 "WHERE [account] = @account");
             command.Parameters.AddWithValue("@account", p.account);
-            command.Parameters.AddWithValue("@address", p.address);
-            command.Parameters.AddWithValue("@comment", p.comment);
-            command.Parameters.AddWithValue("@email", p.email);
+
+            if (string.IsNullOrEmpty(p.address))
+                command.Parameters.AddWithValue("@address", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@address", p.address);
+
+            if (string.IsNullOrEmpty(p.comment))
+                command.Parameters.AddWithValue("@comment", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@comment", p.comment);
+
+            if(string.IsNullOrEmpty(p.email))
+                command.Parameters.AddWithValue("@email", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@email", p.email);
+
             command.Parameters.AddWithValue("@is_disable", p.is_disable);
-            command.Parameters.AddWithValue("@name", p.name);
+
+            if (string.IsNullOrEmpty(p.name))
+                command.Parameters.AddWithValue("@name", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@name", p.name);
+
             command.Parameters.AddWithValue("@password", p.password);
-            command.Parameters.AddWithValue("@phone", p.phone);
-            command.Parameters.AddWithValue("@type", p.type);
+
+            if (string.IsNullOrEmpty(p.phone))
+                command.Parameters.AddWithValue("@phone", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@phone", p.phone);
+
+            if (string.IsNullOrEmpty(p.type))
+                command.Parameters.AddWithValue("@type", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@type", p.type);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -197,8 +260,16 @@ namespace SellProducts.Common.ConnectDB
                 "[detail] = @detail " +
                 "WHERE [id] = @id");
             command.Parameters.AddWithValue("@id", p.id);
-            command.Parameters.AddWithValue("@name", p.name);
-            command.Parameters.AddWithValue("@detail", p.detail);
+
+            if (string.IsNullOrEmpty(p.name))
+                command.Parameters.AddWithValue("@name", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@name", p.name);
+
+            if (string.IsNullOrEmpty(p.detail))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@detail", p.detail);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -223,11 +294,28 @@ namespace SellProducts.Common.ConnectDB
                 "[comment] = @comment " +
                 "WHERE [id] = @id");
             command.Parameters.AddWithValue("@id", p.id);
-            command.Parameters.AddWithValue("@comment", p.comment);
-            command.Parameters.AddWithValue("@customer", p.customer);
-            command.Parameters.AddWithValue("@promotion", p.promotion);
+            
+            if (string.IsNullOrEmpty(p.comment))
+                command.Parameters.AddWithValue("@comment", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@comment", p.comment);
+
+            if (string.IsNullOrEmpty(p.customer))
+                command.Parameters.AddWithValue("@customer", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@customer", p.customer);
+
+            if (p.promotion.HasValue)
+                command.Parameters.AddWithValue("@promotion", p.promotion);
+            else
+                command.Parameters.AddWithValue("@promotion", DBNull.Value);
+
             command.Parameters.AddWithValue("@time", p.time);
-            command.Parameters.AddWithValue("@total", p.total);
+
+            if (p.total.HasValue)
+                command.Parameters.AddWithValue("@total", p.total);
+            else
+                command.Parameters.AddWithValue("@total", DBNull.Value);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -256,17 +344,55 @@ namespace SellProducts.Common.ConnectDB
                 "[manufacturer] = @manufacturer, " +
                 "[is_hide] = @is_hide " +
                 "WHERE [id] = @id");
+
             command.Parameters.AddWithValue("@id", p.id);
-            command.Parameters.AddWithValue("@amount_current", p.amount_current);
-            command.Parameters.AddWithValue("@code", p.code);
-            command.Parameters.AddWithValue("@describe", p.describe);
-            command.Parameters.AddWithValue("@detail", p.detail);
+
+            if (p.amount_current == null)
+                command.Parameters.AddWithValue("@amount_current", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@amount_current", p.amount_current);
+
+            if (string.IsNullOrEmpty(p.code))
+                command.Parameters.AddWithValue("@code", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@code", p.code);
+
+            if (string.IsNullOrEmpty(p.describe))
+                command.Parameters.AddWithValue("@describe", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@describe", p.describe);
+
+            if (string.IsNullOrEmpty(p.detail))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@detail", p.detail);
+
             command.Parameters.AddWithValue("@is_hide", p.is_hide);
-            command.Parameters.AddWithValue("@madein", p.madein);
-            command.Parameters.AddWithValue("@manufacturer", p.manufacturer);
-            command.Parameters.AddWithValue("@name", p.name);
-            command.Parameters.AddWithValue("@price", p.price);
-            command.Parameters.AddWithValue("@price_sale", p.price_sale);
+
+            if (p.madein.HasValue)
+                command.Parameters.AddWithValue("@madein", p.madein);
+            else
+                command.Parameters.AddWithValue("@madein", DBNull.Value);
+
+            if (p.manufacturer.HasValue)
+                command.Parameters.AddWithValue("@manufacturer", p.manufacturer);
+            else
+                command.Parameters.AddWithValue("@manufacturer", DBNull.Value);
+
+            if (string.IsNullOrEmpty(p.name))
+                command.Parameters.AddWithValue("@name", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@name", p.name);
+
+            if (p.price.HasValue)
+                command.Parameters.AddWithValue("@price", p.price);
+            else
+                command.Parameters.AddWithValue("@price", DBNull.Value);
+
+            if (p.price_sale.HasValue)
+                command.Parameters.AddWithValue("@price_sale", p.price_sale);
+            else
+                command.Parameters.AddWithValue("@price_sale", DBNull.Value);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -297,17 +423,54 @@ namespace SellProducts.Common.ConnectDB
                 "[amount] = @amount " +
                 "WHERE [id] = @id");
             command.Parameters.AddWithValue("@id", p.id);
-            command.Parameters.AddWithValue("@amount", p.amount);
-            command.Parameters.AddWithValue("@code", p.code);
-            command.Parameters.AddWithValue("@date_end", p.date_end);
-            command.Parameters.AddWithValue("@date_start", p.date_start);
-            command.Parameters.AddWithValue("@detail", p.detail);
-            command.Parameters.AddWithValue("@discount", p.discount);
+
+            if (p.amount.HasValue)
+                command.Parameters.AddWithValue("@amount", p.amount);
+            else
+                command.Parameters.AddWithValue("@amount", DBNull.Value);
+
+            if (string.IsNullOrEmpty(p.code))
+                command.Parameters.AddWithValue("@code", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@code", p.code);
+
+            if (p.date_end.HasValue)
+                command.Parameters.AddWithValue("@date_end", p.date_end);
+            else
+                command.Parameters.AddWithValue("@date_end", DBNull.Value);
+
+            if(p.date_start.HasValue)
+                command.Parameters.AddWithValue("@date_start", p.date_start);
+            else
+                command.Parameters.AddWithValue("@date_start", DBNull.Value);
+
+            if (string.IsNullOrEmpty(p.detail))
+                command.Parameters.AddWithValue("@detail", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@detail", p.detail);
+
+            if (p.discount.HasValue)
+                command.Parameters.AddWithValue("@discount", p.discount);
+            else
+                command.Parameters.AddWithValue("@discount", DBNull.Value);
+
             command.Parameters.AddWithValue("@is_hide", p.is_hide);
             command.Parameters.AddWithValue("@is_stop", p.is_stop);
-            command.Parameters.AddWithValue("@percent_discount", p.percent_discount);
-            command.Parameters.AddWithValue("@title", p.title);
-            command.Parameters.AddWithValue("@type", p.type);
+
+            if (p.percent_discount.HasValue)
+                command.Parameters.AddWithValue("@percent_discount", p.percent_discount);
+            else
+                command.Parameters.AddWithValue("@percent_discount", DBNull.Value);
+
+            if (string.IsNullOrEmpty(p.title))
+                command.Parameters.AddWithValue("@title", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@title", p.title);
+
+            if (string.IsNullOrEmpty(p.type))
+                command.Parameters.AddWithValue("@type", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@type", p.type);
 
             return General.ConnectDB.UpdateRecord(command);
         }
@@ -327,7 +490,11 @@ namespace SellProducts.Common.ConnectDB
             SqlCommand command = new SqlCommand("UPDATE [SETTINGS] SET [value] = @value WHERE [name] = @name AND [account] = @account");
             command.Parameters.AddWithValue("@account", p.account);
             command.Parameters.AddWithValue("@name", p.name);
-            command.Parameters.AddWithValue("@value", p.value);
+
+            if (string.IsNullOrEmpty(p.value))
+                command.Parameters.AddWithValue("@value", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@value", p.value);
 
             return General.ConnectDB.UpdateRecord(command);
         }

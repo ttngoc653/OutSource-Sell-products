@@ -57,7 +57,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
 
             set
             {
-                _manufacturer = Manufacturer.GetAll().Where(m => m.Name == value).FirstOrDefault();
+                _manufacturer = ManufacturerCollection.Where(m => m.Name == value).FirstOrDefault();
                 _product.manufacturer = _manufacturer?.Id;
             }
         }
@@ -68,34 +68,38 @@ namespace SellProducts.Impl.UI.ManagerProduct
             {
                 if (_manufacturer == null)
                 {
-                    _manufacturer = Manufacturer.GetAll().Where(m => m.Id == _product.manufacturer).FirstOrDefault();
+                    _manufacturer = ManufacturerCollection.Where(m => m.Id == _product.manufacturer).FirstOrDefault();
                 }
                 return _manufacturer;
             }
 
             set
             {
-                _manufacturer = Manufacturer.GetAll().Where(m => m.Name == value?.Name).FirstOrDefault();
+                _manufacturer = ManufacturerCollection.Where(m => m.Name == value?.Name).FirstOrDefault();
                 _product.manufacturer = _manufacturer?.Id;
-                MadeInName = _manufacturer?.Name;
+                MadeInLocation = _manufacturer?.Name;
             }
         }
 
-        public string MadeInName
+        public ObservableCollection<Manufacturer> ManufacturerCollection => Manufacturer.GetAll();
+
+        public ObservableCollection<string> ManufacturerNameCollection => new ObservableCollection<string>(ManufacturerCollection.Select(i => i.Name));
+
+        public string MadeInLocation
         {
             get
             {
-                if (_product.MADEIN1 == null)
+                if (_madeIn == null)
                 {
-                    _product.MADEIN1 = Common.ConnectDB.Get.Madeins().Where(m => m.id == _product.madein).FirstOrDefault();
+                    _madeIn = MadeInCollection.Where(m => m.Id == _product.madein).FirstOrDefault();
                 }
-                return _product.MADEIN1?.location;
+                return _madeIn?.Location;
             }
 
             set
             {
-                _product.MADEIN1 = Common.ConnectDB.Get.Madeins().Where(m => m.location == value).FirstOrDefault();
-                _product.madein = _product.MADEIN1?.id;
+                _madeIn = MadeInCollection.Where(m => m.Location == value).FirstOrDefault();
+                _product.madein = _madeIn?.Id;
             }
         }
 
@@ -105,7 +109,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
             {
                 if (_madeIn == null)
                 {
-                    _madeIn = MadeIn.GetAll().Where(m => m.Id == _product.madein).FirstOrDefault();
+                    _madeIn = MadeInCollection.Where(m => m.Id == _product.madein).FirstOrDefault();
                 }
                 return _madeIn;
             }
@@ -116,6 +120,10 @@ namespace SellProducts.Impl.UI.ManagerProduct
                 _product.madein = value?.Id;
             }
         }
+
+        public ObservableCollection<MadeIn> MadeInCollection => MadeIn.GetAll();
+
+        public ObservableCollection<string> MadeInLocationCollection => new ObservableCollection<string>(MadeInCollection.Select(i => i.Location));
 
         public ObservableCollection<Category> Categories
         {
@@ -135,6 +143,8 @@ namespace SellProducts.Impl.UI.ManagerProduct
             }
             set => _categories = value;
         }
+
+        public ObservableCollection<Category> CategorieCollection => Category.GetAll();
 
         public override bool Insert() => Common.ConnectDB.Insert.Instance(_product);
 

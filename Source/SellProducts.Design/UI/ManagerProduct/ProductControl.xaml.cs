@@ -24,7 +24,9 @@ namespace SellProducts.Design.UI.ManagerProduct
     /// </summary>
     public partial class ProductControl : UserControl
     {
-        IList<ProductInfor> _productInfors = null;
+        ObservableCollection<ProductInfor> _productInfors = new ObservableCollection<ProductInfor>();
+
+        ObservableCollection<Manufacturer> ManuFacturerList = Manufacturer.GetAll();
 
         ProductInfor productInfor = new ProductInfor();
 
@@ -53,47 +55,34 @@ namespace SellProducts.Design.UI.ManagerProduct
         public ProductControl(IList<Impl.UI.ManagerProduct.ProductInfor> productInfors)
         {
             InitializeComponent();
-            this.dgList.DataContext = productInfors;
+            this.dgList.ItemsSource = productInfors;
         }
 
         public ProductControl()
         {
             InitializeComponent();
-            this.dgList.SelectionChanged += DgList_SelectionChanged; ;
-
             this.dpAdd.DataContext = productInfor;
-        }
-
-        private void DgList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            dpAdd.Visibility = Visibility.Collapsed;
-            dpDetail.Visibility = Visibility.Visible;
+            this.dgList.ItemsSource = _productInfors;
         }
 
         private void DgList_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
         }
 
-        public IList<ProductInfor> ProductInfors
+        public ObservableCollection<ProductInfor> ProductInfors
         {
-            get => (IList<ProductInfor>)this.dgList.DataContext;
+            get => this._productInfors;
             set
             {
-                this.dgList.Items.Clear();
+                _productInfors.Clear();
                 foreach (ProductInfor item in value)
                 {
-                    this.dgList.Items.Add(item);
+                    _productInfors.Add(item);
                 }
-                this._productInfors = value;
+                this.Visibility = Visibility.Visible;
             }
         }
         
-        public void ShowAddProduct()
-        {
-            this.dpAdd.Visibility = Visibility.Visible;
-            this.dpDetail.Visibility = Visibility.Collapsed;
-        }
-
         private void menuSeeDetail_Click(object sender, RoutedEventArgs e)
         {
             string see = "asfdg";
@@ -107,25 +96,13 @@ namespace SellProducts.Design.UI.ManagerProduct
         private void menuUpdateOnlyOnce_Click(object sender, RoutedEventArgs e)
         {
             Impl.UI.ManagerProduct.ProductInfor productInfor = (ProductInfor)dgList.SelectedItem;
-
-            productInfor.Update();
-        }
-
-        private void dpAdd_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property.Name == "Visibility"
-                && (Visibility)e.NewValue == Visibility.Visible)
+            try
             {
-                dpDetail.Visibility = Visibility.Collapsed;
+                productInfor.Update();
             }
-        }
-
-        private void DpDetail_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.Property.Name == "Visibility"
-                && (Visibility)e.NewValue == Visibility.Visible)
+            catch (Exception ex)
             {
-                dpAdd.Visibility = Visibility.Collapsed;
+                MessageBox.Show(ex.Message);
             }
         }
 
