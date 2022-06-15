@@ -80,15 +80,6 @@
     <Compile Include="Utils\CriptoUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Database\SellProduct_DB.mdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\Database\SellProduct_DB_log.ldf">
-      <DependentUpon>SellProduct_DB.mdf</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
