@@ -26,6 +26,8 @@ namespace SellProducts.Impl.UI.ManagerCustomer
 
         public string Address { get => _customer?.address; set { _customer.address = value; } }
 
+        public bool ExistAtDatabse { get => Common.ConnectDB.Get.Customers().Where(c => c.phone == _customer.phone).FirstOrDefault() != null; }
+
         public int OrderTotal
         {
             get
@@ -61,7 +63,7 @@ namespace SellProducts.Impl.UI.ManagerCustomer
 
         public override bool Remove()
         {
-            return Common.ConnectDB.Delete.Instance(_customer)>0;
+            return Common.ConnectDB.Delete.Instance(_customer) > 0;
         }
 
         public override bool Update()

@@ -50,6 +50,26 @@ namespace SellProducts.Common.ConnectDB
         }
 
         /// <summary>
+        /// Delete the setting record with key as idProduct and idCategory
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static int Instance(Model.CLASSIFY p)
+        {
+            if (p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
+            SqlCommand command = new SqlCommand("DELETE FROM [CLASSIFIES] " +
+                "WHERE [category] = @category AND [product] = @product");
+            command.Parameters.AddWithValue("@category", p.category);
+            command.Parameters.AddWithValue("@product", p.product);
+
+            return General.ConnectDB.UpdateRecord(command);
+        }
+
+        /// <summary>
         /// Delete the setting record with key as phone
         /// </summary>
         /// <param name="p"></param>

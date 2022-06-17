@@ -15,6 +15,7 @@ namespace SellProducts.Impl.UI.ManagerProduct
         public Model.PRODUCT _product = null;
         private Manufacturer _manufacturer = null;
         private MadeIn _madeIn = null;
+        private bool _selected = false;
 
         public ProductInfor()
         {
@@ -32,13 +33,13 @@ namespace SellProducts.Impl.UI.ManagerProduct
         }
 
         public int Id { get { return _product.id; } set { _product.id = value; } }
-        public string Code { get { return _product.code; } set { _product.code = value; } }
+        public string Code { get { return _product.code?.Trim(); } set { _product.code = value.Trim(); } }
 
-        public string Name { get => _product.name; set => _product.name = value; }
+        public string Name { get => _product.name?.Trim(); set => _product.name = value.Trim(); }
 
-        public int Price { get => (int)_product.price; set => _product.price = value; }
+        public int? Price { get => _product.price; set => _product.price = value; }
 
-        public int PriceSale { get => (int)_product.price_sale; set => _product.price_sale = value; }
+        public int? PriceSale { get => _product.price_sale; set => _product.price_sale = value; }
 
         public string Describe { get => _product.describe; set => _product.describe = value; }
 
@@ -146,7 +147,14 @@ namespace SellProducts.Impl.UI.ManagerProduct
 
         public ObservableCollection<Category> CategorieCollection => Category.GetAll();
 
-        public override bool Insert() => Common.ConnectDB.Insert.Instance(_product);
+        public bool Selected { get => _selected; set => _selected = value; }
+
+        public override bool Insert()
+        {
+            return ProductInfor.GetAll().Where(p=>p.Name==_product.name).First()==null
+                ? Common.ConnectDB.Insert.Instance(_product)
+                : throw new Exception("Sản phẩm '" + _product.name + "' đã tồn tại. Vui lòng đặt tên sản phẩm khác");
+        }
 
         public static ObservableCollection<ProductInfor> GetAll()
         {

@@ -34,7 +34,7 @@ namespace SellProducts.Impl.UI.ManagerOrder
                 {
                     _order = new Model.ORDER();
                 }
-                _customer = ManagerCustomer.Customer.GetAll().Where(i => i.Phone == value).First();
+                _customer = ManagerCustomer.Customer.GetAll().Where(i => i.Phone == value).FirstOrDefault();
                 _order.customer = value;
             }
         }
@@ -72,7 +72,19 @@ namespace SellProducts.Impl.UI.ManagerOrder
         {
             get
             {
-                return (int)(_order?.total);
+                int result = 0;
+                if (Carts!=null)
+                {
+                    foreach (Cart item in _carts)
+                    {
+                        result += item.Total;
+                    }
+                }
+                if (_order != null)
+                {
+                    _order.total = result;
+                }
+                return result;
             }
             set
             {
@@ -132,7 +144,8 @@ namespace SellProducts.Impl.UI.ManagerOrder
 
         public static ObservableCollection<Order> GetAll()
         {
-            List<Model.ORDER> cs = (List<Model.ORDER>)Common.ConnectDB.Get.Orders();
+            List<Model.ORDER> cs = Common.ConnectDB.Get.Orders()
+                as List<Model.ORDER>;
 
             ObservableCollection<Order> orders = new ObservableCollection<Order>();
             foreach (var item in cs)

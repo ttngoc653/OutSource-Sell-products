@@ -16,7 +16,17 @@
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
         <DockPanel Grid.Column="0" LastChildFill="True">
             <TextBlock Text="DANH SÁCH ĐƠN HÀNG" DockPanel.Dock="Top" HorizontalAlignment="Center" />
-            <ListView>
+            <ListView Name="lvListOrder">
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter Property="IsSelected" Value="True" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <EventSetter Event="PreviewGotKeyboardFocus" Handler="ListViewItem_PreviewGotKeyboardFocus" />
+                    </Style>
+                </ListView.Resources>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Số điện thoại">
@@ -36,7 +46,7 @@
                         <GridViewColumn Header="Tổng tiền">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <mah:NumericUpDown Value="{Binding Total, Mode=TwoWay}" IsEnabled="False" />
+                                    <TextBlock Text="{Binding Total, Mode=TwoWay}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -47,19 +57,26 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn Header="Xóa">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="-" Background="Red" Name="bRemoveOrder" Click="bRemoveOrder_Click" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
         </DockPanel>
         <DockPanel Grid.Column="2" LastChildFill="True">
             <TextBlock DockPanel.Dock="Top" Text="CHI TIẾT ĐƠN HÀNG ĐÃ CHỌN" HorizontalAlignment="Center" />
-            <ListView>
+            <ListView ItemsSource="{Binding SelectedItem.Carts, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Sản phẩm">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ProductName}" />
+                                    <TextBlock Text="{Binding SelectedItem.ProductName, ElementName=lvListOrder, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -73,14 +90,14 @@
                         <GridViewColumn Header="Số lượng">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <mah:NumericUpDown Value="{Binding Amount, Mode=TwoWay}" />
+                                    <mah:NumericUpDown Value="{Binding Amount, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Thành tiền">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Total, Mode=TwoWay}" />
+                                    <TextBlock Text="{Binding Total, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

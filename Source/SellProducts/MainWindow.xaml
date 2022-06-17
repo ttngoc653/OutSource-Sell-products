@@ -25,7 +25,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="3" Name="rbMenu">
+        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="1" Name="rbMenu">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.SmallImageSource>
@@ -133,32 +133,24 @@
                             <ToolTip Content="Tạo đơn hàng" />
                         </Button.ToolTip>
                     </Button>
-                    <Button Content="Xóa" Width="83" IsEnabled="False" Name="btnOrderActDelete" Click="btnOrderActDelete_Click">
-                        <Button.ToolTip>
-                            <ToolTip Content="Xóa đơn hàng đã chọn" />
-                        </Button.ToolTip>
-                    </Button>
                     <Button Content="Cập nhật" Width="83" IsEnabled="False" Name="btnOrderActUpdate" Click="btnOrderActUpdate_Click" >
                         <Button.ToolTip>
-                            <ToolTip Content="Cập nhật đơn hàng đã chọn" />
+                            <ToolTip Content="Cập nhật tất cả đơn hàng đã sửa" />
                         </Button.ToolTip>
                     </Button>
-                </RibbonGroup>
-                <RibbonGroup Header="Xem">
-                    <Label Height="22" Content="Chọn trang:" HorizontalAlignment="Left" Padding="5,3,5,-10" Width="70" HorizontalContentAlignment="Center" />
-                    <RibbonComboBox Name="cbbOrderPages" />
-                    <Button Content="Xem" Name="btnOrderSee" Click="btnOrderSee_Click" Width="100" />
                 </RibbonGroup>
                 <RibbonGroup Header="Tìm kiếm">
                     <Label Content="Từ ngày:" />
                     <Label Content="Đến ngày:" />
                     <DatePicker Name="dpOrderFindStart" SelectedDateChanged="dpOrderFindStart_SelectedDateChanged" />
                     <DatePicker Name="dpOrderFindEnd" SelectedDateChanged="dpOrderFindEnd_SelectedDateChanged" />
-                    <Button Content="Tìm" Height="18" Width="100" Padding="0" Name="btnOrderFind" Click="btnOrderFind_Click" />
+                    <Button Content="Tìm" Height="52" Width="100" Padding="0" Name="btnOrderFind" Click="btnOrderFind_Click" />
                 </RibbonGroup>
-            </RibbonTab>
-            <RibbonTab Header="Quản lý Khuyến mãi" KeyTip="P" IsEnabled="False" Name="rtPromotion">
-
+                <RibbonGroup Header="Xem">
+                    <Label Height="22" Content="Chọn trang:" HorizontalAlignment="Left" Padding="5,3,5,-10" Width="70" HorizontalContentAlignment="Center" />
+                    <RibbonComboBox Name="cbbOrderPages" />
+                    <Button Content="Xem" Name="btnOrderSee" Click="btnOrderSee_Click" Width="100" Height="43" />
+                </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Quản lý khách hàng" KeyTip="C" Name="rtCustomer">
                 <RibbonGroup Header="Thao tác cơ bản">

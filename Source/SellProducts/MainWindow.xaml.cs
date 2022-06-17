@@ -266,7 +266,7 @@ namespace SellProducts
 
         private void btnOrderActAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            this.ucOrderAddView.Visibility = Visibility.Visible;
         }
 
         private void btnOrderActDelete_Click(object sender, RoutedEventArgs e)
@@ -426,10 +426,6 @@ namespace SellProducts
                 else if (tab == rtProduct)
                 {
                     LoadTabProduct();
-                }
-                else if (tab == rtPromotion)
-                {
-
                 }
                 else if (tab == rtReport)
                 {

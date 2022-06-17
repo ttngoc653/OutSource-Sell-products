@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls" 
              xmlns:local="clr-namespace:SellProducts.Design.UI.ManagerCustomer"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
@@ -17,16 +18,34 @@
             <ListView Name="lvList" IsSynchronizedWithCurrentItem="True">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding Phone, Mode=TwoWay}" />
-                        <GridViewColumn Header="Tên" DisplayMemberBinding="{Binding Name, Mode=TwoWay}" />
-                        <GridViewColumn Header="Địa chỉ nhà" DisplayMemberBinding="{Binding Address, Mode=TwoWay}" />
+                        <GridViewColumn Header="Số điện thoại">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Phone, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Tên">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Name, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Địa chỉ">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Address, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
         </DockPanel>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
         <DockPanel Grid.Column="2" LastChildFill="True">
-            <DockPanel DockPanel.Dock="Bottom" Name="dpAddCustomer" LastChildFill="True">
+            <DockPanel DockPanel.Dock="Top" Name="dpAddCustomer" LastChildFill="True">
                 <TextBlock Text="THÊM" HorizontalAlignment="Center" DockPanel.Dock="Top" />
                 <ScrollViewer>
                     <StackPanel Name="spAddCustomer">
@@ -68,44 +87,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>
-
-            <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-                <TextBlock Text="SỬA" HorizontalAlignment="Center" DockPanel.Dock="Top" />
-                <ScrollViewer>
-                    <StackPanel Name="spDetailCustomer">
-                        <Grid Margin="5 5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Số điện thoại:" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectedValue.Phone, ElementName=lvList, Mode=TwoWay}" IsEnabled="False" TextChanged="TextBox_TextChanged"/>
-                        </Grid>
-                        <Grid Margin="5 5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Tên:" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectedValue.Name, ElementName=lvList, Mode=TwoWay}" TextChanged="TextBox_TextChanged"/>
-                        </Grid>
-                        <Grid Margin="5 5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Địa chỉ:" VerticalAlignment="Center" />
-                            <TextBox Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectedValue.Address, ElementName=lvList, Mode=TwoWay}" TextChanged="TextBox_TextChanged"/>
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
-            </DockPanel>
-            <StackPanel>
-                
-            </StackPanel>
         </DockPanel>
     </Grid>
 </UserControl>
