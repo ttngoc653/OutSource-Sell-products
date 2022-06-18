@@ -114,6 +114,12 @@ namespace SellProducts.Impl.UI.ManagerOrder
 
         public override bool Remove()
         {
+            ManagerProduct.ProductInfor productInfor = ManagerProduct.ProductInfor.GetAll().Where(p => p.Id == _cart.idproduct).FirstOrDefault();
+            if (productInfor!=null)
+            {
+                productInfor.Amount += _cart.amount;
+            }
+
             return Common.ConnectDB.Delete.Instance(_cart)>0;
         }
 

@@ -39,6 +39,7 @@ namespace SellProducts.Design.UI.ManagerOrder
                 {
                     _orders.Add(item);
                 }
+                this.Visibility = Visibility.Visible;
             }
         }
 
@@ -53,6 +54,11 @@ namespace SellProducts.Design.UI.ManagerOrder
         {
             ListViewItem listViewItem = sender as ListViewItem;
             listViewItem.IsSelected = true;
+        }
+
+        private void lvListOrder_Selected(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

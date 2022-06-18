@@ -92,7 +92,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <ComboBox Name="cbbProductCategoryPage" Width="100" SelectionChanged="cbbProductCategoryPage_SelectionChanged" Height="27" DropDownOpened="cbbProductCategoryPage_DropDownOpened" SelectedValuePath="IndexPage">
+                    <ComboBox Name="cbbProductCategoryPage" SelectionChanged="cbbProductCategoryPage_SelectionChanged" DropDownOpened="cbbProductCategoryPage_DropDownOpened" Width="100" Height="27" SelectedValuePath="IndexPage">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding IndexPage}" />
@@ -148,8 +148,13 @@
                 </RibbonGroup>
                 <RibbonGroup Header="Xem">
                     <Label Height="22" Content="Chọn trang:" HorizontalAlignment="Left" Padding="5,3,5,-10" Width="70" HorizontalContentAlignment="Center" />
-                    <RibbonComboBox Name="cbbOrderPages" />
-                    <Button Content="Xem" Name="btnOrderSee" Click="btnOrderSee_Click" Width="100" Height="43" />
+                    <ComboBox Name="cbbOrderPages" Width="100" Height="27" SelectedValuePath="IndexPage" DropDownOpened="cbbOrderPages_DropDownOpened" SelectionChanged="cbbOrderPages_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding IndexPage}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </RibbonGroup>
             </RibbonTab>
             <RibbonTab Header="Quản lý khách hàng" KeyTip="C" Name="rtCustomer">

@@ -52,6 +52,7 @@
     <Compile Include="UI\ManagerCustomer\PageCustomers.cs" />
     <Compile Include="UI\ManagerOrder\Cart.cs" />
     <Compile Include="UI\ManagerOrder\Order.cs" />
+    <Compile Include="UI\ManagerOrder\PageOrders.cs" />
     <Compile Include="UI\ManagerProduct\MadeIn.cs" />
     <Compile Include="UI\ManagerProduct\Manufacturer.cs" />
     <Compile Include="UI\ManagerProduct\PageProducts.cs" />

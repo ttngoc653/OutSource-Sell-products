@@ -99,6 +99,8 @@ namespace SellProducts.Design.UI.ManagerOrder
         {
             if (!order.CustomerOrder.ExistAtDatabse)
                 order.CustomerOrder.Insert();
+            else 
+                order.CustomerOrder.Update();
 
             order.Insert();
 

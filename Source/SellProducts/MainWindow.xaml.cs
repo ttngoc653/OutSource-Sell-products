@@ -313,17 +313,18 @@ namespace SellProducts
 
         private void dpOrderFindStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            FilterAndGenPageOrder();
         }
 
         private void dpOrderFindEnd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            FilterAndGenPageOrder();
         }
 
         private void btnOrderFind_Click(object sender, RoutedEventArgs e)
         {
-
+            FilterAndGenPageOrder();
+            cbbOrderPages.SelectedIndex = 1;
         }
 
         private void cbbCustomerPage_DropDownClosed(object sender, EventArgs e)
@@ -448,7 +449,7 @@ namespace SellProducts
                 }
                 else if (tab == rtOrder)
                 {
-
+                    LoadTabOrder();
                 }
                 else if (tab == rtProduct)
                 {
@@ -467,6 +468,14 @@ namespace SellProducts
                     MessageBox.Show("Nhóm chức năng không có.");
                 }
             }
+        }
+
+        private void LoadTabOrder()
+        {
+            dpOrderFindStart.SelectedDate = Impl.UI.ManagerOrder.Order.GetAll().OrderByDescending(o => o.DateTimeOrder).FirstOrDefault()?.DateTimeOrder;
+            dpOrderFindEnd.SelectedDate = Impl.UI.ManagerOrder.Order.GetAll().OrderBy(o => o.DateTimeOrder).FirstOrDefault()?.DateTimeOrder;
+
+            FilterAndGenPageOrder();
         }
 
         private void LoadTabProduct()
@@ -490,9 +499,9 @@ namespace SellProducts
             }
         }
 
-        List<Impl.UI.ManagerProduct.PageProducts> pageProductInfor = new List<Impl.UI.ManagerProduct.PageProducts>();
         private void FilterAndGenPageProduct(IList<Impl.UI.ManagerProduct.ProductInfor> products)
         {
+            List<Impl.UI.ManagerProduct.PageProducts> pageProductInfor = new List<Impl.UI.ManagerProduct.PageProducts>();
             IList<Impl.UI.ManagerProduct.ProductInfor> psFilter = products.Where(p => p.Name.Contains(txtProductFindName.Text)).ToList();
 
             psFilter = psFilter.Where(p => (rsProductFindLimitPrice.LowerValue <= p.Price && p.Price <= rsProductFindLimitPrice.UpperValue) ||
@@ -574,7 +583,6 @@ namespace SellProducts
 
         private void LoadTabCustomer()
         {
-
             FilterAndGenPageCustomer();
         }
 
@@ -595,7 +603,7 @@ namespace SellProducts
                 {
                     PageCustomers pageProducts = new PageCustomers()
                     {
-                        IndexPage = pageProductInfor.Count + 1,
+                        IndexPage = pageCustomers.Count + 1,
                         Customers = new ObservableCollection<Customer>() { customers.ElementAt(i) }
                     };
 
@@ -612,6 +620,55 @@ namespace SellProducts
             {
                 cbbCustomerPage.Items.Add(item);
             }
+        }
+
+        private void FilterAndGenPageOrder()
+        {
+            ObservableCollection<Impl.UI.ManagerOrder.Order> orders = Impl.UI.ManagerOrder.Order.GetAll();
+
+            if (dpOrderFindStart.SelectedDate != null)
+            {
+                orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>(orders.Where(o => dpOrderFindStart.SelectedDate.Value.Date < o.DateTimeOrder));
+            }
+            if (dpOrderFindEnd.SelectedDate != null)
+            {
+                orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>(orders.Where(o => o.DateTimeOrder<= dpOrderFindEnd.SelectedDate.Value.AddDays(1).Date));
+            }
+
+            int itemPerPage = GetNumberItemPerPage();
+
+            List<Impl.UI.ManagerOrder.PageOrders> pageOrders = new List<Impl.UI.ManagerOrder.PageOrders>();
+
+            pageOrders.Add(new Impl.UI.ManagerOrder.PageOrders()
+            {
+                IndexPage = "",
+                Orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>()
+            });
+
+            for (int i = 0; i < orders.Count; i++)
+            {
+                Impl.UI.ManagerOrder.Order item = orders[i];
+                if (i % GetNumberItemPerPage() == 0)
+                {
+                    Impl.UI.ManagerOrder.PageOrders pageProducts = new Impl.UI.ManagerOrder.PageOrders()
+                    {
+                        IndexPage = pageOrders.Count.ToString(),
+                        Orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>() { orders.ElementAt(i) }
+                    };
+
+                    pageOrders.Add(pageProducts);
+                }
+                else
+                {
+                    pageOrders.Last().Orders.Add(orders.ElementAt(i));
+                }
+            }
+
+            cbbOrderPages.ItemsSource = pageOrders;
+            if (orders.Count == 0)
+                ucOrderView.Orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>();
+            else
+                cbbOrderPages.SelectedIndex = 0;
         }
 
         private void tbSettingItemPerPage_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
@@ -734,6 +791,19 @@ namespace SellProducts
         private void cbbProductCategoryPage_DropDownOpened(object sender, EventArgs e)
         {
             FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
+        }
+
+        private void cbbOrderPages_DropDownOpened(object sender, EventArgs e)
+        {
+            FilterAndGenPageOrder();
+        }
+
+        private void cbbOrderPages_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbbOrderPages.SelectedItem!=null)
+            {
+                ucOrderView.Orders = (cbbOrderPages.SelectedItem as Impl.UI.ManagerOrder.PageOrders).Orders;
+            }
         }
     }
 }

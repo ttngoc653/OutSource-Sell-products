@@ -32,14 +32,14 @@
                         <GridViewColumn Header="Số điện thoại">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Phone, Mode=TwoWay}" />
+                                    <TextBlock Text="{Binding CustomerPhone, Mode=TwoWay}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Ngày đặt hàng">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Time, Mode=TwoWay}" />
+                                    <TextBlock Text="{Binding DateTimeOrder, Mode=TwoWay}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -70,37 +70,19 @@
         </DockPanel>
         <DockPanel Grid.Column="2" LastChildFill="True">
             <TextBlock DockPanel.Dock="Top" Text="CHI TIẾT ĐƠN HÀNG ĐÃ CHỌN" HorizontalAlignment="Center" />
-            <ListView ItemsSource="{Binding SelectedItem.Carts, Mode=TwoWay}">
+            <ListView ItemsSource="{Binding SelectedItem.Carts, ElementName=lvListOrder, Mode=TwoWay}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Sản phẩm">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding SelectedItem.ProductName, ElementName=lvListOrder, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Đơn giá">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Price}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="Sản phẩm" DisplayMemberBinding="{Binding ProductName, Mode=OneWay}"/>
+                        <GridViewColumn Header="Đơn giá" DisplayMemberBinding="{Binding Price, Mode=OneWay}" />
                         <GridViewColumn Header="Số lượng">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <mah:NumericUpDown Value="{Binding Amount, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
+                                    <mah:NumericUpDown Minimum="1" Value="{Binding Amount, Mode=TwoWay}" IsEnabled="False" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Thành tiền">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Total, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="Thành tiền" DisplayMemberBinding="{Binding Total, Mode=OneWay}" />
                     </GridView>
                 </ListView.View>
             </ListView>
