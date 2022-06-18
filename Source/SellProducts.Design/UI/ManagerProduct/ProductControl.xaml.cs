@@ -50,6 +50,19 @@ namespace SellProducts.Design.UI.ManagerProduct
 
             RaiseEvent(routedEventArgs);
         }
+
+        public delegate void ProductRemovedHandler(int idProduct);
+
+        public event ProductRemovedHandler ProductRemovedEvent;
+
+        public void RaiseMyEvent()
+        {
+            // Your logic
+            if (ProductRemovedEvent != null)
+            {
+                ProductRemovedEvent(0);
+            }
+        }
         #endregion
 
         public ProductControl(IList<Impl.UI.ManagerProduct.ProductInfor> productInfors)
@@ -90,7 +103,28 @@ namespace SellProducts.Design.UI.ManagerProduct
 
         private void menuDelete_Click(object sender, RoutedEventArgs e)
         {
-            string see = "asfdg";
+            Impl.UI.ManagerProduct.ProductInfor productInfor = (ProductInfor)dgList.SelectedItem;
+            try
+            {
+                ObservableCollection<Impl.UI.ManagerCategory.Classify> classifies = Impl.UI.ManagerCategory.Classify.GetAll();
+                foreach (Impl.UI.ManagerCategory.Classify item in classifies)
+                {
+                    item.Remove(productInfor.Id);
+                }
+                productInfor.Remove();
+
+                _productInfors.Remove(productInfor);
+
+                // Your logic
+                if (ProductRemovedEvent != null)
+                {
+                    ProductRemovedEvent(productInfor.Id);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private void menuUpdateOnlyOnce_Click(object sender, RoutedEventArgs e)

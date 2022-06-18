@@ -30,6 +30,8 @@ namespace SellProducts
                 Common.ConnectDB.General.ConnectDB.SetConnectString(arg[1]);
             }
 
+            Login();
+
             InitializeComponent();
 
             try
@@ -55,15 +57,11 @@ namespace SellProducts
             return 5;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+
+        private void Login()
         {
-            this.rbMenu.IsMinimized = true;
-            this.rbMenu.SelectedIndex = -1;
-            ucProduct.ListProductChanged += ucProduct_ListProductChanged;
-            ucCustomer.ListCustomerChanged += ucCustomer_ListCustomerChanged;
             try
             {
-
                 bool result = false;
                 while (true)
                 {
@@ -118,6 +116,26 @@ namespace SellProducts
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.rbMenu.IsMinimized = true;
+            this.rbMenu.SelectedIndex = -1;
+            ucProduct.ListProductChanged += ucProduct_ListProductChanged;
+            ucProduct.ProductRemovedEvent += UcProduct_ProductRemovedEvent;
+            ucCustomer.ListCustomerChanged += ucCustomer_ListCustomerChanged;
+        }
+
+        private void UcProduct_ProductRemovedEvent(int idProduct)
+        {
+            Impl.UI.ManagerProduct.PageProducts pageProducts = (Impl.UI.ManagerProduct.PageProducts)cbbProductCategoryPage.SelectedItem;
+            Impl.UI.ManagerProduct.ProductInfor productInfor = pageProducts.Products.Where(i => i.Id == idProduct).FirstOrDefault();
+
+            if (productInfor!=null)
+            {
+                pageProducts.Products.Remove(productInfor);
             }
         }
 
@@ -201,7 +219,7 @@ namespace SellProducts
                 }
 
 
-                MessageBox.Show(string.Format("Đã thêm {0} sản phẩm", numberAdded));
+                MessageBox.Show(string.Format("Đã thêm {0} loại sản phẩm", numberAdded));
             }
         }
 
@@ -218,13 +236,22 @@ namespace SellProducts
                 int numberAdded = 0;
                 foreach (Model.PRODUCT item in cs)
                 {
-                    if (new Impl.UI.ManagerProduct.ProductInfor(item).Insert())
-                        numberAdded++;
+                    try
+                    {
+                        if (new Impl.UI.ManagerProduct.ProductInfor(item).Insert())
+                            numberAdded++;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Cảnh báo");
+                    }
                 }
 
 
                 MessageBox.Show(string.Format("Đã thêm {0} sản phẩm", numberAdded));
             }
+
+            Window_Loaded(this, null);
         }
 
         private void btnProductCategoryAdd_Click(object sender, RoutedEventArgs e)
@@ -457,7 +484,10 @@ namespace SellProducts
             rsProductFindLimitPrice.LowerValue = 0;
             rsProductFindLimitPrice.UpperValue = rsProductFindLimitPrice.Maximum;
 
-            FilterAndGenPageProduct(ps);
+            if (cbbProductCategoryPage.Items.IsEmpty)
+            {
+                FilterAndGenPageProduct(ps);
+            }
         }
 
         List<Impl.UI.ManagerProduct.PageProducts> pageProductInfor = new List<Impl.UI.ManagerProduct.PageProducts>();
@@ -475,6 +505,11 @@ namespace SellProducts
             }
 
             pageProductInfor.Clear();
+            pageProductInfor.Add(new Impl.UI.ManagerProduct.PageProducts()
+            {
+                IndexPage = 0,
+                Products = new ObservableCollection<Impl.UI.ManagerProduct.ProductInfor>()
+            });
 
             for (int i = 0; i < psFilter.Count; i++)
             {
@@ -482,7 +517,7 @@ namespace SellProducts
                 {
                     Impl.UI.ManagerProduct.PageProducts pageProducts = new Impl.UI.ManagerProduct.PageProducts()
                     {
-                        IndexPage = pageProductInfor.Count + 1,
+                        IndexPage = pageProductInfor.Count,
                         Products = new ObservableCollection<Impl.UI.ManagerProduct.ProductInfor>() { products.ElementAt(i) }
                     };
 
@@ -498,7 +533,7 @@ namespace SellProducts
             if (psFilter.Count == 0)
                 ucProduct.ProductInfors = new ObservableCollection<Impl.UI.ManagerProduct.ProductInfor>();
             else
-                cbbProductCategoryPage.SelectedIndex = 1;
+                cbbProductCategoryPage.SelectedIndex = 0;
         }
 
         private void LoadTabSettings()
@@ -694,6 +729,11 @@ namespace SellProducts
         private void ucCustomer_ListCustomerChanged(object sender, RoutedEventArgs e)
         {
             btnCustomerUpdate.IsEnabled = true;
+        }
+
+        private void cbbProductCategoryPage_DropDownOpened(object sender, EventArgs e)
+        {
+            FilterAndGenPageProduct(Impl.UI.ManagerProduct.ProductInfor.GetAll());
         }
     }
 }

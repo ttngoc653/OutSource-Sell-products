@@ -151,9 +151,11 @@ namespace SellProducts.Impl.UI.ManagerProduct
 
         public override bool Insert()
         {
-            return ProductInfor.GetAll().Where(p=>p.Name==_product.name).First()==null
-                ? Common.ConnectDB.Insert.Instance(_product)
-                : throw new Exception("Sản phẩm '" + _product.name + "' đã tồn tại. Vui lòng đặt tên sản phẩm khác");
+
+            if (ProductInfor.GetAll().Where(p => p.Name == _product.name).FirstOrDefault() == null)
+                return Common.ConnectDB.Insert.Instance(_product);
+            else
+                throw new Exception("Sản phẩm '" + _product.name + "' đã tồn tại. Vui lòng đặt tên sản phẩm khác.");
         }
 
         public static ObservableCollection<ProductInfor> GetAll()

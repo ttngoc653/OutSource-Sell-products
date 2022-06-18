@@ -160,9 +160,12 @@ namespace SellProducts.Impl.UI.ManagerOrder
 
         public override bool Insert()
         {
+            _order.time = DateTime.Now;
+
             bool result = Common.ConnectDB.Insert.Instance(_order);
             foreach (Cart item in _carts)
             {
+                _order = Common.ConnectDB.Get.Orders().Where(o => o.time == _order.time).FirstOrDefault();
                 item.IdOrder = _order.id;
                 item.Insert();
             }

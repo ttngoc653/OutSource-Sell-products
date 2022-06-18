@@ -103,6 +103,12 @@ namespace SellProducts.Impl.UI.ManagerOrder
 
         public override bool Insert()
         {
+            Model.PRODUCT product = Common.ConnectDB.Get.Products().Where(p => p.id == _cart.idproduct).FirstOrDefault();
+            if (product!=null)
+            {
+                product.amount_current -= _cart.amount;
+                Common.ConnectDB.Update.Instance(product);
+            }
             return Common.ConnectDB.Insert.Instance(_cart);
         }
 

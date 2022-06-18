@@ -92,7 +92,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <ComboBox Name="cbbProductCategoryPage" Width="100" SelectionChanged="cbbProductCategoryPage_SelectionChanged" Height="27" SelectedValuePath="IndexPage">
+                    <ComboBox Name="cbbProductCategoryPage" Width="100" SelectionChanged="cbbProductCategoryPage_SelectionChanged" Height="27" DropDownOpened="cbbProductCategoryPage_DropDownOpened" SelectedValuePath="IndexPage">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding IndexPage}" />
