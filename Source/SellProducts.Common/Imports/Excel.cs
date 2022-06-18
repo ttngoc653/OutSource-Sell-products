@@ -50,7 +50,7 @@ public    class Excel
                     string textCell;
                     try
                     {
-                        textCell = workSheet.GetCellAt(y, x).Text;
+                        textCell = workSheet.GetCellAt(y, x)?.Text;
                     }
                     catch (Exception)
                     {
@@ -75,16 +75,16 @@ public    class Excel
                 }
             }
 
-            for (int i = pHeaderName.y + 1; workSheet.GetCellAt(i, pHeaderName.x).IsEmpty == false; i++)
+            for (int i = pHeaderName.y + 1; workSheet.GetCellAt(i, pHeaderName.x) != null; i++)
             {
                 Model.CATEGORY c = new Model.CATEGORY()
                 {
-                    name = workSheet.GetCellAt(i, pHeaderName.y).Text
+                    name = workSheet.GetCellAt(i, pHeaderName.x)?.Text
                 };
 
                 if (pHeaderDetail.x>-1)
                 {
-                    c.detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text;
+                    c.detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x)?.Text;
                 }
 
                 result.Add(c);
@@ -113,7 +113,7 @@ public    class Excel
                     string textCell;
                     try
                     {
-                        textCell = workSheet.GetCellAt(y, x).Text;
+                        textCell = workSheet.GetCellAt(y, x)?.Text;
                     }
                     catch (Exception)
                     {
@@ -163,54 +163,57 @@ public    class Excel
                         headerFind++;
                     }
 
-                    if (headerFind==7)
+                    if (headerFind == 7)
                     {
                         break;
                     }
                 }
             }
 
-            for (int i = pHeaderName.y + 1; workSheet.GetCellAt(i, pHeaderName.x).IsEmpty == false; i++)
+            for (int i = pHeaderName.y + 1; workSheet.GetCellAt(i, pHeaderName.x) != null; i++)
             {
                 Model.PRODUCT c = new Model.PRODUCT()
                 {
-                    code = workSheet.GetCellAt(i + (pHeaderCode.y - pHeaderName.y), pHeaderCode.x).Text,
                     is_hide = false
                 };
 
-                if (pHeaderName.x>-1)
+                if (pHeaderCode.x > -1)
+                {
+                    c.code = workSheet.GetCellAt(i + (pHeaderCode.y - pHeaderName.y), pHeaderCode.x)?.Text;
+                }
+                if (pHeaderName.x > -1)
                 {
                     c.name = workSheet.GetCellAt(i, pHeaderName.x).Text;
                 }
-                
-                if (pHeaderDetail.x>-1)
+
+                if (pHeaderDetail.x > -1)
                 {
-                    c.detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x).Text;
+                    c.detail = workSheet.GetCellAt(i + (pHeaderDetail.y - pHeaderName.y), pHeaderDetail.x)?.Text;
                 }
-                
-                if (pHeaderDescribe.x>-1)
+
+                if (pHeaderDescribe.x > -1)
                 {
-                    c.describe = workSheet.GetCellAt(i + (pHeaderDescribe.y - pHeaderName.y), pHeaderDescribe.x).Text;
+                    c.describe = workSheet.GetCellAt(i + (pHeaderDescribe.y - pHeaderName.y), pHeaderDescribe.x)?.Text;
                 }
 
                 if (pHeaderPrice.x > -1)
                     try
                     {
-                        c.price = workSheet.GetCellAt(i + (pHeaderPrice.y - pHeaderName.y), pHeaderPrice.x).IntValue;
+                        c.price = workSheet.GetCellAt(i + (pHeaderPrice.y - pHeaderName.y), pHeaderPrice.x)?.IntValue;
                     }
                     catch (Exception) { }
 
                 if (pHeaderPriceSale.x > -1)
                     try
                     {
-                        c.price_sale = workSheet.GetCellAt(i + (pHeaderPriceSale.y - pHeaderName.y), pHeaderPriceSale.x).IntValue;
+                        c.price_sale = workSheet.GetCellAt(i + (pHeaderPriceSale.y - pHeaderName.y), pHeaderPriceSale.x)?.IntValue;
                     }
                     catch (Exception) { }
 
                 if (pHeaderAmount.x > -1)
                     try
                     {
-                        c.amount_current = workSheet.GetCellAt(i + (pHeaderAmount.y - pHeaderName.y), pHeaderAmount.x).IntValue;
+                        c.amount_current = workSheet.GetCellAt(i + (pHeaderAmount.y - pHeaderName.y), pHeaderAmount.x)?.IntValue;
                     }
                     catch (Exception) { }
 
