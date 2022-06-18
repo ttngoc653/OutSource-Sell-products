@@ -331,13 +331,16 @@ namespace SellProducts
         {
             ucCustomer.Visibility = Visibility.Visible;
 
-            ucCustomer.Customers = ((PageCustomers)cbbCustomerPage.SelectionBoxItem).Customers;
+            ucCustomer.Customers = ((PageCustomers)cbbCustomerPage.SelectedItem).Customers;
             btnCustomerUpdate.IsEnabled = false;
         }
 
         private void btnCustomerSeeList_Click(object sender, RoutedEventArgs e)
         {
+            ucCustomer.Visibility = Visibility.Visible;
 
+            ucCustomer.Customers = ((PageCustomers)cbbCustomerPage.SelectedItem).Customers;
+            btnCustomerUpdate.IsEnabled = false;
         }
 
         private void btnCustomerAdd_Click(object sender, RoutedEventArgs e)
@@ -777,6 +780,11 @@ namespace SellProducts
                         catch (Exception ex)
                         {
                             MessageBox.Show("Lỗi lưu giao diện đang mở." + Environment.NewLine+ex.Message);
+                        }
+
+                        if (item is Design.UI.ManagerCustomer.CustomerControl)
+                        {
+
                         }
                     }
                 }

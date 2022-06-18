@@ -54,12 +54,22 @@ namespace SellProducts.Design.UI.ManagerCustomer
         {
             get
             {
-                ObservableCollection<Impl.UI.ManagerCustomer.Customer> items = (ObservableCollection<Impl.UI.ManagerCustomer.Customer>)lvList.DataContext;
+                ObservableCollection<Impl.UI.ManagerCustomer.Customer> items = (ObservableCollection<Impl.UI.ManagerCustomer.Customer>)lvList.ItemsSource;
                 return items;
             }
             set
             {
-                lvList.DataContext = value;
+                if (value != null)
+                {
+                    lvList.Items.Clear();
+
+                    foreach (Impl.UI.ManagerCustomer.Customer item in value)
+                    {
+                        lvList.Items.Add(item);
+                    }
+
+                    Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -71,11 +81,61 @@ namespace SellProducts.Design.UI.ManagerCustomer
         private void bAddCustomer_Click(object sender, RoutedEventArgs e)
         {
             customerAdd.Insert();
+            customerAdd.Name = "";
+            customerAdd.Phone = "";
+            customerAdd.Address = "";
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             dpAddCustomer.DataContext = customerAdd;
+        }
+
+        private void menuSeeOrders_Click(object sender, RoutedEventArgs e)
+        {
+            Impl.UI.ManagerCustomer.Customer customer = (Impl.UI.ManagerCustomer.Customer)lvList.SelectedItem;
+            try
+            {
+                ObservableCollection<Impl.UI.ManagerOrder.Order> orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>(Impl.UI.ManagerOrder.Order.GetAll().Where(o => o.CustomerPhone == customer.Phone));
+
+                if (orders.Count>0)
+                {
+                    Grid controlParent = (Grid)this.Parent;
+
+                    foreach (object item in controlParent.Children)
+                    {
+                        if (item is ManagerOrder.OrderControl)
+                        {
+                            ManagerOrder.OrderControl orderControl = item as ManagerOrder.OrderControl;
+                            orderControl.Visibility = Visibility.Visible;
+                            orderControl.Orders = orders;
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Khách hàng này chưa có đơn hàng.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void miRemove_Click(object sender, RoutedEventArgs e)
+        {
+            Impl.UI.ManagerCustomer.Customer customer = (Impl.UI.ManagerCustomer.Customer)lvList.SelectedItem;
+            ObservableCollection<Impl.UI.ManagerOrder.Order> orders = new ObservableCollection<Impl.UI.ManagerOrder.Order>(Impl.UI.ManagerOrder.Order.GetAll().Where(o => o.CustomerPhone == customer.Phone));
+
+            if (orders.Count > 0)
+                MessageBox.Show("Khách hàng đã có đơn hàng nên không thể xóa.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+            else
+            {
+                lvList.Items.Remove(customer);
+                customer.Remove();
+            }
         }
     }
 }

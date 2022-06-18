@@ -169,14 +169,14 @@
                     <Button Content="Cập nhật" Width="100" Name="btnCustomerUpdate" IsEnabled="False" Margin="5 5" Click="btnCustomerUpdate_Click" />
                 </RibbonGroup>
                 <RibbonGroup Header="Xem">
-                    <RibbonComboBox Label="Trang:" Name="cbbCustomerPage" Margin="0 5" DropDownClosed="cbbCustomerPage_DropDownClosed">
-                        <RibbonComboBox.ItemTemplate>
+                    <Label Content="Trang:" />
+                    <ComboBox Name="cbbCustomerPage" Margin="0 0" Width="60" DropDownClosed="cbbCustomerPage_DropDownClosed">
+                        <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding IndexPage}" />
                             </DataTemplate>
-                        </RibbonComboBox.ItemTemplate>
-                    </RibbonComboBox>
-                    <Button Content="XEM" Width="106" Margin="15 6" Name="btnCustomerSeeList" Click="btnCustomerSeeList_Click" />
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </RibbonGroup>
                 <RibbonGroup Header="Lọc">
                     <Label Content="Từ khóa:" />

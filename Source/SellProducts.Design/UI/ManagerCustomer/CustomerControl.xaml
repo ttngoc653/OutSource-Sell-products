@@ -16,12 +16,20 @@
         <DockPanel Grid.Column="0" LastChildFill="True">
             <TextBlock DockPanel.Dock="Top" Text="DANH SÁCH KHÁCH HÀNG" HorizontalAlignment="Center" FontSize="20" />
             <ListView Name="lvList" IsSynchronizedWithCurrentItem="True">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.Items>
+                            <MenuItem Header="Xóa" Name="miRemove" Click="miRemove_Click" />
+                            <MenuItem Header="Xem danh sách đơn hàng" Name="menuSeeOrders" Click="menuSeeOrders_Click" />
+                        </ContextMenu.Items>
+                    </ContextMenu>
+                </ListView.ContextMenu>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Số điện thoại">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Phone, Mode=TwoWay}" />
+                                    <TextBlock Text="{Binding Phone, Mode=OneWay}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -36,6 +44,13 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBox Text="{Binding Address, Mode=TwoWay}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Số đơn hàng đã đặt">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding OrderTotal, Mode=OneWay}" HorizontalAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
