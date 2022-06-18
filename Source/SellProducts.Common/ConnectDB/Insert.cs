@@ -87,8 +87,16 @@ namespace SellProducts.Common.ConnectDB
             SqlCommand command = new SqlCommand("INSERT INTO [CUSTOMERS]([phone], [name], [address]) " +
                 "VALUES (@phone, @name, @address)");
             command.Parameters.AddWithValue("@phone", c.phone);
-            command.Parameters.AddWithValue("@name", c.name);
-            command.Parameters.AddWithValue("@address", c.address);
+
+            if (string.IsNullOrEmpty(c.name))
+                command.Parameters.AddWithValue("@name", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@name", c.name);
+
+            if (string.IsNullOrEmpty(c.address))
+                command.Parameters.AddWithValue("@address", DBNull.Value);
+            else
+                command.Parameters.AddWithValue("@address", c.address);
 
             return General.ConnectDB.AddRecord(command) > 1;
         }

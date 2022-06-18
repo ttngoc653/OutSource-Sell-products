@@ -26,7 +26,7 @@ namespace SellProducts.Impl.UI.ManagerCustomer
 
         public string Address { get => _customer?.address; set { _customer.address = value; } }
 
-        public bool ExistAtDatabse { get => Common.ConnectDB.Get.Customers().Where(c => c.phone == _customer.phone).FirstOrDefault() != null; }
+        public bool ExistAtDatabse { get => Common.ConnectDB.Get.Customers().Where(c => c.phone.Trim() == _customer?.phone.Trim()).FirstOrDefault() != null; }
 
         public int OrderTotal
         {

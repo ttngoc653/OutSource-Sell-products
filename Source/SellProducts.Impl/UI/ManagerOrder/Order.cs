@@ -21,7 +21,7 @@ namespace SellProducts.Impl.UI.ManagerOrder
         {
             _order = o;
         }
-        
+
         public string CustomerPhone
         {
             get
@@ -30,12 +30,37 @@ namespace SellProducts.Impl.UI.ManagerOrder
             }
             set
             {
-                if (_order==null)
+                _customer = ManagerCustomer.Customer.GetAll().Where(i => i.Phone.Trim() == value.Trim()).FirstOrDefault();
+                if (_customer == null)
                 {
-                    _order = new Model.ORDER();
+                    _customer = new ManagerCustomer.Customer(new Model.CUSTOMER());
+                    _customer.Phone = value;
                 }
-                _customer = ManagerCustomer.Customer.GetAll().Where(i => i.Phone == value).FirstOrDefault();
-                _order.customer = value;
+                _order.customer = value.Trim();
+            }
+        }
+
+        public string CustomerName
+        {
+            get
+            {
+                return _customer?.Name;
+            }
+            set
+            {
+                _customer.Name = value.Trim();
+            }
+        }
+
+        public string CustomerAddress
+        {
+            get
+            {
+                return _customer?.Address;
+            }
+            set
+            {
+                _customer.Address = value.Trim();
             }
         }
 
@@ -109,7 +134,7 @@ namespace SellProducts.Impl.UI.ManagerOrder
                 {
                     _order = new Model.ORDER();
                 }
-                _order.comment = value;
+                _order.comment = value.Trim();
             }
         }
 
@@ -121,8 +146,11 @@ namespace SellProducts.Impl.UI.ManagerOrder
             }
             set
             {
-                _customer = value;
-                _order.customer = _customer.Phone;
+                if (value!=null)
+                {
+                    _customer = value;
+                    _order.customer = _customer.Phone;
+                }
             }
         }
 
@@ -161,11 +189,11 @@ namespace SellProducts.Impl.UI.ManagerOrder
         public override bool Insert()
         {
             _order.time = DateTime.Now;
-
+            
             bool result = Common.ConnectDB.Insert.Instance(_order);
+            _order = Common.ConnectDB.Get.Orders().Where(o => o.customer.Trim()==_order.customer.Trim()).LastOrDefault();
             foreach (Cart item in _carts)
             {
-                _order = Common.ConnectDB.Get.Orders().Where(o => o.time == _order.time).FirstOrDefault();
                 item.IdOrder = _order.id;
                 item.Insert();
             }

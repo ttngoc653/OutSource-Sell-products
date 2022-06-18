@@ -38,6 +38,8 @@ namespace SellProducts.Design.UI.ManagerOrder
 
         private void InitializeOrder()
         {
+            order = new Impl.UI.ManagerOrder.Order(new Model.ORDER());
+            carts.Clear();
             order.Carts = carts;
             order.Comment = "";
             order.CustomerOrder = new Impl.UI.ManagerCustomer.Customer(new Model.CUSTOMER() { phone="", address="", name="" });
@@ -98,7 +100,6 @@ namespace SellProducts.Design.UI.ManagerOrder
             if (!order.CustomerOrder.ExistAtDatabse)
                 order.CustomerOrder.Insert();
 
-            order.Carts = carts;
             order.Insert();
 
             InitializeOrder();
@@ -139,8 +140,25 @@ namespace SellProducts.Design.UI.ManagerOrder
 
         private void UpdateTotalOrder()
         {
+            order.Carts = carts;
             int number = order.Total;
             tbTotal.Text = number.ToString();
+        }
+
+        private void tbPhone_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Impl.UI.ManagerCustomer.Customer customer = Impl.UI.ManagerCustomer.Customer.GetAll().Where(i=>i.Phone.Trim().Equals(tbPhone.Text.Trim())).FirstOrDefault();
+            if (customer!=null)
+            {
+                order.CustomerOrder = customer;
+                tbCustomerName.Text = customer.Name;
+                tbCustomerAddress.Text = customer.Address;
+            }
+            else
+            {
+                tbCustomerName.Text = "";
+                tbCustomerAddress.Text = "";
+            }
         }
     }
 }
