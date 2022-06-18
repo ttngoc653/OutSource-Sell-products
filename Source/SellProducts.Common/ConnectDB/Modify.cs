@@ -68,7 +68,7 @@ namespace SellProducts.Common.ConnectDB
             command.Parameters.AddWithValue("@id", p.id);
 
             if (string.IsNullOrEmpty(p.name))
-                command.Parameters.AddWithValue("@detail", DBNull.Value);
+                command.Parameters.AddWithValue("@name", DBNull.Value);
             else
                 command.Parameters.AddWithValue("@name", p.name);
             
