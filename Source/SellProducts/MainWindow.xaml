@@ -9,6 +9,7 @@
         xmlns:productManCtrl="clr-namespace:SellProducts.Design.UI.ManagerProduct;assembly=SellProducts.Design"
         xmlns:customerCtrl="clr-namespace:SellProducts.Design.UI.ManagerCustomer;assembly=SellProducts.Design"
         xmlns:orderCtrl="clr-namespace:SellProducts.Design.UI.ManagerOrder;assembly=SellProducts.Design"
+        xmlns:categoryCtrl="clr-namespace:SellProducts.Design.UI.ManagerCategory;assembly=SellProducts.Design"
         mc:Ignorable="d"
         Title="Quản lý Cửa hàng bách hóa HCMUS" Height="600" Width="1000" Loaded="Window_Loaded" Name="MainForm" Closing="MainForm_Closing">
     <RibbonWindow.Resources>
@@ -25,7 +26,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="1" Name="rbMenu">
+        <Ribbon ShowQuickAccessToolBarOnTop="True" Grid.Row="0" SelectedIndex="0" Name="rbMenu">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonApplicationMenu.SmallImageSource>
@@ -101,7 +102,12 @@
                     </ComboBox>
                 </RibbonGroup>
                 <RibbonGroup Header="Danh mục (Loại)">
-                    <Button Content="Xem" Name="btnProductCategorySee" Click="btnProductCategorySee_Click" Width="75" Margin="4 0">
+                    <Button Content="Xem" Name="btnProductCategorySee" Click="btnProductCategorySee_Click" Width="125" Margin="4 0">
+                        <Button.ToolTip>
+                            <ToolTip Content="Xem danh sách các mục hiện có" />
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Xếp loại sản phẩm" Name="btnProductCategoryTree" Click="btnProductCategoryTree_Click" Width="125" Margin="4 0">
                         <Button.ToolTip>
                             <ToolTip Content="Xem cây danh mục danh sách danh mục hiện có" />
                         </Button.ToolTip>
@@ -225,6 +231,7 @@
             <customerCtrl:CustomerControl Name="ucCustomer" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
             <orderCtrl:OrderControl Name="ucOrderView" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
             <orderCtrl:OrderAddControl Name="ucOrderAddView" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
+            <categoryCtrl:CategoryControl Name="ucCategory" Visibility="Collapsed" Grid.Column="0" Grid.Row="0" IsVisibleChanged="uc_IsVisibleChanged" />
         </Grid>
     </Grid>
 </RibbonWindow>

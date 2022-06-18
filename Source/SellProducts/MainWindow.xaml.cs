@@ -805,5 +805,17 @@ namespace SellProducts
                 ucOrderView.Orders = (cbbOrderPages.SelectedItem as Impl.UI.ManagerOrder.PageOrders).Orders;
             }
         }
+
+        private void btnProductCategoryTree_Click(object sender, RoutedEventArgs e)
+        {
+            while (true)
+            {
+                ucCategory.Visibility = Visibility.Visible;
+                if (ucCategory.Visibility==Visibility.Visible)
+                {
+                    break;
+                }
+            }
+        }
     }
 }
