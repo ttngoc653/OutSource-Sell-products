@@ -70,5 +70,28 @@ namespace SellProducts.Properties {
                 this["nameScreenClosedFromBefore"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ucLastName {
+            get {
+                return ((string)(this["ucLastName"]));
+            }
+            set {
+                this["ucLastName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringCollection listPrimaryItemInListView {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["listPrimaryItemInListView"]));
+            }
+            set {
+                this["listPrimaryItemInListView"] = value;
+            }
+        }
     }
 }

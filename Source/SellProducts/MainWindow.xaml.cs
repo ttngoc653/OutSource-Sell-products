@@ -126,6 +126,13 @@ namespace SellProducts
             ucProduct.ListProductChanged += ucProduct_ListProductChanged;
             ucProduct.ProductRemovedEvent += UcProduct_ProductRemovedEvent;
             ucCustomer.ListCustomerChanged += ucCustomer_ListCustomerChanged;
+
+            Model.SETTING settingUCOpenAfterClose = Common.ConnectDB.Get.Settings().Where(s => s.account == inforLogin.UserName && s.name == SellProduct_CONSTANT.SETTING_FUNCTION_LAST_SAVED).FirstOrDefault();
+
+            if (settingUCOpenAfterClose != null)
+            {
+
+            }
         }
 
         private void UcProduct_ProductRemovedEvent(int idProduct)
@@ -766,25 +773,53 @@ namespace SellProducts
 
                     if (control.Visibility == Visibility.Visible)
                     {
-                        Model.SETTING setting = new Model.SETTING()
+                        Model.SETTING settingSaveNameUI = new Model.SETTING()
                         {
                             account = inforLogin.UserName,
                             name = SellProduct_CONSTANT.SETTING_FUNCTION_LAST_SAVED,
                             value = control.Name
                         };
 
+
+                        string strList = "";
+                        if (item is Design.UI.ManagerCustomer.CustomerControl)
+                        {
+                            string[] phones = ucCustomer.Customers.Select(c => c.Phone).ToArray();
+                            strList = string.Join("\n\r", phones);
+                        }
+                        else if (item is Design.UI.ManagerOrder.OrderControl)
+                        {
+                            int[] idOrders = ucOrderView.Orders.Select(o => o.Id).ToArray();
+                            strList = string.Join("\n\r", idOrders);
+                        }
+                        else if (item is Design.UI.ManagerProduct.ProductControl)
+                        {
+                            int[] idProducts = ucProduct.ProductInfors.Select(p => p.Id).ToArray();
+                            strList = string.Join("\n\r", idProducts);
+                        }
+
+                        Model.SETTING settingSaveListOpen = new Model.SETTING()
+                        {
+                            account = inforLogin.UserName,
+                            name = SellProduct_CONSTANT.SETTING_LIST_ITEM_AFTER_CLOSE_WINDOW,
+                            value = strList
+                        };
+
                         try
                         {
-                            Common.ConnectDB.Insert.Instance(setting);
+                            if (Common.ConnectDB.Get.Settings().Where(s => s.account.Trim().Equals(settingSaveNameUI.account.Trim()) && s.name.Equals(settingSaveNameUI.name)).Count() > 0)
+                                Common.ConnectDB.Update.Instance(settingSaveNameUI);
+                            else
+                                Common.ConnectDB.Insert.Instance(settingSaveNameUI);
+
+                            if (Common.ConnectDB.Get.Settings().Where(s => s.account.Equals(settingSaveListOpen.account) && s.name.Equals(settingSaveListOpen.name)).Count() > 0)
+                                Common.ConnectDB.Update.Instance(settingSaveListOpen);
+                            else
+                                Common.ConnectDB.Insert.Instance(settingSaveListOpen);
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Lỗi lưu giao diện đang mở." + Environment.NewLine+ex.Message);
-                        }
-
-                        if (item is Design.UI.ManagerCustomer.CustomerControl)
-                        {
-
+                            MessageBox.Show("Lỗi lưu giao diện đang mở. " + Environment.NewLine+ex.Message);
                         }
                     }
                 }
